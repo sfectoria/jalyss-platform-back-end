@@ -8,7 +8,7 @@ export class AuthService {
   constructor(private readonly prisma: PrismaService) {}
   create(createAuthDto: CreateAuthDto) {
     return this.prisma.user.create({
-      data: { name: 'khalil', email: 'khalil.kraiem@sfectoria.com' },
+      data: { name: 'khalil', email: 'khalil.kraiem@sfectoria.com',password:'123' },
     });
   }
 
