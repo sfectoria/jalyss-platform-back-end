@@ -7,9 +7,9 @@ import { PrismaService } from 'nestjs-prisma';
 export class AuthService {
   constructor(private readonly prisma: PrismaService) {}
   create(createAuthDto: CreateAuthDto) {
-    return this.prisma.user.create({
-      data: { name: 'khalil', email: 'khalil.kraiem@sfectoria.com' },
-    });
+    // return this.prisma.user.create({
+    //   data: { name: 'khalil', email: 'khalil.kraiem@sfectoria.com' },
+    // });
   }
 
   findAll() {
