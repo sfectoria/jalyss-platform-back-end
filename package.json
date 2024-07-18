@@ -4,8 +4,8 @@
   "private": true,
   "workspaces": [
     "api-gateway",
-    "microservices/users-module",
-    "microservices/server-upload"
+    "microservices/*"
+ 
   ],
   "scripts": {
     "start": "turbo run start --parallel",
