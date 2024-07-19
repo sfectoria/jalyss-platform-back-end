@@ -14,6 +14,8 @@ export class AppController {
     return this.appService.regiterUser(dto);
   }
   @Get('get_user')
+
+  
   getUser() {
     return this.appService.getUser();
   }
