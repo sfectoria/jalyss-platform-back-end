@@ -6,19 +6,29 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+  
   @Post('login')
   login(@Body() dto: CreateAuthDto) {
     return this.authService.login(dto);
   }
   
+  @UseGuards(AuthGuard('jwt'))
+  @Get('me')
+  myInfo(@Request() req: any) {    
+    return req.user;
+  }
+
   // @Post('register')
   // regiter(@Body() dto: CreateAuthDto) {
   //   return this.authService.regiter(dto);

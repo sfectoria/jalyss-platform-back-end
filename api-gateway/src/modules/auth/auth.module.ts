@@ -8,9 +8,12 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
   imports: [
     ClientsModule.register([
       {
-        name: 'USER_MICROSERVICE',
+        name: 'AUTH_MICROSERVICE',
         transport: Transport.TCP,
-        options: { port: 3001 },
+        options: {
+          host: 'localhost',
+          port: 3003,
+        },
       },
     ]),
     PrismaModule.forRoot({ isGlobal: true }),
