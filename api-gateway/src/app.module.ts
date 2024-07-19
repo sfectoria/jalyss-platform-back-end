@@ -5,6 +5,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { PrismaModule } from 'nestjs-prisma';
 
 import { ClientsModule, Transport } from '@nestjs/microservices';
+// import { UsersModule } from './users/users.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -17,6 +19,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     ]),
     AuthModule,
     PrismaModule.forRoot({ isGlobal: true }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

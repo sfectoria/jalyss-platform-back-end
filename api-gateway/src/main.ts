@@ -6,7 +6,7 @@ import { Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
- 
+
   const config = new DocumentBuilder()
     .setTitle('JALYSS API')
     .setDescription('The JALYSS API description')
@@ -19,7 +19,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
-  
+
   await app.listen(3000);
 }
 bootstrap();
