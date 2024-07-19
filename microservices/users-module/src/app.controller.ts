@@ -13,7 +13,7 @@ export class AppController {
   }
   @MessagePattern({ cmd: 'register_user' })
   resiterUser(@Payload() data:UserEntity) {
-    return this.appService.regiterUser(data);
+    return this.appService.regiterUser(data); 
   }
   @MessagePattern({ cmd: 'get_user' })
   // @Get('get_user')
