@@ -12,19 +12,22 @@ export class StocksService {
       });
   }
 
-  findAll() {
-    return `This action returns all stocks`;
+  async findAll() {
+    return await this.prisma.stock.findMany(); 
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} stock`;
+  async findOne(id: number) {
+    return await this.prisma.stock.findUnique({ where: { id } }); 
   }
 
-  update(id: number, updateStockDto: UpdateStockDto) {
-    return `This action updates a #${id} stock`;
+  async update(id: number, updateStockDto: UpdateStockDto) {
+    return await this.prisma.stock.update({ 
+      where: { id },
+      data: updateStockDto 
+    }); 
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} stock`;
+  async remove(id: number) {
+    return await this.prisma.stock.delete({ where: { id } });
   }
 }

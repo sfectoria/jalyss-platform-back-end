@@ -7,7 +7,7 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 @Controller('users')
 export class UsersController {
   constructor(
-    private readonly userService: UsersService, ) {}
+    private readonly userService: UsersService ) {}
     @MessagePattern({ cmd: 'register_user' })
     async registerUser(@Payload() message: any): Promise<any> {
     // const salt = await bcrypt.genSalt(10);
@@ -25,4 +25,3 @@ export class UsersController {
     return await this.userService.findAll();
   }
 }
-

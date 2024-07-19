@@ -7,9 +7,13 @@ import { PrismaModule } from 'nestjs-prisma';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UsersModule } from './modules/users/users.module';
 import { StocksModule } from './modules/stocks/stocks.module';
-
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '../.env',
+    }),
     ClientsModule.register({
       clients : [
       {

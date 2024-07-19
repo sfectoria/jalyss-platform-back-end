@@ -12,22 +12,22 @@ export class StocksController {
     return await this.stocksService.create(message);
   }
 
-  @Get()
-  findAll() {
-    return this.stocksService.findAll();
+  @MessagePattern({ cmd: 'all_stocks' })
+  async findAll() {
+    return await this.stocksService.findAll();
   }
 
-  @Get(':id')
+@MessagePattern({ cmd: ':id' })
   findOne(@Param('id') id: string) {
     return this.stocksService.findOne(+id);
   }
 
-  @Patch(':id')
+  @MessagePattern({ cmd: ':id' })
   update(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {
     return this.stocksService.update(+id, updateStockDto);
   }
 
-  @Delete(':id')
+  @MessagePattern({ cmd: ':id' })
   remove(@Param('id') id: string) {
     return this.stocksService.remove(+id);
   }

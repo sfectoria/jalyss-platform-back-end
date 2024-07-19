@@ -16,18 +16,30 @@ export class StocksService {
   }
 
   findAll() {
-    return `This action returns all stocks`;
+    return this.stocksClient.send(
+      { cmd: 'get_stocks' },
+      {}
+    );
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} stock`;
+    return this.stocksClient.send(
+      { cmd: 'getOne_stock' },
+      {id}
+    );
   }
 
   update(id: number, updateStockDto: UpdateStockDto) {
-    return `This action updates a #${id} stock`;
+    return this.stocksClient.send(
+      { cmd: 'update_stock' },
+      {id, updateStockDto}
+    )
   }
 
   remove(id: number) {
-    return `This action removes a #${id} stock`;
+    return this.stocksClient.send(
+      { cmd: 'delete_stock' },
+      {id}
+    )
   }
 }
