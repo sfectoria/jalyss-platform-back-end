@@ -16,7 +16,7 @@ export class AppController {
     return this.appService.regiterUser(data); 
   }
   @MessagePattern({ cmd: 'get_user' })
-  // @Get('get_user')
+ // @Get('get_user')
   getUser(@Payload() data:any={}) {
     return this.appService.getUsers();
   }
