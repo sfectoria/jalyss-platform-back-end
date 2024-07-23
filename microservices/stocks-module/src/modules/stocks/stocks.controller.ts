@@ -18,17 +18,17 @@ export class StocksController {
   }
 
 @MessagePattern({ cmd: ':id' })
-  findOne(@Param('id') id: string) {
-    return this.stocksService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.stocksService.findOne(+id);
   }
 
   @MessagePattern({ cmd: ':id' })
-  update(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {
-    return this.stocksService.update(+id, updateStockDto);
+  async update(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {
+    return await this.stocksService.update(+id, updateStockDto);
   }
 
   @MessagePattern({ cmd: ':id' })
-  remove(@Param('id') id: string) {
-    return this.stocksService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.stocksService.remove(+id);
   }
 }

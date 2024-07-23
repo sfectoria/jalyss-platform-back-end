@@ -12,6 +12,7 @@ export class StocksService {
       });
   }
 
+
   async findAll() {
     return await this.prisma.stock.findMany(); 
   }

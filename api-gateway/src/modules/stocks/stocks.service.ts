@@ -17,7 +17,7 @@ export class StocksService {
 
   findAll() {
     return this.stocksClient.send(
-      { cmd: 'get_stocks' },
+      { cmd: 'all_stocks' },
       {}
     );
   }
