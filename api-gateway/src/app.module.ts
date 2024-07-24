@@ -22,6 +22,11 @@ import { ConfigModule } from '@nestjs/config';
         options: { port: 3001 },
       },
       {
+        name: 'SELLING_MICROSERVICE',
+        transport: Transport.TCP,
+        options: { port: 3002 },
+      },
+      {
         name: 'STOCKS_MICROSERVICE',
         transport: Transport.TCP,
         options: { port: 3003 },

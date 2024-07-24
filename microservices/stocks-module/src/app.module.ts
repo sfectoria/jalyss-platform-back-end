@@ -7,6 +7,7 @@ import { StocksModule } from './modules/stocks/stocks.module';
 import { BonReceptionsModule } from './modules/bon-receptions/bon-receptions.module';
 import { BonSortiesModule } from './modules/bon-sorties/bon-sorties.module';
 import { BonTransfersModule } from './modules/bon-transfers/bon-transfers.module';
+import { BonRetoursModule } from './modules/bon-retours/bon-retours.module';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { BonTransfersModule } from './modules/bon-transfers/bon-transfers.module
       isGlobal: true,
       envFilePath: '.env',
     }),
-    PrismaModule.forRoot({ isGlobal: true }),StocksModule, BonReceptionsModule,BonSortiesModule, BonTransfersModule],
+    PrismaModule.forRoot({ isGlobal: true }),StocksModule, BonReceptionsModule,BonSortiesModule, BonTransfersModule, BonRetoursModule],
   controllers: [AppController],
   providers: [AppService],
 })
