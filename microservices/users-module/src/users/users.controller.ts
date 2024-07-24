@@ -11,14 +11,14 @@ export class UsersController {
 
 
   @MessagePattern({ cmd: 'register' })
-  resiterUser(@Payload() data:UserEntity) {
-    return this.usersService.regiter(data); 
+  register(@Payload() data:CreateUserDto) {
+    return this.usersService.register(data); 
   }
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
+  // @Post()
+  // create(@Body() createUserDto: CreateUserDto) {
+  //   return this.usersService.create(createUserDto);
+  // }
 
   @Get()
   findAll() {
@@ -39,4 +39,5 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
-}
+} 
+

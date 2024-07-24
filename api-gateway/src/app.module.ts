@@ -22,7 +22,7 @@ import { UsersModule } from './modules/users/users.module';
       {
         name: 'USER_MICROSERVICE',
         transport: Transport.TCP,
-        options: { port: 3001 },
+        options: { port: 3005 },
       },
       {
         name: 'AUTH_MICROSERVICE',

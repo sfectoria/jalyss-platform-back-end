@@ -15,7 +15,7 @@ export class AppService {
   // regiterUser(data:CreateUserDto) {
   //   return this.userClient.send({ cmd: 'register_user' }, data);
   // }
-  getUser() {
-    return this.userClient.send({ cmd: 'get_user' }, {});
-  }
+  // getUser() {
+  //   return this.userClient.send({ cmd: 'get_user' }, {});
+  // }
 }

@@ -9,12 +9,14 @@ export class UsersService {
     @Inject('USER_MICROSERVICE') private readonly userClient: ClientProxy,
   ) {}
 
-  regiter(data:CreateUserDto) {
+  register(data:CreateUserDto) {
     return this.userClient.send({ cmd: 'register' }, data);
   }
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
+
+  
+  // create(createUserDto: CreateUserDto) {
+  //   return 'This action adds a new user';
+  // } 
 
   findAll() {
     return `This action returns all users`;

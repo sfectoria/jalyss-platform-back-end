@@ -13,8 +13,8 @@ export class AppController {
   // regiterUser(@Body() dto:CreateUserDto) {
   //   return this.appService.regiterUser(dto);
   // }
-  @Get('get_user')
-  getUser() {
-    return this.appService.getUser();
-  }
+  // @Get('get_user')
+  // getUser() {
+  //   return this.appService.getUser();
+  // }
 }
