@@ -13,14 +13,31 @@ import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { lastValueFrom } from 'rxjs';
+import { User } from '../users/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   
   @Post('login')
-  login(@Body() dto: CreateAuthDto) {
-    return this.authService.login(dto);
+  async login(@Body() CreateUserDto: CreateAuthDto) {
+    console.log(CreateUserDto,"this is bodyy")
+    const user: User = await lastValueFrom(this.authService.login(CreateUserDto), {
+      defaultValue: undefined,
+    });
+    if (!user) {
+      // throw new BadRequestException('Invalid credentials');
+    }
+
+    const isMatch = user.password === CreateUserDto.password;
+    if (!isMatch) {
+      // throw new BadRequestException('Incorrect password');
+    }
+
+    console.log(`User ${user.email} successfully logged in.`);
+
+    return user;
   }
   
   @UseGuards(AuthGuard('jwt'))
@@ -30,7 +47,7 @@ export class AuthController {
   }
 
   // @Post('register')
-  // regiter(@Body() dto: CreateAuthDto) {
+  // regiter(@Body() dto: CreateUserDto) {
   //   return this.authService.regiter(dto);
   // }
   
@@ -40,7 +57,10 @@ export class AuthController {
   //   return this.authService.create(createAuthDto);
   // }
 
-  // @Get()
+  @Get()
+  l(){
+    return"this "
+  }
   // findAll() {
   //   return this.authService.findAll();
   // }

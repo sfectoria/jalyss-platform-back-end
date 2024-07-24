@@ -5,19 +5,19 @@ import { PrismaModule } from 'nestjs-prisma';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
-  imports: [
-    ClientsModule.register([
-      {
-        name: 'AUTH_MICROSERVICE',
-        transport: Transport.TCP,
-        options: {
-          host: 'localhost',
-          port: 3003,
-        },
-      },
-    ]),
-    PrismaModule.forRoot({ isGlobal: true }),
-  ],
+  // imports: [
+    // ClientsModule.register([
+    //   {
+    //     name: 'AUTH_MICROSERVICE',
+    //     transport: Transport.TCP,
+    //     options: {
+    //       host: 'localhost',
+    //       port: 3003,
+    //     },
+    //   },
+    // ]),
+  //   PrismaModule.forRoot({ isGlobal: true }),
+  // ],
   controllers: [AuthController],
   providers: [AuthService],
 })

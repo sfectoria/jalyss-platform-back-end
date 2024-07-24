@@ -31,6 +31,16 @@ export class AuthService {
     return token;
   }
 
+
+  // async validateUser(email: string, pass: string): Promise<any> {
+  //   const user = await this.prisma.user.findUnique({where:{email:email}});
+  //   if (user && await bcrypt.compare(pass, user.password)) {
+  //     const { password, ...result } = user;
+  //     return result;
+  //   }
+  //   return null;
+  // }
+
   create(createAuthDto: CreateAuthDto) {
     return 'This action adds a new auth';
   }

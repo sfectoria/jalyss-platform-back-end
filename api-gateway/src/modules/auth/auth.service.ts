@@ -8,21 +8,21 @@ import { ClientProxy } from '@nestjs/microservices';
 export class AuthService {
   constructor(
     // private readonly prisma: PrismaService,
-    @Inject('AUTH_MICROSERVICE') private readonly userClient: ClientProxy,
+    @Inject('AUTH_MICROSERVICE') private readonly authClient: ClientProxy,
   ) {}
   
   login(data: CreateAuthDto) {
-    return this.userClient.send({ cmd: 'login' }, data);
+    return this.authClient.send({ cmd: 'login' }, data);
   }
 
   me(data: CreateAuthDto) {
-    return this.userClient.send({ cmd: 'me' }, data);
+    return this.authClient.send({ cmd: 'me' }, data);
   }
 
 
 
   // regiter(data: CreateAuthDto) {
-  //   return this.userClient.send({ cmd: 'register' }, data);
+  //   return this.authClient.send({ cmd: 'register' }, data);
   // }
   // create(createAuthDto: CreateAuthDto) {
   //   return this.prisma.user.create({
