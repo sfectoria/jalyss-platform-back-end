@@ -24,10 +24,9 @@ export class AuthController {
   login(@Payload() data: CreateAuthDto) {
     return this.authService.login(data);
   }
-  // @UseGuards(AuthGuard('jwt'))
   @MessagePattern({ cmd: 'me' })
-  myInfo(@Request() req: any) {
-    return req.user;
+  myInfo(@Payload() req: any) {
+    return req;
   }
 
   @Post()

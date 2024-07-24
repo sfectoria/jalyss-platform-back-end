@@ -17,24 +17,22 @@ export class UsersService {
       data: { ...rest, password: Hpass },
     });
   } 
-  
-  // create(createUserDto: CreateUserDto) {
-  //   return 'This action adds a new user';
-  // }
-
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    return await this.prisma.user.findMany(); 
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    return await this.prisma.user.findUnique({ where: { id } }); 
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, UpdateUserDto: UpdateUserDto) {
+    return await this.prisma.user.update({ 
+      where: { id },
+      data: UpdateUserDto 
+    }); 
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    return await this.prisma.user.delete({ where: { id } });
   }
 }

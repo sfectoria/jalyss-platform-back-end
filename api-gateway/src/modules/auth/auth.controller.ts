@@ -22,28 +22,15 @@ export class AuthController {
   
   @Post('login')
   async login(@Body() CreateUserDto: CreateAuthDto) {
-    console.log(CreateUserDto,"this is bodyy")
-    // const user: User = await lastValueFrom(this.authService.login(CreateUserDto), {
-    //   defaultValue: undefined,
-    // });
-    // if (!user) {
-    //   // throw new BadRequestException('Invalid credentials');
-    // }
-
-    // const isMatch = user.password === CreateUserDto.password;
-    // if (!isMatch) {
-    //   // throw new BadRequestException('Incorrect password');
-    // }
-
     console.log(`User ${CreateUserDto.email} successfully logged in.`);
-
     return this.authService.login(CreateUserDto);
   }
   
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
   myInfo(@Request() req: any) {    
-    return req.user;
+    return this.authService.me(req.user);
+
   }
 
   // @Post('register')

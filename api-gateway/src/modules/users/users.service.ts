@@ -19,18 +19,28 @@ export class UsersService {
   // } 
 
   findAll() {
-    return `This action returns all users`;
-  }
+    return this.userClient.send(
+      { cmd: 'all_user' },
+      {}
+    );    }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.userClient.send(
+      { cmd: 'getOne_user' },
+      {id}
+    );
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+    return this.userClient.send(
+      { cmd: 'update_user' },
+      {id, UpdateUserDto}
+    )
+    }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+    return this.userClient.send(
+      { cmd: 'delete_user' },
+      {id}
+    )  }
 }
