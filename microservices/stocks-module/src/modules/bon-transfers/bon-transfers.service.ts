@@ -1,26 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBonTransferDto } from './dto/create-bon-transfer.dto';
 import { UpdateBonTransferDto } from './dto/update-bon-transfer.dto';
+import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class BonTransfersService {
-  create(createBonTransferDto: CreateBonTransferDto) {
-    return 'This action adds a new bonTransfer';
+  constructor(private readonly prisma: PrismaService) {}
+  async create(createBonTransferDto: CreateBonTransferDto) {
+    return await this.prisma.bonTransfer.create({ data: createBonTransferDto }); 
   }
 
-  findAll() {
-    return `This action returns all bonTransfers`;
+  async findAll() {
+    return await this.prisma.bonTransfer.findMany(); 
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bonTransfer`;
+  async findOne(id: number) {
+    return await this.prisma.bonTransfer.findUnique({ where: { id } });
   }
 
-  update(id: number, updateBonTransferDto: UpdateBonTransferDto) {
-    return `This action updates a #${id} bonTransfer`;
+  async update(id: number, updateBonTransferDto: UpdateBonTransferDto) {
+    return await this.prisma.bonTransfer.update({
+      where: { id },
+      data: updateBonTransferDto
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} bonTransfer`;
+  async remove(id: number) {
+    return await this.prisma.bonTransfer.delete({ where: { id } })
   }
 }

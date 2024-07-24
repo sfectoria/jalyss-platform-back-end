@@ -1,26 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBonSortyDto } from './dto/create-bon-sorty.dto';
 import { UpdateBonSortyDto } from './dto/update-bon-sorty.dto';
+import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class BonSortiesService {
-  create(createBonSortyDto: CreateBonSortyDto) {
-    return 'This action adds a new bonSorty';
+  constructor(private readonly prisma: PrismaService) {}
+  async create(createBonSortyDto: CreateBonSortyDto) {
+    return await this.prisma.bonSortie.create({ 
+      data: createBonSortyDto 
+    });
   }
 
-  findAll() {
-    return `This action returns all bonSorties`;
+  async findAll() {
+    return await this.prisma.bonSortie.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bonSorty`;
+  async findOne(id: number) {
+    return await this.prisma.bonSortie.findUnique({ where: { id } });
   }
 
-  update(id: number, updateBonSortyDto: UpdateBonSortyDto) {
-    return `This action updates a #${id} bonSorty`;
+  async update(id: number, updateBonSortyDto: UpdateBonSortyDto) {
+    return await this.prisma.bonSortie.update({
+      where: { id },
+      data: updateBonSortyDto
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} bonSorty`;
+  async remove(id: number) {
+    return await this.prisma.bonSortie.delete({ where: { id } })
   }
 }

@@ -7,6 +7,7 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 @Controller('stocks')
 export class StocksController {
   constructor(private readonly stocksService: StocksService) {}
+
   @MessagePattern({ cmd: 'create_stock' })
   async create(@Payload() message: CreateStockDto) : Promise<any> {
     return await this.stocksService.create(message);
@@ -17,17 +18,17 @@ export class StocksController {
     return await this.stocksService.findAll();
   }
 
-@MessagePattern({ cmd: ':id' })
+@MessagePattern({ cmd: 'getOne_stock' })
   async findOne(@Param('id') id: string) {
     return await this.stocksService.findOne(+id);
   }
 
-  @MessagePattern({ cmd: ':id' })
+  @MessagePattern({ cmd: 'update_stock' })
   async update(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {
     return await this.stocksService.update(+id, updateStockDto);
   }
 
-  @MessagePattern({ cmd: ':id' })
+  @MessagePattern({ cmd: 'delete_stock' })
   async remove(@Param('id') id: string) {
     return await this.stocksService.remove(+id);
   }

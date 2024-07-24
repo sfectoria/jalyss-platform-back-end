@@ -1,26 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBonReceptionDto } from './dto/create-bon-reception.dto';
 import { UpdateBonReceptionDto } from './dto/update-bon-reception.dto';
+import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class BonReceptionsService {
-  create(createBonReceptionDto: CreateBonReceptionDto) {
-    return 'This action adds a new bonReception';
+  constructor(private readonly prisma: PrismaService) {}
+  async create(createBonReceptionDto: CreateBonReceptionDto) {
+    return await this.prisma.bonReception.create({ data: createBonReceptionDto });
   }
 
-  findAll() {
-    return `This action returns all bonReceptions`;
+  async findAll() {
+    return await this.prisma.bonReception.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bonReception`;
+  async findOne(id: number) {
+    return await this.prisma.bonReception.findUnique({ where: { id } });
   }
 
-  update(id: number, updateBonReceptionDto: UpdateBonReceptionDto) {
-    return `This action updates a #${id} bonReception`;
+  async update(id: number, updateBonReceptionDto: UpdateBonReceptionDto) {
+    return await this.prisma.bonReception.update({
+      where: { id },
+      data: updateBonReceptionDto,
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} bonReception`;
+  async remove(id: number) {
+    return await this.prisma.bonReception.delete({ where: { id } })
   }
 }

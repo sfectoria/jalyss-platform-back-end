@@ -11,7 +11,7 @@ export class StocksService {
   create(createStockDto: CreateStockDto) {
     return this.stocksClient.send(
       { cmd: 'create_stock' }, 
-      createStockDto
+      createStockDto 
     );
   }
 

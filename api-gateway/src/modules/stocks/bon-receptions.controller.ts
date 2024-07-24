@@ -1,18 +1,18 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BonReceptionsService } from './bon-receptions.service';
-import { CreateBonReceptionDto } from './dto/create-bon-reception.dto';
-import { UpdateBonReceptionDto } from './dto/update-bon-reception.dto';
+import { CreateBonReceptionDto } from '../stocks/dto/create-stock.dto';
+import { UpdateBonReceptionDto } from '../stocks/dto/update-stock.dto';
 
-@Controller('bon-receptions')
+@Controller('bonReceptions')
 export class BonReceptionsController {
   constructor(private readonly bonReceptionsService: BonReceptionsService) {}
 
-  @Post()
+  @Post('create_brt')
   create(@Body() createBonReceptionDto: CreateBonReceptionDto) {
     return this.bonReceptionsService.create(createBonReceptionDto);
   }
 
-  @Get()
+  @Get('all_brt')
   findAll() {
     return this.bonReceptionsService.findAll();
   }

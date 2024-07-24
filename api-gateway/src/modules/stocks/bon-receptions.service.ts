@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateBonReceptionDto } from './dto/create-bon-reception.dto';
-import { UpdateBonReceptionDto } from './dto/update-bon-reception.dto';
+import { CreateBonReceptionDto } from './dto/create-stock.dto';
+import { UpdateBonReceptionDto } from './dto/update-stock.dto';
 import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class BonReceptionsService {
 
   findAll() {
     return this.stocksClient.send(
-      { cmd: 'get_bonReceptions' },
+      { cmd: 'all_bonReceptions' },
       {}
     )
   }
