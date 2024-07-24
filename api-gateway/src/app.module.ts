@@ -6,6 +6,7 @@ import { PrismaModule } from 'nestjs-prisma';
 import { ConfigModule } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UsersModule } from './modules/users/users.module';
+// import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
