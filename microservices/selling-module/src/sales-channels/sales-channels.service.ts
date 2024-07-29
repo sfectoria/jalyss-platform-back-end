@@ -1,26 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSalesChannelDto } from './dto/create-sales-channel.dto';
 import { UpdateSalesChannelDto } from './dto/update-sales-channel.dto';
+import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class SalesChannelsService {
-  create(createSalesChannelDto: CreateSalesChannelDto) {
-    return 'This action adds a new salesChannel';
+  constructor(private readonly prisma : PrismaService) {}
+  async create(createSalesChannelDto: CreateSalesChannelDto) {
+    return await this.prisma.canauxDeVent.create({
+      data : createSalesChannelDto
+    })
   }
 
-  findAll() {
-    return `This action returns all salesChannels`;
+  async findAll() {
+    return await this.prisma.canauxDeVent.findMany(); 
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} salesChannel`;
+  async findOne(id: number) {
+    return await this.prisma.canauxDeVent.findUnique({where: {id}});
   }
 
-  update(id: number, updateSalesChannelDto: UpdateSalesChannelDto) {
-    return `This action updates a #${id} salesChannel`;
+  async update(id: number, updateSalesChannelDto: UpdateSalesChannelDto) {
+    return await this.prisma.canauxDeVent.update({
+      where: {id},
+      data : updateSalesChannelDto
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} salesChannel`;
+  async remove(id: number) {
+    return await this.prisma.canauxDeVent.delete({where: {id}})
   }
 }

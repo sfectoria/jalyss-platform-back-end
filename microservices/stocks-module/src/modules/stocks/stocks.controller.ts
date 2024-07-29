@@ -19,17 +19,19 @@ export class StocksController {
   }
 
 @MessagePattern({ cmd: 'getOne_stock' })
-  async findOne(@Param('id') id: string) {
-    return await this.stocksService.findOne(+id);
+  async findOne(@Payload() data: { id: number }) {
+    console.log('findOne payload:', data);
+    return await this.stocksService.findOne(data.id);
   }
 
   @MessagePattern({ cmd: 'update_stock' })
-  async update(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {
-    return await this.stocksService.update(+id, updateStockDto);
+  async update(@Payload() data: { id: number, updateStockDto: UpdateStockDto }) {
+    return await this.stocksService.update(data.id, data.updateStockDto);
   }
 
   @MessagePattern({ cmd: 'delete_stock' })
-  async remove(@Param('id') id: string) {
-    return await this.stocksService.remove(+id);
+    async remove(@Payload() data: { id: number }) {
+      console.log('remove payload:', data);
+      return await this.stocksService.remove(data.id);
   }
 }

@@ -7,12 +7,12 @@ import { UpdateSellingDto } from './dto/update-selling.dto';
 export class SellingController {
   constructor(private readonly sellingService: SellingService) {}
 
-  @Post()
+  @Post('create')
   create(@Body() createSellingDto: CreateSellingDto) {
     return this.sellingService.create(createSellingDto);
   }
 
-  @Get()
+  @Get('getAll')
   findAll() {
     return this.sellingService.findAll();
   }

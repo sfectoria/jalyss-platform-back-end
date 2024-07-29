@@ -8,6 +8,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UsersModule } from './modules/users/users.module';
 import { StocksModule } from './modules/stocks/stocks.module';
 import { ConfigModule } from '@nestjs/config';
+import { SellingModule } from './modules/selling/selling.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,31 +16,32 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: '../.env',
     }),
     ClientsModule.register({
-      clients : [
-      {
-        name: 'USER_MICROSERVICE',
-        transport: Transport.TCP,
-        options: { port: 3001 },
-      },
-      {
-        name: 'SELLING_MICROSERVICE',
-        transport: Transport.TCP,
-        options: { port: 3002 },
-      },
-      {
-        name: 'STOCKS_MICROSERVICE',
-        transport: Transport.TCP,
-        options: { port: 3003 },
-      },
-    ], 
-    isGlobal: true,
-  }),  
-    AuthModule,
+      clients: [
+        {
+          name: 'USER_MICROSERVICE',
+          transport: Transport.TCP,
+          options: { port: 3001 },
+        },
+        {
+          name: 'SELLING_MICROSERVICE',
+          transport: Transport.TCP,
+          options: { port: 3002 },
+        },
+        {
+          name: 'STOCKS_MICROSERVICE',
+          transport: Transport.TCP,
+          options: { port: 3003 },
+        },
+      ],
+      isGlobal: true,
+    }),
     PrismaModule.forRoot({ isGlobal: true }),
+    AuthModule,
     UsersModule,
     StocksModule,
+    SellingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

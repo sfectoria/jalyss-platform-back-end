@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { StocksService } from './stocks.service';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('stocks')
+@ApiTags('stocks')
 export class StocksController {
   constructor(private readonly stocksService: StocksService) {}
 
@@ -18,17 +20,17 @@ export class StocksController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.stocksService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {
+  update(@Param('id') id: number, @Body() updateStockDto: UpdateStockDto) {
     return this.stocksService.update(+id, updateStockDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.stocksService.remove(+id);
   }
 }

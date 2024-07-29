@@ -1,13 +1,37 @@
+import { ApiProperty } from "@nestjs/swagger";
+
 export class CreateStockDto {
-    location : string;
-    capacity : number;
+    @ApiProperty()
+    location: string;
+    @ApiProperty()
+    capacity: number;
 }
 
-export class CreateBonReceptionDto {}
+export class CreateBonReceptionDto {
+    @ApiProperty()
+    typeReception: string
+    @ApiProperty()
+    dateReception: Date
+}
 
-export class CreateBonSortieDto {}
+export class CreateBonSortieDto {
+    @ApiProperty()
+    typeSortie: string
+    @ApiProperty()
+    dateSortie: Date
+}
 
-export class CreateBonTransferDto {}
+export class CreateBonTransferDto {
+    @ApiProperty()
+    from: number
+    @ApiProperty()
+    to: number
+    @ApiProperty()
+    date: Date
+}
 
-export class CreateBonRetourDto {}
+export class CreateBonRetourDto { 
+    @ApiProperty()
+    returnDate: Date
+}
 

@@ -2,33 +2,34 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SalesChannelsService } from './sales-channels.service';
 import { CreateSalesChannelDto } from './dto/create-sales-channel.dto';
 import { UpdateSalesChannelDto } from './dto/update-sales-channel.dto';
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller('sales-channels')
 export class SalesChannelsController {
   constructor(private readonly salesChannelsService: SalesChannelsService) {}
 
-  @Post()
-  create(@Body() createSalesChannelDto: CreateSalesChannelDto) {
-    return this.salesChannelsService.create(createSalesChannelDto);
+  @MessagePattern({ cmd: 'create_selling' })
+  async create(@Body() createSalesChannelDto: CreateSalesChannelDto) {
+    return await this.salesChannelsService.create(createSalesChannelDto);
   }
 
-  @Get()
-  findAll() {
-    return this.salesChannelsService.findAll();
+  @MessagePattern({ cmd: 'all_selling' })
+  async findAll() {
+    return await this.salesChannelsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.salesChannelsService.findOne(+id);
+  @MessagePattern({ cmd: 'getOne_selling' })
+  async findOne(@Param('id') id: string) {
+    return await this.salesChannelsService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSalesChannelDto: UpdateSalesChannelDto) {
-    return this.salesChannelsService.update(+id, updateSalesChannelDto);
+  @MessagePattern({ cmd: 'update_selling' })
+  async update(@Param('id') id: string, @Body() updateSalesChannelDto: UpdateSalesChannelDto) {
+    return await this.salesChannelsService.update(+id, updateSalesChannelDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.salesChannelsService.remove(+id);
+  @MessagePattern({ cmd: 'delete_selling' })
+  async remove(@Param('id') id: string) {
+    return await this.salesChannelsService.remove(+id);
   }
 }

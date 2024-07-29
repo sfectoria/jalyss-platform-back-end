@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { BonReceptionsService } from './bon-receptions.service';
 import { CreateBonReceptionDto } from '../stocks/dto/create-stock.dto';
 import { UpdateBonReceptionDto } from '../stocks/dto/update-stock.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('bonReceptions')
+@ApiTags('bonReceptions')
 export class BonReceptionsController {
   constructor(private readonly bonReceptionsService: BonReceptionsService) {}
 

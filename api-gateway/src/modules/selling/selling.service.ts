@@ -1,26 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateSellingDto } from './dto/create-selling.dto';
 import { UpdateSellingDto } from './dto/update-selling.dto';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class SellingService {
+  constructor(
+    @Inject('SELLING_MICROSERVICE') private readonly sellingClient: ClientProxy
+  ) {}
   create(createSellingDto: CreateSellingDto) {
-    return 'This action adds a new selling';
+    return this.sellingClient.send(
+      {cmd : 'create_selling'},
+       createSellingDto);
   }
 
   findAll() {
-    return `This action returns all selling`;
+    return this.sellingClient.send(
+      {cmd : 'all_selling'},
+      {}
+    );
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} selling`;
+    return this.sellingClient.send(
+      {cmd : 'getOne_selling'},
+      {id}
+    )
   }
 
   update(id: number, updateSellingDto: UpdateSellingDto) {
-    return `This action updates a #${id} selling`;
+    return this.sellingClient.send(
+      {cmd : 'update_selling'},
+      {id, updateSellingDto}
+    )
   }
 
   remove(id: number) {
-    return `This action removes a #${id} selling`;
+    return this.sellingClient.send(
+      {cmd : 'delete_selling'},
+      {id}
+    )
   }
 }
