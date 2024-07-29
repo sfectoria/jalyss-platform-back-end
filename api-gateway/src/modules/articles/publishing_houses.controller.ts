@@ -4,7 +4,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { publishing_housesService } from './publishing_houses.service';
 import { Createpublishing_housesDto } from './dto/create-article.dto';
 import { updatepublishing_houses } from './dto/update-article.dto';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('publishingHouses')
 @Controller('publishingHouses')
 export class PublishingHousesController {
   constructor(private readonly PublishingHousesService: publishing_housesService) {}

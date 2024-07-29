@@ -17,11 +17,13 @@ export class CategorieArticlesService {
     return await this.prisma.categorieArticle.findMany();
   }
 
+  
   async findOne(id: number) {
     const categorieArticle = await this.prisma.categorieArticle.findUnique({ where: { id } });
     if (!categorieArticle) {
       throw new NotFoundException(`Categorie Article with ID ${id} not found`);
     }
+    
     return categorieArticle;
   }
 

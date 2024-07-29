@@ -1,4 +1,13 @@
 -- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Employee" (
     "id" SERIAL NOT NULL,
     "first_name" TEXT,
@@ -9,15 +18,6 @@ CREATE TABLE "Employee" (
     "position" TEXT,
 
     CONSTRAINT "Employee_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
-    "email" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
-
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -287,6 +287,30 @@ CREATE TABLE "BonSortie" (
     CONSTRAINT "BonSortie_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "VenteBLFacture" (
+    "id" SERIAL NOT NULL,
+    "id_bon_reception" INTEGER,
+    "delivery_date" TIMESTAMP(3),
+    "canauxDeVentId" INTEGER,
+    "bonSortieId" INTEGER,
+    "clientId" INTEGER,
+
+    CONSTRAINT "VenteBLFacture_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "VenteBL" (
+    "id" SERIAL NOT NULL,
+    "id_bon_reception" INTEGER,
+    "delivery_date" TIMESTAMP(3),
+    "canauxDeVentId" INTEGER,
+    "bonSortieId" INTEGER,
+    "clientId" INTEGER,
+
+    CONSTRAINT "VenteBL_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -409,3 +433,21 @@ ALTER TABLE "BonSortie" ADD CONSTRAINT "BonSortie_id_client_fkey" FOREIGN KEY ("
 
 -- AddForeignKey
 ALTER TABLE "BonSortie" ADD CONSTRAINT "BonSortie_id_devis_fkey" FOREIGN KEY ("id_devis") REFERENCES "Devis"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "VenteBLFacture" ADD CONSTRAINT "VenteBLFacture_canauxDeVentId_fkey" FOREIGN KEY ("canauxDeVentId") REFERENCES "CanauxDeVent"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "VenteBLFacture" ADD CONSTRAINT "VenteBLFacture_bonSortieId_fkey" FOREIGN KEY ("bonSortieId") REFERENCES "BonSortie"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "VenteBLFacture" ADD CONSTRAINT "VenteBLFacture_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "Client"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "VenteBL" ADD CONSTRAINT "VenteBL_canauxDeVentId_fkey" FOREIGN KEY ("canauxDeVentId") REFERENCES "CanauxDeVent"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "VenteBL" ADD CONSTRAINT "VenteBL_bonSortieId_fkey" FOREIGN KEY ("bonSortieId") REFERENCES "BonSortie"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "VenteBL" ADD CONSTRAINT "VenteBL_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "Client"("id") ON DELETE SET NULL ON UPDATE CASCADE;

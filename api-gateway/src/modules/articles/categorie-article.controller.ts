@@ -4,7 +4,8 @@ import { CreateCategorieArticleDto } from './dto/create-article.dto';
 import { UpdateCategorieArticleDto } from './dto/update-article.dto';
 // import { CreateCategorieArticleDto } from './dto/create-categorie-article.dto';
 // import { UpdateCategorieArticleDto } from './dto/update-categorie-article.dto';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('categorie-articles')
 @Controller('categorie-articles')
 export class CategorieArticleController {
   constructor(private readonly categorieArticleService: CategorieArticleService) {}

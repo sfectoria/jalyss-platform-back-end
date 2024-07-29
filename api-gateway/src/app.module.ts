@@ -8,6 +8,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UsersModule } from './modules/users/users.module';
 // import { UsersModule } from './modules/users/users.module';
 import { ArticlesModule } from './modules/articles/articles.module';
+import { ClientModule } from './modules/clients/clients.module';
 
 @Module({
   imports: [
@@ -35,6 +36,11 @@ import { ArticlesModule } from './modules/articles/articles.module';
           transport: Transport.TCP,
           options: { port: 3006 },
         },
+        {
+          name: 'CLIENT_MICROSERVICE',
+          transport: Transport.TCP,
+          options: { port: 3007 },
+        },
       ],
       isGlobal: true,
     }),
@@ -42,6 +48,7 @@ import { ArticlesModule } from './modules/articles/articles.module';
     UsersModule,
     PrismaModule.forRoot({ isGlobal: true }),
     ArticlesModule,
+    ClientModule,
   ],
   controllers: [AppController],
   providers: [AppService],

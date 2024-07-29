@@ -5,10 +5,10 @@ import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class AppService {
-  constructor(
-    @Inject('USER_MICROSERVICE') private readonly userClient: ClientProxy,
-    private readonly prisma: PrismaService,
-  ) {}
+  // constructor(
+  //   @Inject('USER_MICROSERVICE') private readonly userClient: ClientProxy,
+  //   private readonly prisma: PrismaService,
+  // ) {}
   getHello(): string {
     return 'hello Jalyss API-GATEWAY';
   }
