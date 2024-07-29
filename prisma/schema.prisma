@@ -8,9 +8,9 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  name  String?
-  email String  @unique
+  id       Int     @id @default(autoincrement())
+  name     String?
+  email    String  @unique
   password String
 }
 
@@ -39,6 +39,8 @@ model Client {
   BonRetour        BonRetour[]
   Devis            Devis[]
   BonSortie        BonSortie[]
+  VenteBLFacture   VenteBLFacture[]
+  VenteBL          VenteBL[]
 }
 
 model Article {
@@ -114,8 +116,10 @@ model CanauxDeVent {
   region   String?
   id_stock Int?
 
-  stock       Stock?        @relation(fields: [id_stock], references: [id])
-  BonCommande BonCommande[]
+  stock          Stock?           @relation(fields: [id_stock], references: [id])
+  BonCommande    BonCommande[]
+  VenteBLFacture VenteBLFacture[]
+  VenteBL        VenteBL[]
 }
 
 model VenteFacture {
@@ -316,9 +320,35 @@ model BonSortie {
   type_reception   String    @default("retour") // Enum with values "retour" or "achat"
   sortie_date      DateTime?
 
-  bon_commande  BonCommande[]
-  client        Client?        @relation(fields: [id_client], references: [id])
-  vente_facture VenteFacture[]
-  devis         Devis?         @relation(fields: [id_devis], references: [id])
-  BonTransfer   BonTransfer[]
+  bon_commande   BonCommande[]
+  client         Client?          @relation(fields: [id_client], references: [id])
+  vente_facture  VenteFacture[]
+  devis          Devis?           @relation(fields: [id_devis], references: [id])
+  BonTransfer    BonTransfer[]
+  VenteBLFacture VenteBLFacture[]
+  VenteBL        VenteBL[]
+}
+
+model VenteBLFacture {
+  id               Int           @id @default(autoincrement())
+  id_bon_reception Int?
+  delivery_date    DateTime?
+  CanauxDeVent     CanauxDeVent? @relation(fields: [canauxDeVentId], references: [id])
+  canauxDeVentId   Int?
+  BonSortie        BonSortie?    @relation(fields: [bonSortieId], references: [id])
+  bonSortieId      Int?
+  Client           Client?       @relation(fields: [clientId], references: [id])
+  clientId         Int?
+}
+
+model VenteBL {
+  id               Int           @id @default(autoincrement())
+  id_bon_reception Int?
+  delivery_date    DateTime?
+  CanauxDeVent     CanauxDeVent? @relation(fields: [canauxDeVentId], references: [id])
+  canauxDeVentId   Int?
+  BonSortie        BonSortie?    @relation(fields: [bonSortieId], references: [id])
+  bonSortieId      Int?
+  Client           Client?       @relation(fields: [clientId], references: [id])
+  clientId         Int?
 }
