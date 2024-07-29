@@ -6,32 +6,41 @@ import { ClientProxy } from '@nestjs/microservices';
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject('USER_MICROSERVICE') private readonly user_client: ClientProxy
+    @Inject('USER_MICROSERVICE') private readonly userClient: ClientProxy,
   ) {}
-  create(createUserDto: CreateUserDto) {
-    const { name, email, password, phone } = createUserDto;
-    return this.user_client.send(
-      { cmd: 'register_user' },
-      { name, email, password, phone },
+
+  register(data:CreateUserDto) {
+    return this.userClient.send({ cmd: 'register' }, data);
+  }
+
+  
+  // create(createUserDto: CreateUserDto) {
+  //   return 'This action adds a new user';
+  // } 
+
+  findAll() {
+    return this.userClient.send(
+      { cmd: 'all_user' },
+      {}
+    );    }
+
+  findOne(id: number) {
+    return this.userClient.send(
+      { cmd: 'getOne_user' },
+      {id}
     );
   }
 
-  findAll() {
-    return this.user_client.send(
-      { cmd: 'get_users' },
-       {}
-      );
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+    return this.userClient.send(
+      { cmd: 'update_user' },
+      {id, UpdateUserDto}
+    )
+    }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+    return this.userClient.send(
+      { cmd: 'delete_user' },
+      {id}
+    )  }
 }
