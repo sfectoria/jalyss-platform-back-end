@@ -50,7 +50,7 @@ import { SellingModule } from './modules/selling/selling.module';
         {
           name: 'CLIENT_MICROSERVICE',
           transport: Transport.TCP,
-          options: { port: 3007 },
+          options: { port: 3009 },
         },
       ],
       isGlobal: true,
