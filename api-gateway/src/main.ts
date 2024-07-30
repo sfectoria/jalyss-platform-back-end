@@ -11,11 +11,12 @@ async function bootstrap() {
     .setTitle('JALYSS API')
     .setDescription('The JALYSS API description')
     .setVersion('1.0')
-    .addTag('JALYSS')
     .addApiKey(
       { type: 'apiKey', name: 'Authorization', in: 'header' },
       'apiKey',
     )
+    .addTag('JALYSS')
+    
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);

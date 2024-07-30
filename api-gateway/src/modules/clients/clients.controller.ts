@@ -10,8 +10,9 @@ import {
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 @ApiTags('clients')
+@ApiSecurity('apiKey')
 @Controller('clients')
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
@@ -20,7 +21,7 @@ export class ClientsController {
   create(@Body() createClientDto: CreateClientDto) {
     return this.clientsService.create(createClientDto);
   }
-
+  @ApiSecurity('apiKey')
   @Get()
   findAll() {
     return this.clientsService.findAll();

@@ -2,20 +2,29 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CategorieClientsService } from './categorie_client.service';
 import { CreateCategorieClientDto } from './dto/create-client.dto';
 import { UpdateCategorieClientDto } from './dto/update-client.dto';
+import { ApiBearerAuth, ApiParam, ApiSecurity, ApiTags } from '@nestjs/swagger';
 // import { CategorieClient } from '@prisma/client';
 // import { CategorieClientsGatewayService } from './categorie-clients.gateway.service';
 // import { CreateCategorieClientDto } from './dto/create-categorie-client.dto';
 // import { UpdateCategorieClientDto } from './dto/update-categorie-client.dto';
+@ApiTags('categorie-clients')
+@ApiSecurity('apiKey')
 
 @Controller('categorie-clients')
 export class CategorieClientsController {
   constructor(private readonly categorieClientsGatewayService: CategorieClientsService) {}
-
+  // @ApiBearerAuth('jwt')
   @Post()
   async create(@Body() createCategorieClientDto: CreateCategorieClientDto) {
     return await this.categorieClientsGatewayService.create(createCategorieClientDto);
   }
-
+  // @ApiSecurity('jwt')
+  @ApiParam({
+    name: 'Authorization',
+    required: false,
+    description:
+        '(Leave empty. Use lock icon on the top-right to authorize)',
+})
   @Get()
   async findAll() {
     return await this.categorieClientsGatewayService.findAll();
