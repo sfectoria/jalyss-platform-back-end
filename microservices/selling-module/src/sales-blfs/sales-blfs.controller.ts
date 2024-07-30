@@ -2,33 +2,34 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SalesBlfsService } from './sales-blfs.service';
 import { CreateSalesBlfDto } from './dto/create-sales-blf.dto';
 import { UpdateSalesBlfDto } from './dto/update-sales-blf.dto';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('sales-blfs')
 export class SalesBlfsController {
   constructor(private readonly salesBlfsService: SalesBlfsService) {}
 
-  @Post()
-  create(@Body() createSalesBlfDto: CreateSalesBlfDto) {
-    return this.salesBlfsService.create(createSalesBlfDto);
+  @MessagePattern('create_salesblf')
+  async create(@Payload() createSalesBlfDto: CreateSalesBlfDto) {
+    return await this.salesBlfsService.create(createSalesBlfDto);
   }
 
-  @Get()
-  findAll() {
-    return this.salesBlfsService.findAll();
+  @MessagePattern('all_salesblfs')
+  async findAll() {
+    return await this.salesBlfsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.salesBlfsService.findOne(+id);
+  @MessagePattern('getOne_salesblf')
+  async findOne(@Payload() data :{id : number}) {
+    return await this.salesBlfsService.findOne(data.id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSalesBlfDto: UpdateSalesBlfDto) {
-    return this.salesBlfsService.update(+id, updateSalesBlfDto);
+  @MessagePattern('update_salesblf')
+  async update(@Payload() data :{ id: number, updateSalesBlfDto: UpdateSalesBlfDto}) {
+    return await this.salesBlfsService.update(data.id, data.updateSalesBlfDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.salesBlfsService.remove(+id);
+  @MessagePattern('delete_salesblf')
+  async remove(@Payload() data : { id: number}) {
+    return await this.salesBlfsService.remove(data.id);
   }
 }

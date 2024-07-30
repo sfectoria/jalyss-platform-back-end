@@ -6,23 +6,23 @@ import { PrismaService } from 'nestjs-prisma';
 @Injectable()
 export class SalesBlsService {
   constructor(private readonly prisma : PrismaService) {}
-  create(createSalesBlDto: CreateSalesBlDto) {
-    return 'This action adds a new salesBl';
+  async create(createSalesBlDto: CreateSalesBlDto) {
+    return await this.prisma.venteBL.create({data:createSalesBlDto})
   }
 
-  findAll() {
-    return `This action returns all salesBls`;
+  async findAll() {
+    return await this.prisma.venteBL.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} salesBl`;
+   async findOne(id: number) {
+    return await this.prisma.venteBL.findUnique({where: {id}});
   }
 
-  update(id: number, updateSalesBlDto: UpdateSalesBlDto) {
-    return `This action updates a #${id} salesBl`;
+  async update(id: number, updateSalesBlDto: UpdateSalesBlDto) {
+    return await this.prisma.venteBL.update({where: {id}, data: updateSalesBlDto});
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} salesBl`;
+  async remove(id: number) {
+    return await this.prisma.venteBL.delete({where: {id}});
   }
 }

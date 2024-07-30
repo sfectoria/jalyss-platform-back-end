@@ -5,7 +5,7 @@ import { UpdateBonTransferDto } from './dto/update-stock.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('bon-transfers')
-@ApiTags('bon-transfers')
+@ApiTags('bonTransfers')
 export class BonTransfersController {
   constructor(private readonly bonTransfersService: BonTransfersService) {}
 

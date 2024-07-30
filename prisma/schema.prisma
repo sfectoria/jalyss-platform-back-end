@@ -94,8 +94,8 @@ model AchatBonLivraison {
 model BonCommande {
   id                Int            @id @default(autoincrement())
   id_client         Int?
-  id_bondesorti     Int?
   id_canaux_de_vent Int?
+  bonSortieId       Int?
   order_date        DateTime?
   date              DateTime?
   client            Client?        @relation(fields: [id_client], references: [id])
@@ -103,7 +103,6 @@ model BonCommande {
   canaux_de_vent    CanauxDeVent?  @relation(fields: [id_canaux_de_vent], references: [id])
   VenteFacture      VenteFacture[]
   CommandeLine      CommandeLine[]
-  bonSortieId       Int?
 }
 
 model CanauxDeVent {
@@ -123,13 +122,12 @@ model VenteFacture {
   id              Int       @id @default(autoincrement())
   id_client       Int?
   id_bon_commande Int?
-  id_bondesorti   Int?
+  bonSortieId     Int?
   date            DateTime?
 
   client       Client?      @relation(fields: [id_client], references: [id])
   bon_commande BonCommande? @relation(fields: [id_bon_commande], references: [id])
   bon_sortie   BonSortie?   @relation(fields: [bonSortieId], references: [id])
-  bonSortieId  Int?
 }
 
 model BonRetour {
@@ -304,25 +302,23 @@ model BonSortie {
 }
 
 model VenteBLFacture {
-  id               Int           @id @default(autoincrement())
-  id_bon_reception Int?
-  delivery_date    DateTime?
-  CanauxDeVent     CanauxDeVent? @relation(fields: [canauxDeVentId], references: [id])
-  canauxDeVentId   Int?
-  BonSortie        BonSortie?    @relation(fields: [bonSortieId], references: [id])
-  bonSortieId      Int?
-  Client           Client?       @relation(fields: [clientId], references: [id])
-  clientId         Int?
+  id             Int           @id @default(autoincrement())
+  delivery_date  DateTime?
+  CanauxDeVent   CanauxDeVent? @relation(fields: [canauxDeVentId], references: [id])
+  canauxDeVentId Int?
+  BonSortie      BonSortie?    @relation(fields: [bonSortieId], references: [id])
+  bonSortieId    Int?
+  Client         Client?       @relation(fields: [clientId], references: [id])
+  clientId       Int?
 }
 
 model VenteBL {
-  id               Int           @id @default(autoincrement())
-  id_bon_reception Int?
-  delivery_date    DateTime?
-  CanauxDeVent     CanauxDeVent? @relation(fields: [canauxDeVentId], references: [id])
-  canauxDeVentId   Int?
-  BonSortie        BonSortie?    @relation(fields: [bonSortieId], references: [id])
-  bonSortieId      Int?
-  Client           Client?       @relation(fields: [clientId], references: [id])
-  clientId         Int?
+  id             Int           @id @default(autoincrement())
+  delivery_date  DateTime?
+  CanauxDeVent   CanauxDeVent? @relation(fields: [canauxDeVentId], references: [id])
+  canauxDeVentId Int?
+  BonSortie      BonSortie?    @relation(fields: [bonSortieId], references: [id])
+  bonSortieId    Int?
+  Client         Client?       @relation(fields: [clientId], references: [id])
+  clientId       Int?
 }

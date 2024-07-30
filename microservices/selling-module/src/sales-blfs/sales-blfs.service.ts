@@ -1,26 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSalesBlfDto } from './dto/create-sales-blf.dto';
 import { UpdateSalesBlfDto } from './dto/update-sales-blf.dto';
+import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class SalesBlfsService {
-  create(createSalesBlfDto: CreateSalesBlfDto) {
-    return 'This action adds a new salesBlf';
+  constructor(private readonly prisma : PrismaService) {}
+  async create(createSalesBlfDto: CreateSalesBlfDto) {
+    return await this.prisma.venteBLFacture.create({data : createSalesBlfDto})
   }
 
-  findAll() {
-    return `This action returns all salesBlfs`;
+  async findAll() {
+    return this.prisma.venteBLFacture.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} salesBlf`;
+  async findOne(id: number) {
+    return await this.prisma.venteBLFacture.findUnique({ where: { id } });
   }
 
-  update(id: number, updateSalesBlfDto: UpdateSalesBlfDto) {
-    return `This action updates a #${id} salesBlf`;
+  async update(id: number, updateSalesBlfDto: UpdateSalesBlfDto) {
+    return await this.prisma.venteBLFacture.update({ where: { id }, data: updateSalesBlfDto });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} salesBlf`;
+  async remove(id: number) {
+    return await this.prisma.venteBLFacture.delete({ where: { id } });
   }
 }

@@ -269,7 +269,6 @@ async function main() {
   // Seed VenteBLFacture
   const venteBLFacture = await prisma.venteBLFacture.create({
     data: {
-      id_bon_reception: bonReception.id,
       delivery_date: new Date(),
       canauxDeVentId: canauxDeVent.id,
       bonSortieId: bonSortie.id,
@@ -280,7 +279,6 @@ async function main() {
   // Seed VenteBL
   const venteBL = await prisma.venteBL.create({
     data: {
-      id_bon_reception: bonReception.id,
       delivery_date: new Date(),
       canauxDeVentId: canauxDeVent.id,
       bonSortieId: bonSortie.id,

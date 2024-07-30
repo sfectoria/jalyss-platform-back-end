@@ -2,33 +2,34 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SalesInvoicesService } from './sales-invoices.service';
 import { CreateSalesInvoiceDto } from './dto/create-sales-invoice.dto';
 import { UpdateSalesInvoiceDto } from './dto/update-sales-invoice.dto';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('sales-invoices')
 export class SalesInvoicesController {
   constructor(private readonly salesInvoicesService: SalesInvoicesService) {}
 
-  @Post()
-  create(@Body() createSalesInvoiceDto: CreateSalesInvoiceDto) {
-    return this.salesInvoicesService.create(createSalesInvoiceDto);
+  @MessagePattern({ cmd: 'create salesInvioce'})
+  async create(@Payload() createSalesInvoiceDto: CreateSalesInvoiceDto) {
+    return await this.salesInvoicesService.create(createSalesInvoiceDto);
   }
 
-  @Get()
-  findAll() {
-    return this.salesInvoicesService.findAll();
+  @MessagePattern({ cmd: 'all_salesInvoice'})
+  async findAll() {
+    return await this.salesInvoicesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.salesInvoicesService.findOne(+id);
+  @MessagePattern({ cmd: 'getOne_salesInvoice'})
+  async findOne(@Payload() data : {id: number}) {
+    return await this.salesInvoicesService.findOne(data.id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSalesInvoiceDto: UpdateSalesInvoiceDto) {
-    return this.salesInvoicesService.update(+id, updateSalesInvoiceDto);
+  @MessagePattern({ cmd: 'update_salesInvoice'})
+  async update(@Payload() data :{ id: number, updateSalesInvoiceDto: UpdateSalesInvoiceDto}) {
+    return await this.salesInvoicesService.update(data.id, data.updateSalesInvoiceDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.salesInvoicesService.remove(+id);
+  @MessagePattern({ cmd: 'delete_salesInvoice'})
+  async remove(@Payload() data: {id: number}) {
+    return await this.salesInvoicesService.remove(data.id);
   }
 }
