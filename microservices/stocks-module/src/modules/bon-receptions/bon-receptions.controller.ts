@@ -2,14 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { BonReceptionsService } from './bon-receptions.service';
 import { CreateBonReceptionDto } from './dto/create-bon-reception.dto';
 import { UpdateBonReceptionDto } from './dto/update-bon-reception.dto';
-import { MessagePattern } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('bon-receptions')
 export class BonReceptionsController {
   constructor(private readonly bonReceptionsService: BonReceptionsService) {}
 
   @MessagePattern({ cmd: 'create_bonReception' })
-  async create(@Body() createBonReceptionDto: CreateBonReceptionDto) {
+  async create(@Payload() createBonReceptionDto: CreateBonReceptionDto) {
     return await this.bonReceptionsService.create(createBonReceptionDto);
   }
 
