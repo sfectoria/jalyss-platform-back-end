@@ -85,11 +85,10 @@ CREATE TABLE "AchatBonLivraison" (
 CREATE TABLE "BonCommande" (
     "id" SERIAL NOT NULL,
     "id_client" INTEGER,
-    "id_bondesorti" INTEGER,
     "id_canaux_de_vent" INTEGER,
+    "bonSortieId" INTEGER,
     "order_date" TIMESTAMP(3),
     "date" TIMESTAMP(3),
-    "bonSortieId" INTEGER,
 
     CONSTRAINT "BonCommande_pkey" PRIMARY KEY ("id")
 );
@@ -110,9 +109,8 @@ CREATE TABLE "VenteFacture" (
     "id" SERIAL NOT NULL,
     "id_client" INTEGER,
     "id_bon_commande" INTEGER,
-    "id_bondesorti" INTEGER,
-    "date" TIMESTAMP(3),
     "bonSortieId" INTEGER,
+    "date" TIMESTAMP(3),
 
     CONSTRAINT "VenteFacture_pkey" PRIMARY KEY ("id")
 );
@@ -290,7 +288,6 @@ CREATE TABLE "BonSortie" (
 -- CreateTable
 CREATE TABLE "VenteBLFacture" (
     "id" SERIAL NOT NULL,
-    "id_bon_reception" INTEGER,
     "delivery_date" TIMESTAMP(3),
     "canauxDeVentId" INTEGER,
     "bonSortieId" INTEGER,
@@ -302,7 +299,6 @@ CREATE TABLE "VenteBLFacture" (
 -- CreateTable
 CREATE TABLE "VenteBL" (
     "id" SERIAL NOT NULL,
-    "id_bon_reception" INTEGER,
     "delivery_date" TIMESTAMP(3),
     "canauxDeVentId" INTEGER,
     "bonSortieId" INTEGER,
