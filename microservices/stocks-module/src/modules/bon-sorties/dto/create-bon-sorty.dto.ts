@@ -1,1 +1,3 @@
-export class CreateBonSortyDto {}
+export class CreateBonSortyDto {
+    
+}
