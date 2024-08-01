@@ -7,18 +7,30 @@ export class CreateStockDto {
     capacity: number;
 }
 
+class BRLine {
+    @ApiProperty()
+    id_article: number;
+    @ApiProperty()
+    qunatity: number;
+  }
+
 export class CreateBonReceptionDto {
     @ApiProperty()
     typeReception: string
     @ApiProperty()
     dateReception: Date
-}
+    @ApiProperty()
+    id_stock: string;
+    @ApiProperty({ type: [BRLine] })
+    lines: BRLine[];
+}  
+
 
 export class CreateBonSortieDto {
     @ApiProperty()
     typeSortie: string
     @ApiProperty()
-    dateSortie: Date
+    dateSortie: Date;
 }
 
 export class CreateBonTransferDto {
@@ -30,8 +42,17 @@ export class CreateBonTransferDto {
     date: Date
 }
 
+class ArticleRetour {
+    @ApiProperty()
+    id_article: number;
+    @ApiProperty()
+    qunatity: number;
+  }
+
 export class CreateBonRetourDto { 
     @ApiProperty()
     returnDate: Date
+    @ApiProperty({ type: [ArticleRetour] })
+    lines: ArticleRetour[];
 }
 
