@@ -83,6 +83,7 @@ model Article {
   VenteBonLivraison_Line VenteBonLivraison_Line[]
   VenteBLFacture_Line    VenteBLFacture_Line[]
   BonTransfer_Line       BonTransfer_Line[]
+  BonSortie_line         BonSortie_line[]
 }
 
 model category_Article {
@@ -105,7 +106,7 @@ model BonReception {
   id_fournisseur    Int?
   id_stock          Int
   id_bon_retour     Int?
-  type_reception    String?              @default("achat") // Enum with values "retour" or "achat"
+  type_reception    type_reception        @default(achat) // Enum with values "retour" or "achat"
   reception_date    DateTime
   fournisseur       Fournisseur?        @relation(fields: [id_fournisseur], references: [id])
   stock             Stock?              @relation(fields: [id_stock], references: [id])
@@ -281,7 +282,7 @@ model BonRetour_Line {
 model Devis {
   id                  Int                @id @default(autoincrement())
   id_facture          Int
-  id_client          Int
+  id_client           Int
   total_amount        Float
   creation_date       DateTime
   date                DateTime
@@ -326,8 +327,8 @@ model Stock {
   id                Int              @id @default(autoincrement())
   location          String
   capacity          Int
-  bon_transfer_from BonTransfer[]   @relation("StockFrom")
-  bon_transfer_to   BonTransfer[]   @relation("StockTo")
+  bon_transfer_from BonTransfer[]    @relation("StockFrom")
+  bon_transfer_to   BonTransfer[]    @relation("StockTo")
   sales_channels    sales_channels[]
   BonReception      BonReception[]
 }
@@ -338,7 +339,6 @@ model BonSortie {
   id_client         Int
   id_venteFacture   Int
   id_devis          Int
-  type_reception    String              @default("retour") // Enum with values "retour" or "achat"
   sortie_date       DateTime
   bon_commande      BonCommande[]
   client            Client?             @relation(fields: [id_client], references: [id])
@@ -347,6 +347,16 @@ model BonSortie {
   BonTransfer       BonTransfer[]
   VenteBLFacture    VenteBLFacture[]
   VenteBonLivraison VenteBonLivraison[]
+  BonSortie_line    BonSortie_line[]
+}
+
+model BonSortie_line {
+    id                     Int                      @id @default(autoincrement())
+
+  BonSortie   BonSortie? @relation(fields: [bonSortieId], references: [id])
+  bonSortieId Int?
+  Article     Article?   @relation(fields: [articleId], references: [id])
+  articleId   Int?
 }
 
 model ArticleRetour {
@@ -365,4 +375,8 @@ model Fournisseur {
   adresse            String
   registrationNumber String
   BonReception       BonReception[]
+}
+enum type_reception  {
+achat
+  retour
 }
