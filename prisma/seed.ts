@@ -69,11 +69,6 @@ async function main() {
       capacity: 500
     }
   });
-
-
-  
-  // Add more seed data as needed for other models
-
   console.log('Seed data created successfully.');
 }
 
