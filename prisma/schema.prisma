@@ -36,7 +36,6 @@ model Client {
   venteFacture        venteFacture[]
   Bon_retour          Bon_retour[]
   Devis               Devis[]
-  BonSortie           BonSortie[]
   VenteBLFacture      VenteBLFacture[]
   VenteBonLivraison   VenteBonLivraison[]
 }
@@ -106,7 +105,7 @@ model BonReception {
   id_fournisseur    Int?
   id_stock          Int
   id_bon_retour     Int?
-  type_reception    type_reception        @default(achat) // Enum with values "retour" or "achat"
+  type_reception    type_reception      @default(achat) // Enum with values "retour" or "achat"
   reception_date    DateTime
   fournisseur       Fournisseur?        @relation(fields: [id_fournisseur], references: [id])
   stock             Stock?              @relation(fields: [id_stock], references: [id])
@@ -288,7 +287,6 @@ model Devis {
   date                DateTime
   client              Client?            @relation(fields: [id_client], references: [id])
   DevisLine           DevisLine[]
-  BonSortie           BonSortie[]
   venteFacture_line   venteFacture_line? @relation(fields: [venteFacture_lineId], references: [id])
   venteFacture_lineId Int
 }
@@ -334,16 +332,11 @@ model Stock {
 }
 
 model BonSortie {
-  id                Int                 @id @default(autoincrement())
-  id_bon_commande   Int
-  id_client         Int
-  id_venteFacture   Int
-  id_devis          Int
+  id Int @id @default(autoincrement())
+
   sortie_date       DateTime
   bon_commande      BonCommande[]
-  client            Client?             @relation(fields: [id_client], references: [id])
   venteFacture      venteFacture[]
-  devis             Devis?              @relation(fields: [id_devis], references: [id])
   BonTransfer       BonTransfer[]
   VenteBLFacture    VenteBLFacture[]
   VenteBonLivraison VenteBonLivraison[]
@@ -351,7 +344,7 @@ model BonSortie {
 }
 
 model BonSortie_line {
-    id                     Int                      @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
   BonSortie   BonSortie? @relation(fields: [bonSortieId], references: [id])
   bonSortieId Int?
@@ -376,7 +369,8 @@ model Fournisseur {
   registrationNumber String
   BonReception       BonReception[]
 }
-enum type_reception  {
-achat
+
+enum type_reception {
+  achat
   retour
 }
