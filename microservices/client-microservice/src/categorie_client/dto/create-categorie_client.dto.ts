@@ -5,7 +5,6 @@ export class CreateCategorieClientDto
 {
   @ApiPropertyOptional({ description: 'name of categorie' })
   @IsString()
-  @IsOptional()
-  name?: string;
+  name: string;
 
 }

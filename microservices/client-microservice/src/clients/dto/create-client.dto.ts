@@ -4,31 +4,30 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 export class CreateClientDto {
   @ApiPropertyOptional({ description: 'Full name of the client' })
   @IsString()
-  @IsOptional()
-  fullName?: string;
+
+  fullName: string;
 
   @ApiPropertyOptional({ description: 'Phone number of the client' })
   @IsString()
-  @IsOptional()
-  phone_number?: string;
+  phone_number: string;
 
   @ApiPropertyOptional({ description: 'Address of the client' })
   @IsString()
-  @IsOptional()
-  address?: string;
+
+  address: string;
 
   @ApiPropertyOptional({ description: 'Email address of the client' })
   @IsEmail()
-  @IsOptional()
-  email?: string;
+
+  email: string;
 
   @ApiPropertyOptional({ description: 'Registration date of the client' })
   @IsDate()
-  @IsOptional()
-  registration_date?: Date;
+
+  registration_date: Date;
 
   @ApiPropertyOptional({ description: 'ID of the client category' })
   @IsInt()
-  @IsOptional()
-  id_categorie_client?: number;
+
+  id_categorie_client: number;
 }
