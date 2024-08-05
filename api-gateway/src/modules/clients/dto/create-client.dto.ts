@@ -1,42 +1,44 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsOptional, IsEmail, IsDate, IsInt } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+// import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateClientDto {
-  @ApiPropertyOptional({ description: 'Full name of the client' })
+  // @ApiPropertyOptional({ description: 'Full name of the client' })
   @IsString()
-  @IsOptional()
-  fullName?: string;
+  @ApiProperty()
+  fullName: string;
 
-  @ApiPropertyOptional({ description: 'Phone number of the client' })
+  // @ApiPropertyOptional({ description: 'Phone number of the client' })
   @IsString()
-  @IsOptional()
-  phone_number?: string;
+  @ApiProperty()
 
-  @ApiPropertyOptional({ description: 'Address of the client' })
+  phone_number: string;
+
+  // @ApiPropertyOptional({ description: 'Address of the client' })
+  @ApiProperty()
   @IsString()
-  @IsOptional()
-  address?: string;
+  address: string;
 
-  @ApiPropertyOptional({ description: 'Email address of the client' })
+  // @ApiPropertyOptional({ description: 'Email address of the client' })
+  @ApiProperty()
   @IsEmail()
-  @IsOptional()
-  email?: string;
+  email: string;
 
-  @ApiPropertyOptional({ description: 'Registration date of the client' })
+  // @ApiPropertyOptional({ description: 'Registration date of the client' })
+  @ApiProperty()
   @IsDate()
-  @IsOptional()
-  registration_date?: Date;
+  registration_date: Date;
 
-  @ApiPropertyOptional({ description: 'ID of the client category' })
+  // @ApiPropertyOptional({ description: 'ID of the client category' })
+  @ApiProperty()
   @IsInt()
-  @IsOptional()
-  id_categorie_client?: number;
+  id_categorie_client: number;
 }
 export class CreateCategorieClientDto
 {
-  @ApiPropertyOptional({ description: 'name of categorie' })
+  // @ApiPropertyOptional({ description: 'name of categorie' })
+  @ApiProperty()
   @IsString()
-  @IsOptional()
-  name?: string;
+  name: string;
 
 }
