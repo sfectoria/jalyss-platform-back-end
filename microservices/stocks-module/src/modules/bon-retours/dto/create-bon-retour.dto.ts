@@ -7,10 +7,10 @@ class ArticleRetour {
     @ApiProperty()
     qunatity: number;
   }
-  
+
 export class CreateBonRetourDto {
     @ApiProperty()
-    returnDate: Date
+    return_date: Date
     @ApiProperty({ type: [ArticleRetour] })
     lines: ArticleRetour[];
 }

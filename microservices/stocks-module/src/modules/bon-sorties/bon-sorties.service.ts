@@ -5,10 +5,18 @@ import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class BonSortiesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
   async create(createBonSortyDto: CreateBonSortyDto) {
-    return await this.prisma.bonSortie.create({ 
-      data: createBonSortyDto 
+    const { bonSortieLines, ...rest } = createBonSortyDto
+    return await this.prisma.bonSortie.create({
+      data : 
+      {
+        ...rest,
+        BonSortie_line : 
+        {
+          createMany : { data : bonSortieLines }
+        }
+      }
     });
   }
 

@@ -7,23 +7,24 @@ export class CreateStockDto {
     capacity: number;
 }
 
-class BRLine {
+class BonReception_Line {
     @ApiProperty()
     id_article: number;
     @ApiProperty()
-    qunatity: number;
+    id_bon_reception: number;
+    @ApiProperty()
+    quantity: number;
   }
-
-export class CreateBonReceptionDto {
+  export class CreateBonReceptionDto {
     @ApiProperty()
-    typeReception: string
+    type_reception: string;
     @ApiProperty()
-    dateReception: Date
+    reception_date: Date;
     @ApiProperty()
-    id_stock: string;
-    @ApiProperty({ type: [BRLine] })
-    lines: BRLine[];
-}  
+    id_stock : number;
+    @ApiProperty({ type: [BonReception_Line] })
+    lines: BonReception_Line[];
+  }
 
 
 export class CreateBonSortieDto {
@@ -33,6 +34,13 @@ export class CreateBonSortieDto {
     dateSortie: Date;
 }
 
+class BonTransfer_Line {
+  @ApiProperty()
+  id_article : number
+  @ApiProperty()
+  bonTransferId : number
+}
+
 export class CreateBonTransferDto {
     @ApiProperty()
     from: number
@@ -40,6 +48,12 @@ export class CreateBonTransferDto {
     to: number
     @ApiProperty()
     date: Date
+    @ApiProperty()
+    id__bon_reception: number
+    @ApiProperty()
+    id_bondesorti: number
+    @ApiProperty({ type: [BonTransfer_Line] })
+    lines: BonTransfer_Line[]
 }
 
 class ArticleRetour {

@@ -13,7 +13,8 @@ export class BonReceptionsService {
         data:
         {
           ...rest,
-          BRLine: {
+          bonReception_Line:
+          {
             createMany: { data: lines }
           }
         }
@@ -28,7 +29,7 @@ export class BonReceptionsService {
   async findOne(id: number) {
     return await this.prisma.bonReception.findUnique({
       where: { id },
-      include: { BRLine: { include: { article: true } }, stock: true },
+      include: { bonReception_Line: { include: { article: true } }, stock: true },
     });
   }
 
@@ -39,26 +40,26 @@ export class BonReceptionsService {
       data:
       {
         ...rest,
-        BRLine:
+        bonReception_Line:
         {
           updateMany: lines.map(line => ({
             where: {
-              id_article: line.id_article,  
-              bonReceptionId : id,  
+              id_article: line.id_article,
+              bonReceptionId: id,
             },
             data: {
-              qunatity: line.qunatity,  
+              quantity: line.quantity,
             },
-        }))
-      },
-    }
+          }))
+        },
+      }
     });
   }
 
   async remove(id: number) {
-    return await this.prisma.bonReception.delete({ 
+    return await this.prisma.bonReception.delete({
       where: { id },
-      include: { BRLine: { include: { article: true } }, stock: true }, 
+      include: { bonReception_Line: { include: { article: true } }, stock: true },
     })
   }
 }

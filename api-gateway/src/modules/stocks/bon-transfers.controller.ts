@@ -3,6 +3,7 @@ import { BonTransfersService } from './bon-transfers.service';
 import { CreateBonTransferDto } from './dto/create-stock.dto';
 import { UpdateBonTransferDto } from './dto/update-stock.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Payload } from '@nestjs/microservices';
 
 @Controller('bon-transfers')
 @ApiTags('bonTransfers')
@@ -10,7 +11,7 @@ export class BonTransfersController {
   constructor(private readonly bonTransfersService: BonTransfersService) {}
 
   @Post('createBT')
-  create(@Body() createBonTransferDto: CreateBonTransferDto) {
+  create(@Payload() createBonTransferDto: CreateBonTransferDto) {
     return this.bonTransfersService.create(createBonTransferDto);
   }
 
@@ -20,17 +21,17 @@ export class BonTransfersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Payload() id: number) {
     return this.bonTransfersService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBonTransferDto: UpdateBonTransferDto) {
-    return this.bonTransfersService.update(+id, updateBonTransferDto);
+  update(@Payload() data :{id: number, updateBonTransferDto: UpdateBonTransferDto}) {
+    return this.bonTransfersService.update(data.id, data.updateBonTransferDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Payload() id: number) {
     return this.bonTransfersService.remove(+id);
   }
 }
