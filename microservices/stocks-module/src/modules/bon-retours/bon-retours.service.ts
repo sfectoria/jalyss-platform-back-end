@@ -5,27 +5,59 @@ import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class BonRetoursService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
   async create(createBonRetourDto: CreateBonRetourDto) {
-    return await this.prisma.bonRetour.create({ data: createBonRetourDto });
+    const { lines, ...rest } = createBonRetourDto
+    return await this.prisma.bon_retour.create({
+      data:
+      {
+        ...rest,
+        ArticleRetour:
+        {
+          createMany: { data: lines }
+        }
+      }
+    });
   }
 
   async findAll() {
-    return await this.prisma.bonRetour.findMany();
+    return await this.prisma.bon_retour.findMany();
   }
 
   async findOne(id: number) {
-    return await this.prisma.bonRetour.findUnique({ where: { id } });
+    return await this.prisma.bon_retour.findUnique({ 
+      where: { id },
+      include: {ArticleRetour: { include: { article: true } }}
+       });
   }
 
   async update(id: number, updateBonRetourDto: UpdateBonRetourDto) {
-    return await this.prisma.bonRetour.update({
+    const { lines, ...rest } = updateBonRetourDto
+    return await this.prisma.bon_retour.update({
       where: { id },
-      data: updateBonRetourDto,
+      data:
+      {
+        ...rest,
+        ArticleRetour:
+        {
+          updateMany: lines.map(line => ({
+            where: {
+              id_article: line.id_article,  
+              bonRetourId: id,  
+            },
+            data: {
+              qunatity: line.qunatity,  
+            },
+        }))
+      },
+    }
     });
   }
 
   async remove(id: number) {
-    return await this.prisma.bonRetour.delete({ where: { id } });
+    return await this.prisma.bon_retour.delete({ 
+      where: { id },
+      include: { ArticleRetour: { include: { article: true } } }
+     });
   }
 }

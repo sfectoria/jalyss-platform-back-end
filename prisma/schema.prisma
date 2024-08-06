@@ -114,13 +114,14 @@ model BonReception {
   BonTransfer       BonTransfer[]
   AchatBLFacture    AchatBLFacture[]
   AchatFacture      AchatFacture[]
-  BonReception_Line BonReception_Line[]
+  bonReception_Line BonReception_Line[]
 }
 
 model BonReception_Line {
   id               Int           @id @default(autoincrement())
   id_bon_reception Int
   id_article       Int
+  quantity         Int
   bon_reception    BonReception? @relation(fields: [id_bon_reception], references: [id])
   article          Article?      @relation(fields: [id_article], references: [id])
 }
@@ -175,7 +176,7 @@ model AchatFacture_Line {
 
 model venteFacture {
   id              Int      @id @default(autoincrement())
-  id_client       Int
+  id_client       Int?
   id_bon_commande Int
   bonSortieId     Int
   date            DateTime
@@ -261,21 +262,18 @@ model BonCommandeLine {
 }
 
 model Bon_retour {
-  id             Int              @id @default(autoincrement())
-  id_client      Int
-  return_date    DateTime
-  client         Client?          @relation(fields: [id_client], references: [id])
-  BonReception   BonReception[]
-  ArticleRetour  ArticleRetour[]
-  BonRetour_Line BonRetour_Line[]
+  id            Int             @id @default(autoincrement())
+  id_client     Int
+  return_date   DateTime
+  client        Client?         @relation(fields: [id_client], references: [id])
+  BonReception  BonReception[]
+  ArticleRetour ArticleRetour[]
 }
 
 model BonRetour_Line {
-  id           Int         @id @default(autoincrement())
-  Bon_retour   Bon_retour? @relation(fields: [bon_retourId], references: [id])
-  bon_retourId Int
-  Article      Article?    @relation(fields: [articleId], references: [id])
-  articleId    Int
+  id        Int      @id @default(autoincrement())
+  Article   Article? @relation(fields: [articleId], references: [id])
+  articleId Int
 }
 
 model Devis {
@@ -316,9 +314,9 @@ model BonTransfer {
 model BonTransfer_Line {
   id            Int          @id @default(autoincrement())
   id_article    Int
+  bonTransferId Int
   article       Article?     @relation(fields: [id_article], references: [id])
   BonTransfer   BonTransfer? @relation(fields: [bonTransferId], references: [id])
-  bonTransferId Int
 }
 
 model Stock {
@@ -329,18 +327,23 @@ model Stock {
   bon_transfer_to   BonTransfer[]    @relation("StockTo")
   sales_channels    sales_channels[]
   BonReception      BonReception[]
+  bonSortie         BonSortie[]
 }
 
 model BonSortie {
   id Int @id @default(autoincrement())
 
-  sortie_date       DateTime
+  num_bonSortie Int
+  sortie_date   DateTime
+  stockId           Int
+
   bon_commande      BonCommande[]
   venteFacture      venteFacture[]
   BonTransfer       BonTransfer[]
   VenteBLFacture    VenteBLFacture[]
   VenteBonLivraison VenteBonLivraison[]
   BonSortie_line    BonSortie_line[]
+  Stock             Stock              @relation(fields: [stockId], references: [id])
 }
 
 model BonSortie_line {

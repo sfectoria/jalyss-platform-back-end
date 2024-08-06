@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SalesblfsService } from './salesblfs.service';
 import { CreateSalesblfDto } from './dto/create-selling.dto';
 import { UpdateSalesblfDto } from './dto/update-selling.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('salesblfs')
+@ApiTags('salesblfs')
 export class SalesblfsController {
   constructor(private readonly salesblfsService: SalesblfsService) {}
 
