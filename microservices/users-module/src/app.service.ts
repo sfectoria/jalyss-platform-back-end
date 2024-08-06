@@ -8,10 +8,10 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
-  regiterUser(data: UserEntity) {
-    return { message: 'done', data };
-  }
-  getUsers() {
-    return { message: 'done' };
-  }
+  // regiterUser(data: UserEntity) {
+  //   return { message: 'done', data };
+  // }
+  // getUsers() {
+  //   return { message: 'done' };
+  // }
 }
