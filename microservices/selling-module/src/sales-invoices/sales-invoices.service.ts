@@ -37,20 +37,19 @@ export class SalesInvoicesService {
         },
       });
 
-      // Ensure bonSortie is created if not exists
-      for (const line of createSalesInvoiceDto.venteFacture_lines) {
-        await prisma.bonSortie.update({
-          where: { id: bonSortieId },
-          data: {
-            BonSortie_line: {
-              connectOrCreate: {
-                where: { articleId: line.articleId },
-                create: { articleId: line.articleId },
-              },
-            },
-          },
-        });
-      }
+      // for (const line of createSalesInvoiceDto.venteFacture_lines) {
+      //   await prisma.bonSortie.update({
+      //     where: { id: bonSortieId },
+      //     data: {
+      //       BonSortie_line: {
+      //         connectOrCreate: {
+      //           where: { articleId: line.articleId },
+      //           create: { articleId: line.articleId },
+      //         },
+      //       },
+      //     },
+      //   });
+      // }
 
       return venteFacture;
     });
