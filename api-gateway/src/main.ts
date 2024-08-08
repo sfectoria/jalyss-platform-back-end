@@ -16,7 +16,7 @@ async function bootstrap() {
       'apiKey',
     )
     .addTag('JALYSS')
-    
+
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);

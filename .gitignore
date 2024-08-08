@@ -33,6 +33,7 @@ package-lock.json
 *.sublime-workspace
 
 # IDE - VSCode
+.turbo
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
