@@ -1,10 +1,10 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateStockDto {
-    @ApiProperty()
-    location: string;
-    @ApiProperty()
-    capacity: number;
+  @ApiProperty()
+  location: string;
+  @ApiProperty()
+  capacity: number;
 }
 
 class BonReception_Line {
@@ -69,4 +69,3 @@ export class CreateBonRetourDto {
     @ApiProperty({ type: [ArticleRetour] })
     lines: ArticleRetour[];
 }
-
