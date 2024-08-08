@@ -138,6 +138,7 @@ model AchatBonLivraison_Line {
   id               Int                @id @default(autoincrement())
   id_bon_livraison Int
   id_article       Int
+  qte              Int
   bon_livraison    AchatBonLivraison? @relation(fields: [id_bon_livraison], references: [id])
   article          Article?           @relation(fields: [id_article], references: [id])
 }
@@ -146,6 +147,7 @@ model AchatBLFacture {
   id                  Int                   @id @default(autoincrement())
   id_bon_reception    Int
   delivery_date       DateTime
+  qte                 Int
   bon_reception       BonReception?         @relation(fields: [id_bon_reception], references: [id])
   AchatBLFacture_Line AchatBLFacture_Line[]
 }
@@ -170,6 +172,7 @@ model AchatFacture_Line {
   id               Int           @id @default(autoincrement())
   id_achat_facture Int
   id_article       Int
+  qte              Int
   achat_facture    AchatFacture? @relation(fields: [id_achat_facture], references: [id])
   article          Article?      @relation(fields: [id_article], references: [id])
 }
@@ -335,7 +338,7 @@ model BonSortie {
 
   num_bonSortie Int
   sortie_date   DateTime
-  stockId           Int
+  stockId       Int
 
   bon_commande      BonCommande[]
   venteFacture      venteFacture[]
@@ -343,7 +346,7 @@ model BonSortie {
   VenteBLFacture    VenteBLFacture[]
   VenteBonLivraison VenteBonLivraison[]
   BonSortie_line    BonSortie_line[]
-  Stock             Stock              @relation(fields: [stockId], references: [id])
+  Stock             Stock               @relation(fields: [stockId], references: [id])
 }
 
 model BonSortie_line {
