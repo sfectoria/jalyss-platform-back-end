@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
-  }
+  url      = env("DATABASE_URL")
+}
 
 model User {
   id       Int    @id @default(autoincrement())
@@ -75,8 +75,6 @@ model Article {
   AchatBLFacture_Line    AchatBLFacture_Line[]
   AchatFacture_Line      AchatFacture_Line[]
   DevisLine              DevisLine[]
-  // venteFacture_line      venteFacture_line[]
-  BonRetour_Line         BonRetour_Line[]
   // VenteFacture_Line      VenteFacture_Line[]
   venteFacture_line      venteFacture_line[]
   VenteBonLivraison_Line VenteBonLivraison_Line[]
@@ -269,21 +267,16 @@ model Bon_retour {
   ArticleRetour ArticleRetour[]
 }
 
-model BonRetour_Line {
-  id        Int      @id @default(autoincrement())
-  Article   Article? @relation(fields: [articleId], references: [id])
-  articleId Int
-}
 
 model Devis {
-  id                  Int                @id @default(autoincrement())
-  id_facture          Int
-  id_client           Int
-  total_amount        Float
-  creation_date       DateTime
-  date                DateTime
-  client              Client?            @relation(fields: [id_client], references: [id])
-  DevisLine           DevisLine[]
+  id            Int         @id @default(autoincrement())
+  id_facture    Int
+  id_client     Int
+  total_amount  Float
+  creation_date DateTime
+  date          DateTime
+  client        Client?     @relation(fields: [id_client], references: [id])
+  DevisLine     DevisLine[]
 }
 
 model DevisLine {
@@ -332,7 +325,7 @@ model BonSortie {
 
   num_bonSortie Int
   sortie_date   DateTime
-  stockId           Int
+  stockId       Int
 
   bon_commande      BonCommande[]
   venteFacture      venteFacture[]
@@ -340,7 +333,7 @@ model BonSortie {
   VenteBLFacture    VenteBLFacture[]
   VenteBonLivraison VenteBonLivraison[]
   BonSortie_line    BonSortie_line[]
-  Stock             Stock              @relation(fields: [stockId], references: [id])
+  Stock             Stock               @relation(fields: [stockId], references: [id])
 }
 
 model BonSortie_line {

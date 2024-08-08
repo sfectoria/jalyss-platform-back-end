@@ -8,7 +8,7 @@ export class SalesInvoicesService {
   constructor(private readonly prisma : PrismaService) {}
   async create(createSalesInvoiceDto: CreateSalesInvoiceDto) {
     return await this.prisma.$transaction(async (prisma) => {
-      this.prisma.bonSortie_line.findMany({ where: { articleId : createSalesInvoiceDto.venteFacture_lines[0].articleId } });
+      let bonSortie = await prisma.bonSortie_line.findMany({ where: { articleId : createSalesInvoiceDto.venteFacture_lines[0].articleId } });
       
       // const venteFacture = await prisma.venteFacture.create({
       //   data: {

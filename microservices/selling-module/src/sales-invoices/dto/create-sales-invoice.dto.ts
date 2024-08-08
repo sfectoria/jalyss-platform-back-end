@@ -3,7 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 class venteFacture_line {
     @ApiProperty()
-    articleId: number;
+    articleId: number
 }
 
 export class CreateSalesInvoiceDto {
@@ -11,8 +11,6 @@ export class CreateSalesInvoiceDto {
     id_bon_commande: number
     @ApiProperty()
     bonSortieId: number
-    @ApiProperty()
-    stockId: number
     @ApiProperty()
     date : string
     @ApiProperty({type: [venteFacture_line]})
