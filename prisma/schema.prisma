@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@localhost:5432/jalyss_db?schema=public"
-}
+  url = env("DATABASE_URL")
+  }
 
 model User {
   id       Int    @id @default(autoincrement())
@@ -192,7 +192,6 @@ model venteFacture {
 
 model venteFacture_line {
   id             Int           @id @default(autoincrement())
-  Devis          Devis[]
   Article        Article?      @relation(fields: [articleId], references: [id])
   articleId      Int
   venteFacture   venteFacture? @relation(fields: [venteFactureId], references: [id])
@@ -288,8 +287,6 @@ model Devis {
   date                DateTime
   client              Client?            @relation(fields: [id_client], references: [id])
   DevisLine           DevisLine[]
-  venteFacture_line   venteFacture_line? @relation(fields: [venteFacture_lineId], references: [id])
-  venteFacture_lineId Int
 }
 
 model DevisLine {
