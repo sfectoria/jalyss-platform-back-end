@@ -7,8 +7,17 @@ import { PrismaService } from 'nestjs-prisma';
 export class BonTransfersService {
   constructor(private readonly prisma: PrismaService) {}
   async create(createBonTransferDto: CreateBonTransferDto) {
-    return await this.prisma.bonTransfer.create({ data: createBonTransferDto }); 
-  }
+    const { lines, ...rest } = createBonTransferDto
+    return await this.prisma.bonTransfer.create({
+      data:
+      {
+        ...rest,
+        BonTransfer_Line:
+        {
+          createMany: { data: lines }
+        }
+      }
+    });  }
 
   async findAll() {
     return await this.prisma.bonTransfer.findMany(); 

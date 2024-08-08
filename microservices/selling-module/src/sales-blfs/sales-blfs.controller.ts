@@ -8,27 +8,27 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 export class SalesBlfsController {
   constructor(private readonly salesBlfsService: SalesBlfsService) {}
 
-  @MessagePattern('create_salesblf')
+  @MessagePattern({cmd : 'create_salesblf'})
   async create(@Payload() createSalesBlfDto: CreateSalesBlfDto) {
     return await this.salesBlfsService.create(createSalesBlfDto);
   }
 
-  @MessagePattern('all_salesblfs')
+  @MessagePattern({cmd :'all_salesblfs'})
   async findAll() {
     return await this.salesBlfsService.findAll();
   }
 
-  @MessagePattern('getOne_salesblf')
+  @MessagePattern({cmd :'getOne_salesblf'})
   async findOne(@Payload() data :{id : number}) {
     return await this.salesBlfsService.findOne(data.id);
   }
 
-  @MessagePattern('update_salesblf')
+  @MessagePattern({cmd : 'update_salesblf'})
   async update(@Payload() data :{ id: number, updateSalesBlfDto: UpdateSalesBlfDto}) {
     return await this.salesBlfsService.update(data.id, data.updateSalesBlfDto);
   }
 
-  @MessagePattern('delete_salesblf')
+  @MessagePattern({cmd :'delete_salesblf'})
   async remove(@Payload() data : { id: number}) {
     return await this.salesBlfsService.remove(data.id);
   }

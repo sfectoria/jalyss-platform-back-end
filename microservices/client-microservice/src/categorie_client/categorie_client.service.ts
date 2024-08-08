@@ -12,27 +12,27 @@ export class CategorieClientsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createCategorieClientDto: CreateCategorieClientDto) {
-    return await this.prisma.categorieClient.create({
-      data: createCategorieClientDto,
+    return await this.prisma.category_Client.create({
+      data:createCategorieClientDto,
     });
   }
 
   async findAll() {
-    return await this.prisma.categorieClient.findMany();
+    return await this.prisma.category_Client.findMany();
   }
 
   async findOne(id: number) {
-    return await this.prisma.categorieClient.findUnique({ where: { id } });
+    return await this.prisma.category_Client.findUnique({ where: { id } });
   }
 
   async update(id: number, updateCategorieClientDto: UpdateCategorieClientDto) {
-    return await this.prisma.categorieClient.update({
+    return await this.prisma.category_Client.update({
       where: { id },
       data: updateCategorieClientDto,
     });
   }
 
   async remove(id: number) {
-    return await this.prisma.categorieClient.delete({ where: { id } });
+    return await this.prisma.category_Client.delete({ where: { id } });
   }
 }

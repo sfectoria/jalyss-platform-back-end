@@ -2,14 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { BonRetoursService } from './bon-retours.service';
 import { CreateBonRetourDto } from './dto/create-bon-retour.dto';
 import { UpdateBonRetourDto } from './dto/update-bon-retour.dto';
-import { MessagePattern } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('bon-retours')
 export class BonRetoursController {
   constructor(private readonly bonRetoursService: BonRetoursService) {}
 
   @MessagePattern({ cmd:'create_bon_retour'})
-  async create(@Body() createBonRetourDto: CreateBonRetourDto) {
+  async create(@Payload() createBonRetourDto: CreateBonRetourDto) {
     return await this.bonRetoursService.create(createBonRetourDto);
   }
 
@@ -19,17 +19,17 @@ export class BonRetoursController {
   }
 
   @MessagePattern({ cmd:'get_one_bon_retour'})
-  async findOne(@Param('id') id: string) {
+  async findOne(@Payload() id: number) {
     return await this.bonRetoursService.findOne(+id);
   }
 
   @MessagePattern({ cmd:'update_bon_retour'})
-  async update(@Param('id') id: string, @Body() updateBonRetourDto: UpdateBonRetourDto) {
-    return await this.bonRetoursService.update(+id, updateBonRetourDto);
+  async update(@Payload() data: {id: number, updateBonRetourDto: UpdateBonRetourDto}) {
+    return await this.bonRetoursService.update(data.id, data.updateBonRetourDto);
   }
 
   @MessagePattern({ cmd:'delete_bon_retour'})
-  async remove(@Param('id') id: string) {
+  async remove(@Payload() id: number) {
     return await this.bonRetoursService.remove(+id);
   }
 }

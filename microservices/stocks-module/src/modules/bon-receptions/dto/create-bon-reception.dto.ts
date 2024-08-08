@@ -1,18 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { type_reception } from '@prisma/client';
 
-class BRLine {
+class BonReception_Line {
   @ApiProperty()
   id_article: number;
   @ApiProperty()
-  qunatity: number;
+  id_bon_reception: number;
+  @ApiProperty()
+  quantity: number;
 }
 export class CreateBonReceptionDto {
   @ApiProperty()
-  typeReception: string;
+  type_reception: type_reception;
   @ApiProperty()
-  dateReception: Date;
+  reception_date: Date;
   @ApiProperty()
-  id_stock: number;
-  @ApiProperty({ type: [BRLine] })
-  lines: BRLine[];
+  id_stock : number;
+  @ApiProperty({ type: [BonReception_Line] })
+  lines: BonReception_Line[];
 }

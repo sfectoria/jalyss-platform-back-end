@@ -7,8 +7,55 @@ import { PrismaService } from 'nestjs-prisma';
 export class SalesInvoicesService {
   constructor(private readonly prisma : PrismaService) {}
   async create(createSalesInvoiceDto: CreateSalesInvoiceDto) {
-    return await this.prisma.venteFacture.create({data : createSalesInvoiceDto});
+    return await this.prisma.$transaction(async (prisma) => {
+      this.prisma.bonSortie_line.findMany({ where: { articleId : createSalesInvoiceDto.venteFacture_lines[0].articleId } });
+      
+      // const venteFacture = await prisma.venteFacture.create({
+      //   data: {
+      //     id_bon_commande: createSalesInvoiceDto.id_bon_commande,
+      //     date: createSalesInvoiceDto.date,
+      //     BonSortie: {
+      //       connectOrCreate: {
+      //         where: { id: bonSortieId },
+      //         create: {
+      //           sortie_date: new Date(createSalesInvoiceDto.date),
+      //           num_bonSortie: ,
+      //           stockId: createSalesInvoiceDto.stockId,
+      //           BonSortie_line: {
+      //             create: createSalesInvoiceDto.venteFacture_lines.map(line => ({
+      //               articleId: line.articleId,
+      //             })),
+      //           },
+      //         },
+      //       },
+      //     },
+      //     venteFacture_line: {
+      //       create: createSalesInvoiceDto.venteFacture_lines.map(line => ({
+      //         id_article: line.articleId,
+      //       })),
+      //     },
+      //   },
+      // });
+
+      // for (const line of createSalesInvoiceDto.venteFacture_lines) {
+      //   await prisma.bonSortie.update({
+      //     where: { id: bonSortieId },
+      //     data: {
+      //       BonSortie_line: {
+      //         connectOrCreate: {
+      //           where: { articleId: line.articleId },
+      //           create: { articleId: line.articleId },
+      //         },
+      //       },
+      //     },
+      //   });
+      // }
+
+    });
   }
+
+
+
 
   async findAll() {
     return await this.prisma.venteFacture.findMany();

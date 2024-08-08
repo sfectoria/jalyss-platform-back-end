@@ -3,6 +3,7 @@ import { BonReceptionsService } from './bon-receptions.service';
 import { CreateBonReceptionDto } from '../stocks/dto/create-stock.dto';
 import { UpdateBonReceptionDto } from '../stocks/dto/update-stock.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Payload } from '@nestjs/microservices';
 
 @Controller('bonReceptions')
 @ApiTags('bonReceptions')
@@ -10,7 +11,7 @@ export class BonReceptionsController {
   constructor(private readonly bonReceptionsService: BonReceptionsService) {}
 
   @Post('create_brt')
-  create(@Body() createBonReceptionDto: CreateBonReceptionDto) {
+  create(@Payload() createBonReceptionDto: CreateBonReceptionDto) {
     return this.bonReceptionsService.create(createBonReceptionDto);
   }
 
@@ -20,17 +21,17 @@ export class BonReceptionsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Payload() id: number) {
     return this.bonReceptionsService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBonReceptionDto: UpdateBonReceptionDto) {
-    return this.bonReceptionsService.update(+id, updateBonReceptionDto);
+  update(@Payload() data : {id: number,  updateBonReceptionDto: UpdateBonReceptionDto}) {
+    return this.bonReceptionsService.update(data.id, data.updateBonReceptionDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Payload() id: number) {
     return this.bonReceptionsService.remove(+id);
   }
 }

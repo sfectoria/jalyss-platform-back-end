@@ -19,17 +19,17 @@ export class BonReceptionsController {
   }
 
   @MessagePattern({ cmd : 'getOne_bonReception' })
-  async findOne(@Param('id') id: string) {
+  async findOne(@Payload() id: number) {
     return await this.bonReceptionsService.findOne(+id);
   }
 
   @MessagePattern({ cmd : 'update_bonReception' })
-  async update(@Param('id') id: string, @Body() updateBonReceptionDto: UpdateBonReceptionDto) {
-    return await this.bonReceptionsService.update(+id, updateBonReceptionDto);
+  async update(@Payload()  data :{id: number, updateBonReceptionDto: UpdateBonReceptionDto}) {
+    return await this.bonReceptionsService.update(data.id, data.updateBonReceptionDto);
   }
 
   @MessagePattern({ cmd : 'delete_bonReception' })
-  async remove(@Param('id') id: string) {
+  async remove(@Payload() id: number) {
     return await this.bonReceptionsService.remove(+id);
   }
 }
