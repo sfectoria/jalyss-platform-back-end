@@ -5,11 +5,14 @@ class venteFacture_line {
     @ApiProperty()
     articleId: number;
 }
+
 export class CreateSalesInvoiceDto {
     @ApiProperty()
     id_bon_commande: number
     @ApiProperty()
     bonSortieId: number
+    @ApiProperty()
+    stockId: number
     @ApiProperty()
     date : string
     @ApiProperty({type: [venteFacture_line]})
