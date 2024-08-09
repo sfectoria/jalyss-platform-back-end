@@ -13,7 +13,7 @@ import { BonComndsModule } from './bon-comnds/bon-comnds.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: '../../.env',
     }),
     PrismaModule.forRoot({ isGlobal: true }),SalesChannelsModule, SalesInvoicesModule, SalesBlsModule, SalesBlfsModule, BonComndsModule],
   controllers: [AppController],

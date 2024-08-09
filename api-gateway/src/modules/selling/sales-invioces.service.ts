@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateSalesInvioceDto } from './dto/create-selling.dto';
+import { CreateSalesInvoiceDto } from './dto/create-selling.dto';
 import { UpdateSalesInvioceDto } from './dto/update-selling.dto';
 import { ClientProxy } from '@nestjs/microservices';
 
@@ -8,10 +8,10 @@ export class SalesInviocesService {
   constructor(
     @Inject ('SELLING_MICROSERVICE') private readonly sellingClient: ClientProxy
   ) {}
-  create(createSalesInvioceDto: CreateSalesInvioceDto) {
+  create(CreateSalesInvoiceDto: CreateSalesInvoiceDto) {
     return this.sellingClient.send(
       {cmd : 'create_salesInvioce'},
-      createSalesInvioceDto
+      CreateSalesInvoiceDto
     )
   }
 
@@ -24,21 +24,21 @@ export class SalesInviocesService {
 
   findOne(id: number) {
     return this.sellingClient.send(
-      {cmd : 'getOne_salesInvioce'},
+      {cmd : 'getOne_salesInvoice'},
       {id}
     )
   }
 
   update(id: number, updateSalesInvioceDto: UpdateSalesInvioceDto) {
     return this.sellingClient.send(
-      {cmd : 'update_salesInvioce'},
+      {cmd : 'update_salesInvoice'},
       {id, updateSalesInvioceDto}
     )
   }
 
   remove(id: number) {
     return this.sellingClient.send(
-      {cmd : 'delete_salesInvioce'},
+      {cmd : 'delete_salesInvoice'},
       {id}
     )
   }
