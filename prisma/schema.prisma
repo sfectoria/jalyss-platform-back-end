@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
-  }
+  url      = env("DATABASE_URL")
+}
 
 model User {
   id       Int    @id @default(autoincrement())
@@ -57,6 +57,7 @@ model sales_channels {
   BonCommande       BonCommande[]
   VenteBLFacture    VenteBLFacture[]
   VenteBonLivraison VenteBonLivraison[]
+  venteFacture      venteFacture[]
 }
 
 model Article {
@@ -175,15 +176,16 @@ model AchatFacture_Line {
 }
 
 model venteFacture {
-  id              Int      @id @default(autoincrement())
-  id_client       Int?
-  id_bon_commande Int
-  bonSortieId     Int
-  date            DateTime
-
-  client            Client?             @relation(fields: [id_client], references: [id])
+  id                Int                 @id @default(autoincrement())
+  date              DateTime
+  id_client         Int
+  client            Client              @relation(fields: [id_client], references: [id])
+  id_bon_commande   Int?
   bon_commande      BonCommande?        @relation(fields: [id_bon_commande], references: [id])
-  bon_sortie        BonSortie?          @relation(fields: [bonSortieId], references: [id])
+  saleChannelId     Int
+  SaleChannel       sales_channels      @relation(fields: [saleChannelId], references: [id])
+  bonSortieId       Int
+  bon_sortie        BonSortie           @relation(fields: [bonSortieId], references: [id])
   venteFacture_line venteFacture_line[]
 }
 
@@ -276,14 +278,14 @@ model BonRetour_Line {
 }
 
 model Devis {
-  id                  Int                @id @default(autoincrement())
-  id_facture          Int
-  id_client           Int
-  total_amount        Float
-  creation_date       DateTime
-  date                DateTime
-  client              Client?            @relation(fields: [id_client], references: [id])
-  DevisLine           DevisLine[]
+  id            Int         @id @default(autoincrement())
+  id_facture    Int
+  id_client     Int
+  total_amount  Float
+  creation_date DateTime
+  date          DateTime
+  client        Client?     @relation(fields: [id_client], references: [id])
+  DevisLine     DevisLine[]
 }
 
 model DevisLine {
@@ -332,7 +334,7 @@ model BonSortie {
 
   num_bonSortie Int
   sortie_date   DateTime
-  stockId           Int
+  stockId       Int
 
   bon_commande      BonCommande[]
   venteFacture      venteFacture[]
@@ -340,7 +342,7 @@ model BonSortie {
   VenteBLFacture    VenteBLFacture[]
   VenteBonLivraison VenteBonLivraison[]
   BonSortie_line    BonSortie_line[]
-  Stock             Stock              @relation(fields: [stockId], references: [id])
+  Stock             Stock               @relation(fields: [stockId], references: [id])
 }
 
 model BonSortie_line {
