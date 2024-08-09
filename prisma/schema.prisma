@@ -325,7 +325,7 @@ model BonSortie {
 
   num_bonSortie Int
   sortie_date   DateTime
-  stockId       Int
+  stockId       Int?
 
   bon_commande      BonCommande[]
   venteFacture      venteFacture[]
@@ -333,7 +333,7 @@ model BonSortie {
   VenteBLFacture    VenteBLFacture[]
   VenteBonLivraison VenteBonLivraison[]
   BonSortie_line    BonSortie_line[]
-  Stock             Stock               @relation(fields: [stockId], references: [id])
+  Stock             Stock?               @relation(fields: [stockId], references: [id])
 }
 
 model BonSortie_line {
