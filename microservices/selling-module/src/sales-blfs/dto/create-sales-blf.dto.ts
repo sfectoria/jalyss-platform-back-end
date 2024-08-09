@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-class VenteBLFacture {
+class VenteBLFacture_Line {
   @ApiProperty()
   articleId: number;
 }
@@ -15,7 +15,7 @@ export class CreateSalesBlfDto {
   @ApiProperty()
   sales_channelsId: number;
   @ApiProperty()
-  delivery_date: string;
-  @ApiProperty({ type: [VenteBLFacture] })
-  venteBLFacture_lines: VenteBLFacture[];
+  deliveryDate: string;
+  @ApiProperty({ type: [VenteBLFacture_Line] })
+  venteBLFacture_lines: VenteBLFacture_Line[];
 }

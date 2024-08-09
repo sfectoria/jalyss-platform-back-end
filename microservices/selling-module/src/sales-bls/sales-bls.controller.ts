@@ -29,7 +29,7 @@ export class SalesBlsController {
   }
 
   @MessagePattern({ cmd: 'delete_salesbl' })
-  async remove(@Payload() id: string) {
+  async remove(@Payload() id: number) {
     return await this.salesBlsService.remove(+id);
   }
 }

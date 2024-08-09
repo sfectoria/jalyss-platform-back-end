@@ -224,15 +224,15 @@ model VenteBLFacture {
   id               Int      @id @default(autoincrement())
   clientId         Int
   bonSortieId      Int
-  delivery_date    DateTime
+  deliveryDate    DateTime
   bonCommandeId    Int?
   sales_channelsId Int
 
   Client              Client                @relation(fields: [clientId], references: [id])
   BonSortie           BonSortie?            @relation(fields: [bonSortieId], references: [id])
+  BonCommande         BonCommande?          @relation(fields: [bonCommandeId], references: [id])
   sales_channels      sales_channels?       @relation(fields: [sales_channelsId], references: [id])
   VenteBLFacture_Line VenteBLFacture_Line[]
-  BonCommande         BonCommande?          @relation(fields: [bonCommandeId], references: [id])
 }
 
 model VenteBLFacture_Line {

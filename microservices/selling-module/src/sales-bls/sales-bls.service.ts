@@ -5,11 +5,12 @@ import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class SalesBlsService {
-  constructor(private readonly prisma : PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
   async create(createSalesBlDto: CreateSalesBlDto) {
     return await this.prisma.$transaction(async (prisma) => {
-      const { bonSortieId, id_bon_commande, venteBonLivraison_lines, ...rest } =
-      createSalesBlDto;
+      let { bonSortieId, id_bon_commande, venteBonLivraison_lines, ...rest } =
+        createSalesBlDto;
+
       if (!bonSortieId) {
         // kif nji nasna3 bon de sorti lazemni naaref stockId 3lech
         // 3la khater kif nasnaa bon sorti lazem aandha num te3ha
@@ -41,33 +42,34 @@ export class SalesBlsService {
             },
           },
         });
-
-        await prisma.venteFacture.create({
-          data: {
-            ...rest,
-            date: new Date(rest.delivery_date).toISOString(),
-            venteFacture_line: {
-              createMany: { data: createSalesBlDto.venteBonLivraison_lines },
-            },
-            bonSortieId: newExitNote.id,
-          },
-        });
+        bonSortieId = newExitNote.id;
       }
-    });  }
+      return await prisma.venteBonLivraison.create({
+        data: {
+          ...rest,
+          delivery_date: new Date(rest.delivery_date).toISOString(),
+          VenteBonLivraison_Line: {
+            createMany: { data: createSalesBlDto.venteBonLivraison_lines },
+          },
+          bonSortieId,
+        },
+      });
+    });
+  }
 
   async findAll() {
     return await this.prisma.venteBonLivraison.findMany();
   }
 
-   async findOne(id: number) {
-    return await this.prisma.venteBonLivraison.findUnique({where: {id}});
+  async findOne(id: number) {
+    return await this.prisma.venteBonLivraison.findUnique({ where: { id } });
   }
 
   async update(id: number, updateSalesBlDto: UpdateSalesBlDto) {
-    return await this.prisma.venteBonLivraison.update({where: {id}, data: updateSalesBlDto});
+    return await this.prisma.venteBonLivraison.update({ where: { id }, data: updateSalesBlDto });
   }
 
   async remove(id: number) {
-    return await this.prisma.venteBonLivraison.delete({where: {id}});
+    return await this.prisma.venteBonLivraison.delete({ where: { id } });
   }
 }
