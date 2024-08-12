@@ -1,4 +1,5 @@
-const { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from '@prisma/client';
+
 const prisma = new PrismaClient();
 
 async function main() {
@@ -6,8 +7,24 @@ async function main() {
   const user1 = await prisma.user.create({
     data: {
       email: 'user1@example.com',
-      password: 'password123'
-    }
+      password: 'password123',
+    },
+  });
+  const article = await prisma.article.create({
+    data: {
+      category_article: { create: { name: 'khalil' } },
+      publishing_houses: {
+        create: {
+          email: 'khalil',
+          address: 'khalil',
+          name: 'kahlil',
+          phone_number: 'dskdsk',
+        },
+      },
+      price: 500,
+      title: 'khalil',
+      quantity: 900,
+    },
   });
 
   // Create Employees
@@ -18,15 +35,15 @@ async function main() {
       email: 'johndoe@example.com',
       phone_number: '123-456-7890',
       address: '123 Main St',
-      position: 'Manager'
-    }
+      position: 'Manager',
+    },
   });
 
   // Create Category Clients
   const categoryClient1 = await prisma.category_Client.create({
     data: {
-      name: 'Regular'
-    }
+      name: 'Regular',
+    },
   });
 
   // Create Clients
@@ -37,20 +54,26 @@ async function main() {
       address: '456 Elm St',
       email: 'janesmith@example.com',
       registration_date: new Date(),
-      id_categorie_client: categoryClient1.id
-    }
+      id_categorie_client: categoryClient1.id,
+    },
   });
 
+  // Create Stock
+  const stock1 = await prisma.stock.create({
+    data: {
+      location: 'Warehouse 1',
+      capacity: 500,
+    },
+  });
   // Create Sales Channels
   const salesChannel1 = await prisma.sales_channels.create({
     data: {
       nom: 'Online Store',
       type: 'Online',
       region: 'North America',
-    }
+      id_stock: stock1.id,
+    },
   });
-
-  
 
   // Create Publishing Houses
   const publishingHouse1 = await prisma.publishingHouses.create({
@@ -58,22 +81,15 @@ async function main() {
       name: 'ABC Publishing',
       address: '789 Maple St',
       phone_number: '555-123-4567',
-      email: 'contact@abcpublishing.com'
-    }
+      email: 'contact@abcpublishing.com',
+    },
   });
 
-  // Create Stock
-  const stock1 = await prisma.stock.create({
-    data: {
-      location: 'Warehouse 1',
-      capacity: 500
-    }
-  });
   console.log('Seed data created successfully.');
 }
 
 main()
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     process.exit(1);
   })
