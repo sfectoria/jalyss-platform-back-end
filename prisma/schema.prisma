@@ -88,7 +88,7 @@ model Article {
   VenteBLFacture_Line    VenteBLFacture_Line[]
   BonTransfer_Line       BonTransfer_Line[]
   BonSortie_line         BonSortie_line[]
-  PublishingHouse        PublishingHouse       @relation(fields: [publishingHouseId], references: [id])
+  PublishingHouse        PublishingHouse          @relation(fields: [publishingHouseId], references: [id])
   publishingHouseId      String
   ArticleByAuthor        ArticleByAuthor[]
   Media                  Media?                   @relation(fields: [mediaId], references: [id])
@@ -117,7 +117,7 @@ model Author {
 
 model ArticleByAuthor {
   article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  articleId String
+  articleId Int
   author    Author  @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  String
 
