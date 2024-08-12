@@ -8,19 +8,23 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
   password String
+  Media    Media?  @relation(fields: [mediaId], references: [id])
+  mediaId  String?
 }
 
 model Employee {
-  id           Int    @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   first_name   String
   last_name    String
   email        String
   phone_number String
   address      String
   position     String
+  Media        Media?  @relation(fields: [mediaId], references: [id])
+  mediaId      String?
 }
 
 model Client {
@@ -38,6 +42,8 @@ model Client {
   Devis               Devis[]
   VenteBLFacture      VenteBLFacture[]
   VenteBonLivraison   VenteBonLivraison[]
+  Media               Media?              @relation(fields: [mediaId], references: [id])
+  mediaId             String?
 }
 
 model Category_Client {
@@ -82,6 +88,40 @@ model Article {
   VenteBLFacture_Line    VenteBLFacture_Line[]
   BonTransfer_Line       BonTransfer_Line[]
   BonSortie_line         BonSortie_line[]
+  PublishingHouse        PublishingHouse       @relation(fields: [publishingHouseId], references: [id])
+  publishingHouseId      String
+  ArticleByAuthor        ArticleByAuthor[]
+  Media                  Media?                   @relation(fields: [mediaId], references: [id])
+  mediaId                String?
+}
+
+model PublishingHouse {
+  id        String    @id @default(uuid())
+  name      String
+  address   String?
+  logoId    String?
+  logo      Media?    @relation(fields: [logoId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  articles  Article[]
+}
+
+model Author {
+  id              String            @id @default(uuid())
+  nameAr          String
+  nameEn          String            @default("NameEn")
+  biographyAr     String?
+  biographyEn     String?
+  ArticleByAuthor ArticleByAuthor[]
+}
+
+model ArticleByAuthor {
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId String
+  author    Author  @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String
+
+  @@unique([authorId, articleId])
 }
 
 model category_Article {
@@ -224,7 +264,7 @@ model VenteBLFacture {
   id               Int      @id @default(autoincrement())
   clientId         Int
   bonSortieId      Int
-  deliveryDate    DateTime
+  deliveryDate     DateTime
   bonCommandeId    Int?
   sales_channelsId Int
 
@@ -375,4 +415,19 @@ model Fournisseur {
 enum type_reception {
   achat
   retour
+}
+
+//media
+model Media {
+  id              String            @id @default(uuid())
+  path            String
+  type            String
+  alt             String?
+  extension       String?
+  description     String?
+  User            User[]
+  Article         Article[]
+  Employee        Employee[]
+  PublishingHouse PublishingHouse[]
+  Client          Client[]
 }
