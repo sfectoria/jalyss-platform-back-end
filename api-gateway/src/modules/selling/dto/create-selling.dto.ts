@@ -7,6 +7,8 @@ export class CreateSellingDto {
     type : string;
     @ApiProperty()
     region : string;
+    @ApiProperty()
+    id_stock : number;
 }
 
 export class CreateBonComndDto {

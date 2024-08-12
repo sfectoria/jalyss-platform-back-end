@@ -3,6 +3,7 @@ import { SellingService } from './selling.service';
 import { CreateSellingDto } from './dto/create-selling.dto';
 import { UpdateSellingDto } from './dto/update-selling.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Payload } from '@nestjs/microservices';
 
 @Controller('selling')
 @ApiTags('selling')
@@ -10,7 +11,7 @@ export class SellingController {
   constructor(private readonly sellingService: SellingService) {}
 
   @Post('create')
-  create(@Body() createSellingDto: CreateSellingDto) {
+  create(@Payload() createSellingDto: CreateSellingDto) {
     return this.sellingService.create(createSellingDto);
   }
 
@@ -20,17 +21,17 @@ export class SellingController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Payload() id: number) {
     return this.sellingService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSellingDto: UpdateSellingDto) {
-    return this.sellingService.update(+id, updateSellingDto);
+  update(@Payload() data : {id: number,updateSellingDto: UpdateSellingDto}) {
+    return this.sellingService.update(data.id, data.updateSellingDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Payload() id: number) {
     return this.sellingService.remove(+id);
   }
 }

@@ -336,12 +336,12 @@ model BonSortie {
   sortie_date   DateTime
   stockId       Int
 
+  BonTransfer       BonTransfer[]
   bon_commande      BonCommande[]
   venteFacture      venteFacture[]
-  BonTransfer       BonTransfer[]
   VenteBLFacture    VenteBLFacture[]
-  VenteBonLivraison VenteBonLivraison[]
   BonSortie_line    BonSortie_line[]
+  VenteBonLivraison VenteBonLivraison[]
   Stock             Stock               @relation(fields: [stockId], references: [id])
 }
 
