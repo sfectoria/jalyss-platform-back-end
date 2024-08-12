@@ -51,13 +51,13 @@ model sales_channels {
   nom      String
   type     String
   region   String
-  id_stock Int?
+  id_stock Int
 
-  stock             Stock?              @relation(fields: [id_stock], references: [id])
+  stock             Stock               @relation(fields: [id_stock], references: [id])
   BonCommande       BonCommande[]
+  venteFacture      venteFacture[]
   VenteBLFacture    VenteBLFacture[]
   VenteBonLivraison VenteBonLivraison[]
-  venteFacture      venteFacture[]
 }
 
 model Article {
@@ -76,8 +76,6 @@ model Article {
   AchatBLFacture_Line    AchatBLFacture_Line[]
   AchatFacture_Line      AchatFacture_Line[]
   DevisLine              DevisLine[]
-  // venteFacture_line      venteFacture_line[]
-  BonRetour_Line         BonRetour_Line[]
   // VenteFacture_Line      VenteFacture_Line[]
   venteFacture_line      venteFacture_line[]
   VenteBonLivraison_Line VenteBonLivraison_Line[]
@@ -198,14 +196,17 @@ model venteFacture_line {
 }
 
 model VenteBonLivraison {
-  id                     Int                      @id @default(autoincrement())
-  delivery_date          DateTime
-  sales_channels         sales_channels?          @relation(fields: [sales_channelsId], references: [id])
-  sales_channelsId       Int
-  BonSortie              BonSortie?               @relation(fields: [bonSortieId], references: [id])
-  bonSortieId            Int
-  Client                 Client?                  @relation(fields: [clientId], references: [id])
-  clientId               Int
+  id              Int      @id @default(autoincrement())
+  id_client       Int
+  bonSortieId     Int
+  delivery_date   DateTime
+  saleChannelId   Int
+  id_bon_commande Int?
+
+  Client                 Client                   @relation(fields: [id_client], references: [id])
+  BonSortie              BonSortie                @relation(fields: [bonSortieId], references: [id])
+  sales_channels         sales_channels           @relation(fields: [saleChannelId], references: [id])
+  BonCommande            BonCommande?             @relation(fields: [id_bon_commande], references: [id])
   VenteBonLivraison_Line VenteBonLivraison_Line[]
 }
 
@@ -220,14 +221,17 @@ model VenteBonLivraison_Line {
 }
 
 model VenteBLFacture {
-  id                  Int                   @id @default(autoincrement())
-  delivery_date       DateTime
-  sales_channels      sales_channels?       @relation(fields: [sales_channelsId], references: [id])
-  sales_channelsId    Int
+  id               Int      @id @default(autoincrement())
+  clientId         Int
+  bonSortieId      Int
+  deliveryDate    DateTime
+  bonCommandeId    Int?
+  sales_channelsId Int
+
+  Client              Client                @relation(fields: [clientId], references: [id])
   BonSortie           BonSortie?            @relation(fields: [bonSortieId], references: [id])
-  bonSortieId         Int
-  Client              Client?               @relation(fields: [clientId], references: [id])
-  clientId            Int
+  BonCommande         BonCommande?          @relation(fields: [bonCommandeId], references: [id])
+  sales_channels      sales_channels?       @relation(fields: [sales_channelsId], references: [id])
   VenteBLFacture_Line VenteBLFacture_Line[]
 }
 
@@ -241,17 +245,19 @@ model VenteBLFacture_Line {
 }
 
 model BonCommande {
-  id              Int               @id @default(autoincrement())
-  id_client       Int
-  sales_channels  Int
-  bonSortieId     Int
-  order_date      DateTime
-  date            DateTime
-  client          Client?           @relation(fields: [id_client], references: [id])
-  bon_sortie      BonSortie?        @relation(fields: [bonSortieId], references: [id])
-  canaux_de_vent  sales_channels?   @relation(fields: [sales_channels], references: [id])
-  venteFacture    venteFacture[]
-  BonCommandeLine BonCommandeLine[]
+  id                Int                 @id @default(autoincrement())
+  id_client         Int
+  sales_channels    Int
+  bonSortieId       Int
+  order_date        DateTime
+  date              DateTime
+  client            Client?             @relation(fields: [id_client], references: [id])
+  bon_sortie        BonSortie?          @relation(fields: [bonSortieId], references: [id])
+  canaux_de_vent    sales_channels?     @relation(fields: [sales_channels], references: [id])
+  venteFacture      venteFacture[]
+  venteBLFacture    VenteBLFacture[]
+  BonCommandeLine   BonCommandeLine[]
+  venteBonLivraison VenteBonLivraison[]
 }
 
 model BonCommandeLine {
@@ -269,12 +275,6 @@ model Bon_retour {
   client        Client?         @relation(fields: [id_client], references: [id])
   BonReception  BonReception[]
   ArticleRetour ArticleRetour[]
-}
-
-model BonRetour_Line {
-  id        Int      @id @default(autoincrement())
-  Article   Article? @relation(fields: [articleId], references: [id])
-  articleId Int
 }
 
 model Devis {
@@ -336,12 +336,12 @@ model BonSortie {
   sortie_date   DateTime
   stockId       Int
 
+  BonTransfer       BonTransfer[]
   bon_commande      BonCommande[]
   venteFacture      venteFacture[]
-  BonTransfer       BonTransfer[]
   VenteBLFacture    VenteBLFacture[]
-  VenteBonLivraison VenteBonLivraison[]
   BonSortie_line    BonSortie_line[]
+  VenteBonLivraison VenteBonLivraison[]
   Stock             Stock               @relation(fields: [stockId], references: [id])
 }
 

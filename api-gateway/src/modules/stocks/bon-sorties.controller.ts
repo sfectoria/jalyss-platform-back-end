@@ -3,6 +3,7 @@ import { BonSortiesService } from './bon-sorties.service';
 import { CreateBonSortieDto } from './dto/create-stock.dto';
 import { UpdateBonSortieDto } from './dto/update-stock.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Payload } from '@nestjs/microservices';
 
 @Controller('bonSorties')
 @ApiTags('bonSorties')
@@ -10,7 +11,7 @@ export class BonSortiesController {
   constructor(private readonly bonSortiesService: BonSortiesService) {}
 
   @Post('create_bs')
-  create(@Body() createBonSortieDto: CreateBonSortieDto) {
+  create(@Payload() createBonSortieDto: CreateBonSortieDto) {
     return this.bonSortiesService.create(createBonSortieDto);
   }
 
@@ -20,17 +21,17 @@ export class BonSortiesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Payload() id: number) {
     return this.bonSortiesService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBonSortieDto: UpdateBonSortieDto) {
-    return this.bonSortiesService.update(+id, updateBonSortieDto);
+  update(@Payload() data : {id: number, updateBonSortieDto: UpdateBonSortieDto}) {
+    return this.bonSortiesService.update(data.id, data.updateBonSortieDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Payload() id: number) {
     return this.bonSortiesService.remove(+id);
   }
 }

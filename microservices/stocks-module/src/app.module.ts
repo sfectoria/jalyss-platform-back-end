@@ -13,7 +13,7 @@ import { BonRetoursModule } from './modules/bon-retours/bon-retours.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: '../../.env',
     }),
     PrismaModule.forRoot({ isGlobal: true }),StocksModule, BonReceptionsModule,BonSortiesModule, BonTransfersModule, BonRetoursModule],
   controllers: [AppController],

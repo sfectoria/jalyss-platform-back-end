@@ -26,12 +26,20 @@ class BonReception_Line {
     lines: BonReception_Line[];
   }
 
+class BonSortie_line {
+  @ApiProperty()
+  articleId: number;
+}
 
 export class CreateBonSortieDto {
-    @ApiProperty()
-    typeSortie: string
-    @ApiProperty()
-    dateSortie: Date;
+  @ApiProperty()
+  sortie_date: Date;
+  @ApiProperty()
+  num_bonSortie : number; 
+  @ApiProperty()
+  stockId : number
+  @ApiProperty({ type: [BonSortie_line] })
+  bonSortieLines: BonSortie_line[]
 }
 
 class BonTransfer_Line {
