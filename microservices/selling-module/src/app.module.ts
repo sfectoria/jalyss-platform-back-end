@@ -8,6 +8,7 @@ import { SalesInvoicesModule } from './sales-invoices/sales-invoices.module';
 import { SalesBlsModule } from './sales-bls/sales-bls.module';
 import { SalesBlfsModule } from './sales-blfs/sales-blfs.module';
 import { BonComndsModule } from './bon-comnds/bon-comnds.module';
+import { BonSortie } from './helpers/bonSortie';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import { BonComndsModule } from './bon-comnds/bon-comnds.module';
     }),
     PrismaModule.forRoot({ isGlobal: true }),SalesChannelsModule, SalesInvoicesModule, SalesBlsModule, SalesBlfsModule, BonComndsModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,BonSortie],
 })
 export class AppModule {}

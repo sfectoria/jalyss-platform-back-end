@@ -38,7 +38,7 @@ export class CreateSalesInvoiceDto {
   @ApiProperty()
   saleChannelId: number;
   @ApiProperty()
-  date: string;
+  date: Date;
   @ApiProperty({ type: [venteFacture_line] })
   venteFacture_lines: venteFacture_line[];
 }
