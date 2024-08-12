@@ -8,9 +8,8 @@ export class SalesInvoicesService {
   constructor(private readonly prisma: PrismaService) {}
   async create(createSalesInvoiceDto: CreateSalesInvoiceDto) {
     return await this.prisma.$transaction(async (prisma) => {
-      let { bonSortieId, id_bon_commande, venteFacture_lines, ...rest } =
+      const { bonSortieId, id_bon_commande, venteFacture_lines, ...rest } =
         createSalesInvoiceDto;
-
       if (!bonSortieId) {
         // kif nji nasna3 bon de sorti lazemni naaref stockId 3lech
         // 3la khater kif nasnaa bon sorti lazem aandha num te3ha
@@ -42,18 +41,18 @@ export class SalesInvoicesService {
             },
           },
         });
-        bonSortieId = newExitNote.id;
-      }
-      return await prisma.venteFacture.create({
-        data: {
-          ...rest,
-          date: new Date(rest.date).toISOString(),
-          venteFacture_line: {
-            createMany: { data: createSalesInvoiceDto.venteFacture_lines },
+
+        await prisma.venteFacture.create({
+          data: {
+            ...rest,
+            date: new Date(rest.date).toISOString(),
+            venteFacture_line: {
+              createMany: { data: createSalesInvoiceDto.venteFacture_lines },
+            },
+            bonSortieId: newExitNote.id,
           },
-          bonSortieId,
-        },
-      });
+        });
+      }
     });
   }
 
