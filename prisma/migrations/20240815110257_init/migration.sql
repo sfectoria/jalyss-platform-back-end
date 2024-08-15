@@ -67,7 +67,7 @@ CREATE TABLE "Article" (
 
 -- CreateTable
 CREATE TABLE "PublishingHouse" (
-    "id" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
     "nameAr" TEXT NOT NULL,
     "nameEn" TEXT,
     "address" TEXT,
@@ -80,7 +80,7 @@ CREATE TABLE "PublishingHouse" (
 
 -- CreateTable
 CREATE TABLE "ArticleByPublishingHouse" (
-    "publishingHouseId" TEXT NOT NULL,
+    "publishingHouseId" INTEGER NOT NULL,
     "articleId" INTEGER NOT NULL
 );
 

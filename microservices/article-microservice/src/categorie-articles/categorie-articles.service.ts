@@ -8,17 +8,17 @@ export class CategorieArticlesService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createCategorieArticleDto: CreateCategorieArticleDto) {
-    return await this.prisma.category_Article.create({
+    return await this.prisma.categoryArticle.create({
       data: createCategorieArticleDto,
     });
   }
 
   async findAll() {
-    return await this.prisma.category_Article.findMany();
+    return await this.prisma.categoryArticle.findMany();
   }
 
   async findOne(id: number) {
-    const categorieArticle = await this.prisma.category_Article.findUnique({
+    const categorieArticle = await this.prisma.categoryArticle.findUnique({
       where: { id },
     });
     if (!categorieArticle) {
@@ -32,25 +32,26 @@ export class CategorieArticlesService {
     id: number,
     updateCategorieArticleDto: UpdateCategorieArticleDto,
   ) {
-    const categorieArticle = await this.prisma.category_Article.findUnique({
+    const categorieArticle = await this.prisma.categoryArticle.findUnique({
       where: { id },
     });
     if (!categorieArticle) {
       throw new NotFoundException(`Categorie Article with ID ${id} not found`);
     }
-    return await this.prisma.category_Article.update({
+    return await this.prisma.categoryArticle.update({
       where: { id },
       data: updateCategorieArticleDto,
     });
   }
+  
 
   async remove(id: number) {
-    const categorieArticle = await this.prisma.category_Article.findUnique({
+    const categorieArticle = await this.prisma.categoryArticle.findUnique({
       where: { id },
     });
     if (!categorieArticle) {
       throw new NotFoundException(`Categorie Article with ID ${id} not found`);
     }
-    return await this.prisma.category_Article.delete({ where: { id } });
+    return await this.prisma.categoryArticle.delete({ where: { id } });
   }
 }
