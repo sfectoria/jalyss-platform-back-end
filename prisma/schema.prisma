@@ -81,29 +81,38 @@ model Article {
   VenteBLFacture_Line    VenteBLFacture_Line[]
   BonTransfer_Line       BonTransfer_Line[]
   BonSortie_line         BonSortie_line[]
-  publishingHouseId      String
-  ArticleByAuthor        ArticleByAuthor[]
 
-  PublishingHouse   PublishingHouse  @relation(fields: [publishingHouseId], references: [id])
-  CategoryArticle   CategoryArticle? @relation(fields: [categoryArticleId], references: [id])
-  categoryArticleId Int?
+  ArticleByAuthor ArticleByAuthor[]
+
+  ArticleByCategory        ArticleByCategory[]
+  ArticleByPublishingHouse ArticleByPublishingHouse[]
 }
 
 model PublishingHouse {
-  id        String    @id @default(uuid())
-  name      String
-  address   String?
-  logoId    String?
-  logo      Media?    @relation(fields: [logoId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  articles  Article[]
+  id                       String                     @id @default(uuid())
+  nameAr                   String
+  nameEn                   String?
+  address                  String?
+  logoId                   String?
+  logo                     Media?                     @relation(fields: [logoId], references: [id])
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime?                  @updatedAt
+  ArticleByPublishingHouse ArticleByPublishingHouse[]
+}
+
+model ArticleByPublishingHouse {
+  PublishingHouse   PublishingHouse @relation(fields: [publishingHouseId], references: [id])
+  publishingHouseId String
+  Article           Article         @relation(fields: [articleId], references: [id])
+  articleId         Int
+
+  @@unique([articleId, publishingHouseId])
 }
 
 model Author {
   id              String            @id @default(uuid())
   nameAr          String
-  nameEn          String            @default("NameEn")
+  nameEn          String?
   biographyAr     String?
   biographyEn     String?
   ArticleByAuthor ArticleByAuthor[]
@@ -119,9 +128,18 @@ model ArticleByAuthor {
 }
 
 model CategoryArticle {
-  id      Int       @id @default(autoincrement())
-  name    String
-  Article Article[]
+  id                Int                 @id @default(autoincrement())
+  name              String
+  ArticleByCategory ArticleByCategory[]
+}
+
+model ArticleByCategory {
+  CategoryArticle   CategoryArticle @relation(fields: [categoryArticleId], references: [id])
+  categoryArticleId Int
+  Article           Article         @relation(fields: [articleId], references: [id])
+  articleId         Int
+
+  @@unique([articleId, categoryArticleId])
 }
 
 model SalesChannels {
