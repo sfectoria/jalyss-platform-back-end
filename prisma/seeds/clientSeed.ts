@@ -13,11 +13,11 @@ export async function userSeed (){
   const client1 = await prisma.client.create({
     data: {
       fullName: 'Jane Smith',
-      phone_number: '987-654-3210',
+      phoneNumber: '987-654-3210',
       address: '456 Elm St',
       email: 'janesmith@example.com',
-      registration_date: new Date(),
-      id_categorie_client: categoryClient1.id,
+      registrationDate: new Date(),
+      idCategoryClient: categoryClient1.id,
     },
   });
   
