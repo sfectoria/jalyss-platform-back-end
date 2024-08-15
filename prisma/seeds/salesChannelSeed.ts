@@ -5,10 +5,10 @@ const prisma = new PrismaClient();
 export async function salesChannelSeed (stock:Stock){
   const salesChannel1 = await prisma.salesChannels.create({
     data: {
-      nom: 'Online Store',
+      name: 'Online Store',
       type: 'Online',
-      region: 'North America',
-      id_stock: stock.id,
+      region : 'North America',
+      idStock: stock.id,
     },
   });
 }
