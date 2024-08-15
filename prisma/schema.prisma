@@ -8,19 +8,23 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
   password String
+  Media    Media?  @relation(fields: [mediaId], references: [id])
+  mediaId  String?
 }
 
 model Employee {
-  id           Int    @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   first_name   String
   last_name    String
   email        String
   phone_number String
   address      String
   position     String
+  Media        Media?  @relation(fields: [mediaId], references: [id])
+  mediaId      String?
 }
 
 model Client {
@@ -31,22 +35,114 @@ model Client {
   email               String
   registration_date   DateTime
   id_categorie_client Int
-  categorie_client    Category_Client?    @relation(fields: [id_categorie_client], references: [id])
+  categorie_client    CategoryClient?     @relation(fields: [id_categorie_client], references: [id])
   BonCommande         BonCommande[]
   venteFacture        venteFacture[]
   Bon_retour          Bon_retour[]
   Devis               Devis[]
   VenteBLFacture      VenteBLFacture[]
   VenteBonLivraison   VenteBonLivraison[]
+  Media               Media?              @relation(fields: [mediaId], references: [id])
+  mediaId             String?
 }
 
-model Category_Client {
+model CategoryClient {
   id     Int      @id @default(autoincrement())
   name   String
   Client Client[]
 }
 
-model sales_channels {
+// Article models 
+model Article {
+  id                 Int      @id @default(autoincrement())
+  title              String
+  cover              Media?   @relation(fields: [coverId], references: [id])
+  coverId            String?
+  weight             Float?
+  pageNumber         Int?
+  code               String   @unique
+  shortDescriptionEn String?
+  longDescriptionEn  String?
+  shortDescriptionAr String?
+  longDescriptionAr  String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  BonCommandeLine        BonCommandeLine[]
+  ArticleRetour          ArticleRetour[]
+  BonReception_Line      BonReception_Line[]
+  AchatBonLivraison_Line AchatBonLivraison_Line[]
+  AchatBLFacture_Line    AchatBLFacture_Line[]
+  AchatFacture_Line      AchatFacture_Line[]
+  DevisLine              DevisLine[]
+
+  venteFacture_line      venteFacture_line[]
+  VenteBonLivraison_Line VenteBonLivraison_Line[]
+  VenteBLFacture_Line    VenteBLFacture_Line[]
+  BonTransfer_Line       BonTransfer_Line[]
+  BonSortie_line         BonSortie_line[]
+
+  ArticleByAuthor ArticleByAuthor[]
+
+  ArticleByCategory        ArticleByCategory[]
+  ArticleByPublishingHouse ArticleByPublishingHouse[]
+}
+
+model PublishingHouse {
+  id                       String                     @id @default(uuid())
+  nameAr                   String
+  nameEn                   String?
+  address                  String?
+  logoId                   String?
+  logo                     Media?                     @relation(fields: [logoId], references: [id])
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime?                  @updatedAt
+  ArticleByPublishingHouse ArticleByPublishingHouse[]
+}
+
+model ArticleByPublishingHouse {
+  PublishingHouse   PublishingHouse @relation(fields: [publishingHouseId], references: [id])
+  publishingHouseId String
+  Article           Article         @relation(fields: [articleId], references: [id])
+  articleId         Int
+
+  @@unique([articleId, publishingHouseId])
+}
+
+model Author {
+  id              String            @id @default(uuid())
+  nameAr          String
+  nameEn          String?
+  biographyAr     String?
+  biographyEn     String?
+  ArticleByAuthor ArticleByAuthor[]
+}
+
+model ArticleByAuthor {
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId Int
+  author    Author  @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String
+
+  @@unique([authorId, articleId])
+}
+
+model CategoryArticle {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  ArticleByCategory ArticleByCategory[]
+}
+
+model ArticleByCategory {
+  CategoryArticle   CategoryArticle @relation(fields: [categoryArticleId], references: [id])
+  categoryArticleId Int
+  Article           Article         @relation(fields: [articleId], references: [id])
+  articleId         Int
+
+  @@unique([articleId, categoryArticleId])
+}
+
+model SalesChannels {
   id       Int    @id @default(autoincrement())
   nom      String
   type     String
@@ -58,45 +154,6 @@ model sales_channels {
   venteFacture      venteFacture[]
   VenteBLFacture    VenteBLFacture[]
   VenteBonLivraison VenteBonLivraison[]
-}
-
-model Article {
-  id                     Int                      @id @default(autoincrement())
-  title                  String
-  price                  Float
-  quantity               Int
-  id_category_article    Int
-  id_publishing_houses   Int
-  category_article       category_Article?        @relation(fields: [id_category_article], references: [id])
-  publishing_houses      PublishingHouses?        @relation(fields: [id_publishing_houses], references: [id])
-  BonCommandeLine        BonCommandeLine[]
-  ArticleRetour          ArticleRetour[]
-  BonReception_Line      BonReception_Line[]
-  AchatBonLivraison_Line AchatBonLivraison_Line[]
-  AchatBLFacture_Line    AchatBLFacture_Line[]
-  AchatFacture_Line      AchatFacture_Line[]
-  DevisLine              DevisLine[]
-  // VenteFacture_Line      VenteFacture_Line[]
-  venteFacture_line      venteFacture_line[]
-  VenteBonLivraison_Line VenteBonLivraison_Line[]
-  VenteBLFacture_Line    VenteBLFacture_Line[]
-  BonTransfer_Line       BonTransfer_Line[]
-  BonSortie_line         BonSortie_line[]
-}
-
-model category_Article {
-  id      Int       @id @default(autoincrement())
-  name    String
-  Article Article[]
-}
-
-model PublishingHouses {
-  id           Int       @id @default(autoincrement())
-  name         String
-  address      String
-  phone_number String
-  email        String
-  Article      Article[]
 }
 
 model BonReception {
@@ -181,7 +238,7 @@ model venteFacture {
   id_bon_commande   Int?
   bon_commande      BonCommande?        @relation(fields: [id_bon_commande], references: [id])
   saleChannelId     Int
-  SaleChannel       sales_channels      @relation(fields: [saleChannelId], references: [id])
+  SaleChannel       SalesChannels       @relation(fields: [saleChannelId], references: [id])
   bonSortieId       Int
   bon_sortie        BonSortie           @relation(fields: [bonSortieId], references: [id])
   venteFacture_line venteFacture_line[]
@@ -205,7 +262,7 @@ model VenteBonLivraison {
 
   Client                 Client                   @relation(fields: [id_client], references: [id])
   BonSortie              BonSortie                @relation(fields: [bonSortieId], references: [id])
-  sales_channels         sales_channels           @relation(fields: [saleChannelId], references: [id])
+  sales_channels         SalesChannels            @relation(fields: [saleChannelId], references: [id])
   BonCommande            BonCommande?             @relation(fields: [id_bon_commande], references: [id])
   VenteBonLivraison_Line VenteBonLivraison_Line[]
 }
@@ -224,14 +281,14 @@ model VenteBLFacture {
   id               Int      @id @default(autoincrement())
   clientId         Int
   bonSortieId      Int
-  deliveryDate    DateTime
+  deliveryDate     DateTime
   bonCommandeId    Int?
   sales_channelsId Int
 
   Client              Client                @relation(fields: [clientId], references: [id])
   BonSortie           BonSortie?            @relation(fields: [bonSortieId], references: [id])
   BonCommande         BonCommande?          @relation(fields: [bonCommandeId], references: [id])
-  sales_channels      sales_channels?       @relation(fields: [sales_channelsId], references: [id])
+  sales_channels      SalesChannels?        @relation(fields: [sales_channelsId], references: [id])
   VenteBLFacture_Line VenteBLFacture_Line[]
 }
 
@@ -253,7 +310,7 @@ model BonCommande {
   date              DateTime
   client            Client?             @relation(fields: [id_client], references: [id])
   bon_sortie        BonSortie?          @relation(fields: [bonSortieId], references: [id])
-  canaux_de_vent    sales_channels?     @relation(fields: [sales_channels], references: [id])
+  canaux_de_vent    SalesChannels?      @relation(fields: [sales_channels], references: [id])
   venteFacture      venteFacture[]
   venteBLFacture    VenteBLFacture[]
   BonCommandeLine   BonCommandeLine[]
@@ -319,12 +376,12 @@ model BonTransfer_Line {
 }
 
 model Stock {
-  id                Int              @id @default(autoincrement())
+  id                Int             @id @default(autoincrement())
   location          String
   capacity          Int
-  bon_transfer_from BonTransfer[]    @relation("StockFrom")
-  bon_transfer_to   BonTransfer[]    @relation("StockTo")
-  sales_channels    sales_channels[]
+  bon_transfer_from BonTransfer[]   @relation("StockFrom")
+  bon_transfer_to   BonTransfer[]   @relation("StockTo")
+  sales_channels    SalesChannels[]
   BonReception      BonReception[]
   bonSortie         BonSortie[]
 }
@@ -375,4 +432,19 @@ model Fournisseur {
 enum type_reception {
   achat
   retour
+}
+
+//media
+model Media {
+  id              String            @id @default(uuid())
+  path            String
+  type            String
+  alt             String?
+  extension       String?
+  description     String?
+  User            User[]
+  Article         Article[]
+  Employee        Employee[]
+  PublishingHouse PublishingHouse[]
+  Client          Client[]
 }
