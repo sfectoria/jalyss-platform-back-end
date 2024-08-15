@@ -51,6 +51,7 @@ model sales_channels {
   nom      String
   type     String
   region   String
+  
   id_stock Int
 
   stock             Stock               @relation(fields: [id_stock], references: [id])

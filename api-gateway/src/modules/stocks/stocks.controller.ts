@@ -3,6 +3,7 @@ import { StocksService } from './stocks.service';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Payload } from '@nestjs/microservices';
 
 @Controller('stocks')
 @ApiTags('stocks')
@@ -10,7 +11,7 @@ export class StocksController {
   constructor(private readonly stocksService: StocksService) {}
 
   @Post('createStock')
-  create(@Body() createStockDto: CreateStockDto) {
+  create(@Payload() createStockDto: CreateStockDto) {
     return this.stocksService.create(createStockDto);
   }
 
@@ -20,17 +21,17 @@ export class StocksController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOne(@Payload() id: number) {
     return this.stocksService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateStockDto: UpdateStockDto) {
-    return this.stocksService.update(+id, updateStockDto);
+  update(@Payload() data: {id: number, updateStockDto: UpdateStockDto}) {
+    return this.stocksService.update(data.id, data.updateStockDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  remove(@Payload() id: number) {
     return this.stocksService.remove(+id);
   }
 }
