@@ -10,17 +10,17 @@ export class PublishingHousesService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createPublishingHouseDto: CreatePublishingHouseDto) {
-    return await this.prisma.publishingHouses.create({
+    return await this.prisma.publishingHouse.create({
       data: createPublishingHouseDto,
     });
   }
 
   async findAll() {
-    return await this.prisma.publishingHouses.findMany();
+    return await this.prisma.publishingHouse.findMany();
   }
 
   async findOne(id: number) {
-    const publishingHouse = await this.prisma.publishingHouses.findUnique({ where: { id } });
+    const publishingHouse = await this.prisma.publishingHouse.findUnique({ where: { id } });
     if (!publishingHouse) {
       throw new NotFoundException(`Publishing house with ID ${id} not found`);
     }
@@ -28,21 +28,21 @@ export class PublishingHousesService {
   }
 
   async update(id: number, updatePublishingHouseDto: UpdatePublishingHouseDto) {
-    const publishingHouse = await this.prisma.publishingHouses.findUnique({ where: { id } });
+    const publishingHouse = await this.prisma.publishingHouse.findUnique({ where: { id } });
     if (!publishingHouse) {
       throw new NotFoundException(`Publishing house with ID ${id} not found`);
     }
-    return await this.prisma.publishingHouses.update({
+    return await this.prisma.publishingHouse.update({
       where: { id },
       data: updatePublishingHouseDto,
     });
   }
 
   async remove(id: number) {
-    const publishingHouse = await this.prisma.publishingHouses.findUnique({ where: { id } });
+    const publishingHouse = await this.prisma.publishingHouse.findUnique({ where: { id } });
     if (!publishingHouse) {
       throw new NotFoundException(`Publishing house with ID ${id} not found`);
     }
-    return await this.prisma.publishingHouses.delete({ where: { id } });
+    return await this.prisma.publishingHouse.delete({ where: { id } });
   }
 }

@@ -3,12 +3,9 @@ import { IsNumber, IsString } from 'class-validator';
 
 export class CreateArticleDto {
   @ApiProperty()
+  code :string
+  @ApiProperty()
   @IsString()
   title: string;
-  @IsNumber()
-  @ApiProperty()
-  price: number;
-  @IsNumber()
-  @ApiProperty()
-  quantity: number;
+ 
 }
