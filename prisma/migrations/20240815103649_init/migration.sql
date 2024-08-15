@@ -60,7 +60,7 @@ CREATE TABLE "Article" (
     "shortDescriptionAr" TEXT,
     "longDescriptionAr" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Article_pkey" PRIMARY KEY ("id")
 );
