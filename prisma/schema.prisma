@@ -89,7 +89,7 @@ model Article {
 }
 
 model PublishingHouse {
-  id                       String                     @id @default(uuid())
+  id                       Int                     @id @default(autoincrement())
   nameAr                   String
   nameEn                   String?
   address                  String?
@@ -102,7 +102,7 @@ model PublishingHouse {
 
 model ArticleByPublishingHouse {
   PublishingHouse   PublishingHouse @relation(fields: [publishingHouseId], references: [id])
-  publishingHouseId String
+  publishingHouseId Int
   Article           Article         @relation(fields: [articleId], references: [id])
   articleId         Int
 
