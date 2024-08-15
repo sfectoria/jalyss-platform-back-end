@@ -3,7 +3,9 @@ import { IsNumber, IsString } from 'class-validator';
 
 export class CreatePublishingHouseDto {
   @IsString()
-  name: string;
+  nameAr: string;
+  @IsString()
+  nameEn: string;
   @IsString()
   address: string;
   @IsString()
