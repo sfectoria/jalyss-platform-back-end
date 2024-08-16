@@ -24,7 +24,7 @@ export class CreateEmployeeDto   {
 
     phoneNumber: string;
 
-    @ApiPropertyOptional({ description: 'Adress the employee' })
+    @ApiPropertyOptional({ description: 'Address the employee' })
     @IsString()
   
     address: string;

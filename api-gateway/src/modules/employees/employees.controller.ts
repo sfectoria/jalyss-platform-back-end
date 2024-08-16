@@ -2,18 +2,21 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { EmployeesService } from './employees.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { Payload } from '@nestjs/microservices';
+
+@ApiTags('employees')
 
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
-  @Post()
+  @Post('create')
   create(@Payload() createEmployeeDto: CreateEmployeeDto) {
     return this.employeesService.create(createEmployeeDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.employeesService.findAll();
   }
@@ -24,12 +27,14 @@ export class EmployeesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEmployeeDto: UpdateEmployeeDto) {
-    return this.employeesService.update(+id, updateEmployeeDto);
+  //update(@Payload @Param('id') id: string, @Body() updateEmployeeDto: UpdateEmployeeDto)
+  update(@Payload() data:{id: number,updateEmployeeDto: UpdateEmployeeDto}) {
+    return this.employeesService.update(data.id, data.updateEmployeeDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  //remove(@Param('id') id: string)
+  remove(@Payload() id: number) {
     return this.employeesService.remove(+id);
   }
 }
