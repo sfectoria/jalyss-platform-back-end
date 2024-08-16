@@ -7,12 +7,12 @@ export class CreateEmployeeDto   {
     @ApiPropertyOptional({ description: 'Full name of the employee' })
     @IsString()
   
-    first_name: string;
+    firstName: string;
 
     @ApiPropertyOptional({ description: 'Last name of the employee' })
     @IsString()
 
-    last_name: string;
+    lastName: string;
 
     @ApiPropertyOptional({ description: 'Email of the employee' })
     @IsString()
@@ -22,7 +22,7 @@ export class CreateEmployeeDto   {
     @ApiPropertyOptional({ description: 'Phone number of the employee' })
     @IsString()
 
-    phone_number: string;
+    phoneNumber: string;
 
     @ApiPropertyOptional({ description: 'Adress the employee' })
     @IsString()
