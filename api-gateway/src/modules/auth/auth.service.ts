@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
-import { PrismaService } from 'nestjs-prisma';
 import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
@@ -12,7 +11,9 @@ export class AuthService {
   ) {}
   
   login(data: CreateAuthDto) {
-    return this.authClient.send({ cmd: 'login' }, data);
+    return this.authClient.send(
+      { cmd: 'login' }, 
+      data);
   }
 
   me(data: CreateAuthDto) {
