@@ -11,17 +11,23 @@ export class ClientsService {
 
   create(createClientDto: CreateClientDto) {
     console.log('create client data:', createClientDto);
-    return this.clientClient.send({ cmd: 'create_client' }, createClientDto);
+    return this.clientClient.send(
+      { cmd: 'create_client' }, 
+      createClientDto);
   }
 
   findAll() {
     console.log('findAll called');
-    return this.clientClient.send({ cmd: 'all_clients' }, {});
+    return this.clientClient.send(
+      { cmd: 'all_clients' }, 
+      {});
   }
 
   findOne(id: number) {
     console.log('findOne id:', id);
-    return this.clientClient.send({ cmd: 'getOne_client' }, { id });
+    return this.clientClient.send(
+      { cmd: 'getOne_client' }, 
+      { id });
   }
 
   update(id: number, updateClientDto: UpdateClientDto) {
@@ -34,6 +40,8 @@ export class ClientsService {
 
   remove(id: number) {
     console.log('remove id:', id);
-    return this.clientClient.send({ cmd: 'delete_client' }, { id });
+    return this.clientClient.send(
+      { cmd: 'delete_client' }, 
+      { id });
   }
 }
