@@ -312,6 +312,7 @@ model SalesDeliveryInvoice {
   salesDeliveryInvoiceLine SalesDeliveryInvoiceLine[]
 }
 
+//vente bon de livraison facture line
 model SalesDeliveryInvoiceLine {
   id Int @id @default(autoincrement())
 
@@ -359,6 +360,7 @@ model ReturnNote {
   receiptNote  ReceiptNote[]
   returnNoteLine  ReturnNoteLine[]
 }
+
 
 model ReturnNoteLine {
   id            Int         @id @default(autoincrement())

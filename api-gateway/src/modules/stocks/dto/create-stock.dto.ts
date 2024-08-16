@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ReturnNoteLine } from '@prisma/client';
 
 export class CreateStockDto {
   @ApiProperty()
@@ -7,49 +8,49 @@ export class CreateStockDto {
   capacity: number;
 }
 
-class BonReception_Line {
+class ReceiptNoteLine {
     @ApiProperty()
-    id_article: number;
+    idArtical: number;
     @ApiProperty()
-    id_bon_reception: number;
+    idReceiptNote: number;
     @ApiProperty()
     quantity: number;
   }
-  export class CreateBonReceptionDto {
+  export class CreateReceiptNoteDto {
     @ApiProperty()
-    type_reception: string;
+    typeReceipt: string;
     @ApiProperty()
-    reception_date: Date;
+    receiptDate: Date;
     @ApiProperty()
-    id_stock : number;
-    @ApiProperty({ type: [BonReception_Line] })
-    lines: BonReception_Line[];
+    idStock : number;
+    @ApiProperty({ type: [ReceiptNoteLine] })
+    lines: ReceiptNoteLine[];
   }
 
-class BonSortie_line {
+class ExitNoteLine {
   @ApiProperty()
-  articleId: number;
+  articalId: number;
 }
 
-export class CreateBonSortieDto {
+export class CreateExitNoteDto {
   @ApiProperty()
-  sortie_date: Date;
+  exitDate: Date;
   @ApiProperty()
-  num_bonSortie : number; 
+  numExitNote : number; 
   @ApiProperty()
   stockId : number
-  @ApiProperty({ type: [BonSortie_line] })
-  bonSortieLines: BonSortie_line[]
+  @ApiProperty({ type: [ExitNoteLine] })
+  lines: ExitNoteLine[]
 }
 
-class BonTransfer_Line {
+class TransferNoteLine {
   @ApiProperty()
-  id_article : number
+  idArtical : number
   @ApiProperty()
-  bonTransferId : number
+  transferNoteId : number
 }
 
-export class CreateBonTransferDto {
+export class CreateTransferNoteDto {
     @ApiProperty()
     from: number
     @ApiProperty()
@@ -57,23 +58,23 @@ export class CreateBonTransferDto {
     @ApiProperty()
     date: Date
     @ApiProperty()
-    id__bon_reception: number
+    idReceiptNote: number
     @ApiProperty()
-    id_bondesorti: number
-    @ApiProperty({ type: [BonTransfer_Line] })
-    lines: BonTransfer_Line[]
+    idExitNote: number
+    @ApiProperty({ type: [TransferNoteLine] })
+    lines: TransferNoteLine[]
 }
 
-class ArticleRetour {
+class returnNoteLine{
     @ApiProperty()
-    id_article: number;
+    idArticle: number;
     @ApiProperty()
-    qunatity: number;
+    quantity: number;
   }
 
-export class CreateBonRetourDto { 
+export class CreateReturnNoteDto { 
     @ApiProperty()
     returnDate: Date
-    @ApiProperty({ type: [ArticleRetour] })
-    lines: ArticleRetour[];
+    @ApiProperty({ type: [returnNoteLine]})
+    lines: ReturnNoteLine[];
 }

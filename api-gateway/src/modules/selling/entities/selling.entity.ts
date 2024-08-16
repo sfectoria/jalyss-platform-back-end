@@ -1,10 +1,10 @@
 export class Selling {}
 
-export class BonComnd {}
+export class PurchaseOrder {} //bon commande
 
-export class Salesbl {}
+export class SalesDeliveryNote {}
 
 export class SalesInvioce {}
 
-export class Salesblf {}
+export class SalesDeliveryInvoice {}
 
