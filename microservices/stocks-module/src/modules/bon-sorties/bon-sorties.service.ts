@@ -7,7 +7,7 @@ import { PrismaService } from 'nestjs-prisma';
 export class BonSortiesService {
   constructor(private readonly prisma: PrismaService) {}
   async create(createBonSortyDto: CreateBonSortyDto) {
-    let { bonSortieLines,num_bonSortie, ...rest } = createBonSortyDto
+    let { exitNoteLine,num_bonSortie, ...rest } = createBonSortyDto
     const lastExitNoteOfStock = await this.prisma.bonSortie.findMany({
       where: { stockId: createBonSortyDto.stockId },
       take: 1,

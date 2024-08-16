@@ -6,7 +6,7 @@ import { PrismaModule } from 'nestjs-prisma';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UsersModule } from './modules/users/users.module';
 // import { UsersModule } from './modules/users/users.module';
-import { ArticlesModule } from './modules/articles/articles.module';
+import { ArticalsModule } from './modules/articals/articals.module';
 import { ClientModule } from './modules/clients/clients.module';
 import { StocksModule } from './modules/stocks/stocks.module';
 import { ConfigModule } from '@nestjs/config';
@@ -23,6 +23,11 @@ import { SellingModule } from './modules/selling/selling.module';
     ClientsModule.register({
       clients: [
         {
+          name: 'USER_MICROSERVICE',
+          transport: Transport.TCP,
+          options: { port: 3001 },
+        },
+        {
           name: 'SELLING_MICROSERVICE',
           transport: Transport.TCP,
           options: { port: 3002 },
@@ -33,17 +38,12 @@ import { SellingModule } from './modules/selling/selling.module';
           options: { port: 3003 },
         },
         {
-          name: 'USER_MICROSERVICE',
-          transport: Transport.TCP,
-          options: { port: 3001 },
-        },
-        {
           name: 'AUTH_MICROSERVICE',
           transport: Transport.TCP,
           options: { port: 3004 },
         },
         {
-          name: 'ARTICLE_MICROSERVICE',
+          name: 'ARTICAL_MICROSERVICE',
           transport: Transport.TCP,
           options: { port: 3006 },
         },
@@ -57,7 +57,7 @@ import { SellingModule } from './modules/selling/selling.module';
     }),
     UsersModule,
     AuthModule,
-    ArticlesModule,
+    ArticalsModule,
     ClientModule,
     StocksModule,
     SellingModule,

@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-class BonSortie_line {
+class ExitNoteLine {
     @ApiProperty()
     articleId: number;
 }
@@ -12,7 +12,7 @@ export class CreateBonSortyDto {
     num_bonSortie : number 
     @ApiProperty()
     stockId : number
-    @ApiProperty({ type: [BonSortie_line] })
-    bonSortieLines: BonSortie_line[]
+    @ApiProperty({ type: [ExitNoteLine] })
+    exitNoteLine: ExitNoteLine[]
 }
 

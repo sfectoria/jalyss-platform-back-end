@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { type_reception } from '@prisma/client';
 
-class BonReception_Line {
+class ReceiptNoteLine {
   @ApiProperty()
   id_article: number;
   @ApiProperty()
@@ -16,6 +16,6 @@ export class CreateBonReceptionDto {
   reception_date: Date;
   @ApiProperty()
   id_stock : number;
-  @ApiProperty({ type: [BonReception_Line] })
-  lines: BonReception_Line[];
+  @ApiProperty({ type: [ReceiptNoteLine] })
+  lines: ReceiptNoteLine[];
 }
