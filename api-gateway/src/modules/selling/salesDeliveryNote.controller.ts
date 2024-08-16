@@ -4,8 +4,8 @@ import { CreateSalesDeliveryNoteDto } from './dto/create-selling.dto';
 import { UpdateSalesDeliveryNoteDto } from './dto/update-selling.dto';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('salesDeliveryNotes')
-@ApiTags('salesDeliveryNotes')
+@Controller('salesDeliveryNote')
+@ApiTags('salesDeliveryNote')
 export class SalesDeliveryNoteController {
   constructor(private readonly salesDeliveryNoteService: SalesDeliveryNoteService) {}
 
