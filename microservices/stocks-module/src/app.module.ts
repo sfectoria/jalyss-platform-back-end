@@ -4,10 +4,10 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from 'nestjs-prisma';
 import { StocksModule } from './modules/stocks/stocks.module';
-import { BonReceptionsModule } from './modules/bon-receptions/bon-receptions.module';
-import { BonSortiesModule } from './modules/bon-sorties/bon-sorties.module';
-import { BonTransfersModule } from './modules/bon-transfers/bon-transfers.module';
-import { BonRetoursModule } from './modules/bon-retours/bon-retours.module';
+import {  ReceiptNoteModule } from './modules/receipt-note/receipt-note.module';
+import { ExitNoteModule } from './modules/exit-note/exit-note.module';
+import { TransferNoteModule } from './modules/transfer-note/transfer-note.module';
+import {  ReturnNoteModule } from './modules/return-note/return-note.module';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { BonRetoursModule } from './modules/bon-retours/bon-retours.module';
       isGlobal: true,
       envFilePath: '../../.env',
     }),
-    PrismaModule.forRoot({ isGlobal: true }),StocksModule, BonReceptionsModule,BonSortiesModule, BonTransfersModule, BonRetoursModule],
+    PrismaModule.forRoot({ isGlobal: true }),StocksModule, ReceiptNoteModule,ExitNoteModule, TransferNoteModule, ReturnNoteModule],
   controllers: [AppController],
   providers: [AppService],
 })
