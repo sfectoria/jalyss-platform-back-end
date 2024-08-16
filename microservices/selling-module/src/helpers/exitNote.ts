@@ -4,13 +4,14 @@ import { PrismaService } from 'nestjs-prisma';
 @Global()
 @Injectable()
 class EntityExiteNoteLine {
-  articleId: number;
+  articalId: number;
+  quantity: number;
 }
 class EntityExiteNote {
-  exitNoteLines: EntityExiteNoteLine[];
+  date: string;
   numExitNote?: number;
   saleChannelId: number;
-  date: string;
+  exitNoteLines: EntityExiteNoteLine[];
 }
 
 export class ExitNote {

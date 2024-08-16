@@ -23,7 +23,7 @@ export class SalesInvoicesService {
 
           const newExitNote = await this.helperExitNote.create(
             prisma,
-            'invoice',
+            // 'invoice',
             {
               saleChannelId: createSalesInvoiceDto.saleChannelId,
               date: createSalesInvoiceDto.date,

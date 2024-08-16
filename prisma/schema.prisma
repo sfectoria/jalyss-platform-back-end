@@ -56,11 +56,12 @@ model CategoryClient {
 model Artical {
   id                 Int      @id @default(autoincrement())
   title              String
-  cover              Media?   @relation(fields: [coverId], references: [id])
-  coverId            String?
-  weight             Float?
-  pageNumber         Int?
   code               String   @unique
+
+  cover              Media?   @relation(fields: [coverId], references: [id])
+  pageNumber         Int?
+  weight             Float?
+  coverId            String?
   shortDescriptionEn String?
   longDescriptionEn  String?
   shortDescriptionAr String?

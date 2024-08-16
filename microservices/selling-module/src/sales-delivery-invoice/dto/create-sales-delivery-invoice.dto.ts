@@ -2,6 +2,8 @@ import { ApiProperty } from "@nestjs/swagger";
 class SalesDeliveryInvoiceLine {
   @ApiProperty()
   articalId: number;
+  @ApiProperty()
+  quantity: number;
 }
 
 //vente bon de livraison facture

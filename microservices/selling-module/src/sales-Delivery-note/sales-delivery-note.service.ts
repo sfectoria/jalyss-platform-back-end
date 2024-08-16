@@ -20,7 +20,7 @@ export class SalesDeliveryNoteService {
         // 3la khater kif nasnaa bon sorti lazem aandha num te3ha
         //eli houwa last +1 fi stock heka mouch fil kol
 
-        const newExitNote = await this.helperExitNote.create(prisma, 'DeliveryNote', {
+        const newExitNote = await this.helperExitNote.create(prisma, {
           saleChannelId: createSalesDeliveryNoteDto.saleChannelId,
           exitNoteLines: createSalesDeliveryNoteDto.salesDeliveryNoteLine,
           date: createSalesDeliveryNoteDto.deliveryDate,
@@ -30,7 +30,7 @@ export class SalesDeliveryNoteService {
             ...rest,
             deliveryDate: new Date(rest.deliveryDate).toISOString(),
             salesDeliveryNoteLine: {
-              createMany: { data: createSalesDeliveryNoteDto.salesDeliveryNoteline },
+              createMany: { data: createSalesDeliveryNoteDto.salesDeliveryNoteLine },
             },
             exitNoteId: newExitNote.id,
           },
@@ -48,9 +48,25 @@ export class SalesDeliveryNoteService {
   }
 
   async update(id: number, updateSalesDeliveryNoteDto: UpdateSalesDeliveryNoteDto) {
-    return await this.prisma.salesDeliveryNote.update({
+    const { salesDeliveryNoteLine, ...rest } = updateSalesDeliveryNoteDto
+    return await this.prisma.receiptNote.update({
       where: { id },
-      data: updateSalesDeliveryNoteDto,
+      data:
+      {
+        ...rest,
+        receiptNoteLine:
+        {
+          updateMany: salesDeliveryNoteLine.map(line => ({
+            where: {
+              idArtical: line.articalId,
+              receiptNoteId: id,
+            },
+            data: {
+              quantity: line.quantity,
+            },
+          }))
+        },
+      }
     });
   }
 
