@@ -11,6 +11,7 @@ import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { Payload } from '@nestjs/microservices';
 @ApiTags('clients')
 @ApiSecurity('apiKey')
 @Controller('clients')
@@ -18,7 +19,7 @@ export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
   @Post()
-  create(@Body() createClientDto: CreateClientDto) {
+  create(@Payload() createClientDto: CreateClientDto) {
     return this.clientsService.create(createClientDto);
   }
   @ApiSecurity('apiKey')
@@ -28,17 +29,17 @@ export class ClientsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Payload() id: number) {
     return this.clientsService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
-    return this.clientsService.update(+id, updateClientDto);
+  update(@Payload() data : {id: number, updateClientDto: UpdateClientDto}) {
+    return this.clientsService.update(data.id, data.updateClientDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Payload() id: number) {
     return this.clientsService.remove(+id);
   }
 }

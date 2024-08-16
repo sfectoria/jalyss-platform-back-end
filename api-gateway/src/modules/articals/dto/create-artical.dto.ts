@@ -1,32 +1,36 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
 
-export class CreateArticleDto {
+export class CreateArticalDto {
+  @ApiProperty()
+  code :string
   @ApiProperty()
   @IsString()
   title: string;
-  @IsNumber()
   @ApiProperty()
-  price: number;
-  @IsNumber()
+  createdAt : string
   @ApiProperty()
-  quantity: number;
+  updatedAt : string
 }
-export class Createpublishing_housesDto {
+
+export class CreatePublishingHouseDto {
   @ApiProperty()
   @IsString()
-  name: string;
+  nameAr: string;
+  @ApiProperty()
+  @IsString()
+  nameEn: string;
   @ApiProperty()
   @IsString()
   address: string;
-  @IsString()
   @ApiProperty()
+  @IsString()
   phone_number: string;
-  @IsString()
   @ApiProperty()
+  @IsString()
   email: string;
 }
-export class CreateCategorieArticleDto {
+export class CreateCategoryArticalDto {
   @ApiProperty()
   @IsString()
   name: string;
