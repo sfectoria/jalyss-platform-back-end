@@ -11,6 +11,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { Payload } from '@nestjs/microservices';
 @ApiTags('users')
 @ApiSecurity('apiKey')
 @Controller('users')
@@ -18,7 +19,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('register')
-  register(@Body() createUserDto: CreateUserDto) {
+  register(@Payload() createUserDto: CreateUserDto) {
     return this.usersService.register(createUserDto);
   }
 
@@ -28,17 +29,17 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Payload() id: number) {
     return this.usersService.findOne(+id);
   }
   
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  update(@Payload() data : {id: number, updateUserDto: UpdateUserDto}) {
+    return this.usersService.update(data.id, data.updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Payload() id: number) {
     return this.usersService.remove(+id);
   }
 }
