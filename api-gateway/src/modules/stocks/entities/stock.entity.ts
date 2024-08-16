@@ -1,9 +1,9 @@
 export class Stock {}
 
-export class BonReception {}
+export class ReceiptNote {}
 
-export class BonTransfer {}
+export class TransferNote {}
 
-export class BonSortie {}
+export class ExitNote {}
 
-export class BonRetour {}
+export class ReturnNote {}

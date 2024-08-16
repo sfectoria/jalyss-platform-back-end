@@ -6,9 +6,9 @@ import { PrismaModule } from 'nestjs-prisma';
 import { ConfigModule } from '@nestjs/config';
 import { SalesInvoicesModule } from './sales-invoices/sales-invoices.module';
 import { SalesBlsModule } from './sales-bls/sales-bls.module';
-import { SalesBlfsModule } from './sales-blfs/sales-blfs.module';
-import { BonComndsModule } from './bon-comnds/bon-comnds.module';
-import { BonSortie } from './helpers/bonSortie';
+import { SalesBlfsModule } from './sales-delivery-invoice/sales-delivery-invoice.module';
+import { BonComndsModule } from './purchase-order/purchase-ordermodule';
+import { BonSortie } from './helpers/exitNote';
 
 @Module({
   imports: [

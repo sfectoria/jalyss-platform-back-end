@@ -1,12 +1,12 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateBonReceptionDto, CreateBonSortieDto, CreateStockDto, CreateBonTransferDto, CreateBonRetourDto } from './create-stock.dto';
+import { CreateReceiptNoteDto, CreateExitNoteDto, CreateStockDto, CreateTransferNoteDto, CreateReturnNoteDto } from './create-stock.dto';
 
 export class UpdateStockDto extends PartialType(CreateStockDto) {}
 
-export class UpdateBonReceptionDto extends PartialType(CreateBonReceptionDto) {}
+export class UpdateReceiptNoteDto extends PartialType(CreateReceiptNoteDto) {}
 
-export class UpdateBonSortieDto extends PartialType(CreateBonSortieDto) {}
+export class UpdateExitNoteDto extends PartialType(CreateExitNoteDto) {}
 
-export class UpdateBonTransferDto extends PartialType(CreateBonTransferDto) {}
+export class UpdateTransferNoteDto extends PartialType(CreateTransferNoteDto) {}
 
-export class UpdateBonRetourDto extends PartialType(CreateBonRetourDto) {}
+export class UpdateReturnNoteDto extends PartialType(CreateReturnNoteDto) {}
