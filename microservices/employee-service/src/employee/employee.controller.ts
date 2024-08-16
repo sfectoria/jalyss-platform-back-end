@@ -15,7 +15,7 @@ export class EmployeeController {
   }
 
 
-  @MessagePattern({ cmd: 'all_employee' })
+  @MessagePattern({ cmd: 'all_employees' })
   async findAll() {
     console.log('findAll called');
     return await this.employeeService.findAll();

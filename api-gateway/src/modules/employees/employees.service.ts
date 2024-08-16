@@ -1,26 +1,48 @@
-import { Injectable } from '@nestjs/common';
+import { Inject,Injectable } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class EmployeesService {
+  constructor(
+    @Inject('EMPLOYEE_MICROSERVICE') private readonly employeeClient: ClientProxy,
+  ) {}
+
   create(createEmployeeDto: CreateEmployeeDto) {
-    return 'This action adds a new employee';
+    console.log('create employee data',CreateEmployeeDto);
+    
+    return this.employeeClient.send(
+      { cmd: 'create_employee' }, 
+      CreateEmployeeDto);
   }
 
   findAll() {
-    return `This action returns all employees`;
+    console.log('findAll employee called');
+    return this.employeeClient.send(
+      { cmd: 'all_employees' },
+       {});
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} employee`;
+    console.log('findOne employee id:', id);
+    return this.employeeClient.send(
+      { cmd: 'getOne_employee' }, 
+      { id });
   }
 
   update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
-    return `This action updates a #${id} employee`;
+    console.log('update id and data:', id, updateEmployeeDto);
+    return this.employeeClient.send(
+      { cmd: 'update_employee' },
+      { id, updateEmployeeDto },
+    );
   }
 
   remove(id: number) {
-    return `This action removes a #${id} employee`;
+    console.log('remove id:', id);
+    return this.employeeClient.send(
+      { cmd: 'delete_employee' }, 
+      { id });
   }
 }
