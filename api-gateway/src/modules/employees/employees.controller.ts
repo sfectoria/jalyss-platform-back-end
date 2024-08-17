@@ -26,19 +26,17 @@ export class EmployeesController {
   }
 
   @Get(':id')
-  findOne(@Payload() id: number) {
+  findOne(@Param(':id') id: number) {
     return this.employeesService.findOne(+id);
   }
 
   @Patch(':id')
-  //update(@Payload @Param('id') id: string, @Body() updateEmployeeDto: UpdateEmployeeDto)
-  update(@Payload() data:{id: number,updateEmployeeDto: UpdateEmployeeDto}) {
+  update(@Param(':id') data:{id: number,updateEmployeeDto: UpdateEmployeeDto}) {
     return this.employeesService.update(data.id, data.updateEmployeeDto);
   }
 
   @Delete(':id')
-  //remove(@Param('id') id: string)
-  remove(@Payload() id: number) {
+  remove(@Param(':id') id: number) {
     return this.employeesService.remove(+id);
   }
 }
