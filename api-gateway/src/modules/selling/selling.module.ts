@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
 import { SellingService } from './selling.service';
 import { SellingController } from './selling.controller';
-import { BonComndsController } from './bon-comnds.controller';
-import { BonComndsService } from './bon-comnds.service';
-import { SalesblsController } from './salesbls.controller';
-import { SalesblsService } from './salesbls.service';
+import { PurchaseOrderController } from './purchase-order.controller';
+import { PurchaseOrderService } from './purchase-order.service';
+import { SalesDeliveryNoteController } from './salesDeliveryNote.controller';
+import { SalesDeliveryNoteService } from './salesDeliveryNote.service';
 import { SalesInviocesController } from './sales-invioces.controller';
 import { SalesInviocesService } from './sales-invioces.service';
-import { SalesblfsController } from './salesblfs.controller';
-import { SalesblfsService } from './salesblfs.service';
+import { SalesDeliveryInvoiceController } from './salesDeliveryInvoice.controller';
+import { SalesDeliveryInvoiceService } from './salesDeliveryInvoice.service';
 
 @Module({
-  controllers: [SellingController, BonComndsController, SalesblsController, SalesInviocesController, SalesblfsController],
-  providers: [SellingService, BonComndsService, SalesblsService, SalesInviocesService, SalesblfsService],
+  controllers: [SellingController, PurchaseOrderController, SalesDeliveryNoteController, SalesInviocesController, SalesDeliveryInvoiceController],
+  providers: [SellingService, PurchaseOrderService, SalesDeliveryNoteService, SalesInviocesService, SalesDeliveryInvoiceService],
 })
 export class SellingModule {}

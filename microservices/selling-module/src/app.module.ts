@@ -5,10 +5,10 @@ import { SalesChannelsModule } from './sales-channels/sales-channels.module';
 import { PrismaModule } from 'nestjs-prisma';
 import { ConfigModule } from '@nestjs/config';
 import { SalesInvoicesModule } from './sales-invoices/sales-invoices.module';
-import { SalesBlsModule } from './sales-bls/sales-bls.module';
-import { SalesBlfsModule } from './sales-blfs/sales-blfs.module';
-import { BonComndsModule } from './bon-comnds/bon-comnds.module';
-import { BonSortie } from './helpers/bonSortie';
+import { SalesDeliveryNoteModule } from './sales-Delivery-note/sales-delivery-note.module';
+import { SalesDeliveryInvoiceModule } from './sales-delivery-invoice/sales-delivery-invoice.module';
+import { PurchaseOrderModule } from './purchase-order/purchase-ordermodule';
+import { ExitNote } from './helpers/exitNote';
 
 @Module({
   imports: [
@@ -16,8 +16,8 @@ import { BonSortie } from './helpers/bonSortie';
       isGlobal: true,
       envFilePath: '../../.env',
     }),
-    PrismaModule.forRoot({ isGlobal: true }),SalesChannelsModule, SalesInvoicesModule, SalesBlsModule, SalesBlfsModule, BonComndsModule],
+    PrismaModule.forRoot({ isGlobal: true }),SalesChannelsModule, SalesInvoicesModule, SalesDeliveryNoteModule, SalesDeliveryInvoiceModule, PurchaseOrderModule],
   controllers: [AppController],
-  providers: [AppService,BonSortie],
+  providers: [AppService,ExitNote],
 })
 export class AppModule {}

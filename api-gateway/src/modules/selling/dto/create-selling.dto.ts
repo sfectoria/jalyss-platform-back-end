@@ -8,42 +8,42 @@ export class CreateSellingDto {
     @ApiProperty()
     region : string;
     @ApiProperty()
-    id_stock : number;
+    idStock : number;
 }
 
-export class CreateBonComndDto {
+export class CreatePurchaseOrderDto {
     @ApiProperty()
     orderDate: Date;
     @ApiProperty()
     date: Date;
 }
 
-export class CreateSalesblDto {
+export class CreateSalesDeliveryNoteDto {
     @ApiProperty()
     deliveryDate: Date;
 }
 
-class venteFacture_line {
+class SalesInvoiceLine {
   @ApiProperty()
   articleId: number;
 }
 
 export class CreateSalesInvoiceDto {
   @ApiProperty()
-  id_bon_commande?: number;
+  idPurchaseOrder?: number;
   @ApiProperty()
-  bonSortieId: number;
+  exitNoteId: number;
   @ApiProperty()
-  id_client: number;
+  idClient: number;
   @ApiProperty()
   saleChannelId: number;
   @ApiProperty()
   date: Date;
-  @ApiProperty({ type: [venteFacture_line] })
-  venteFacture_lines: venteFacture_line[];
+  @ApiProperty({ type: [SalesInvoiceLine] })
+  SalesInvoiceLine: SalesInvoiceLine[];
 }
 
-export class CreateSalesblfDto {
+export class CreateSalesDeliveryInvoiceDto {
     @ApiProperty()
     deliveryDate: Date;
 }

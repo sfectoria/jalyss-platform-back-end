@@ -2,11 +2,11 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateSalesChannelDto {
   @ApiProperty()
-  nom: string;
+  name: string;
   @ApiProperty()
   type: string;
   @ApiProperty()
   region: string;
   @ApiProperty()
-  id_stock: number;
+  idStock: number;
 }

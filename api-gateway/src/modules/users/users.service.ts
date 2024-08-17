@@ -10,7 +10,9 @@ export class UsersService {
   ) {}
 
   register(data:CreateUserDto) {
-    return this.userClient.send({ cmd: 'register' }, data);
+    return this.userClient.send(
+      { cmd: 'register' }, 
+      data);
   }
 
   
