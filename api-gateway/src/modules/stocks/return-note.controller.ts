@@ -20,17 +20,17 @@ export class ReturnNoteController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.returnNoteService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReturnNoteDto: UpdateReturnNoteDto) {
+  update(@Param('id') id: number, @Body() updateReturnNoteDto: UpdateReturnNoteDto) {
     return this.returnNoteService.update(+id, updateReturnNoteDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.returnNoteService.remove(+id);
   }
 }
