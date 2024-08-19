@@ -16,6 +16,7 @@ export class SalesInvoicesService {
       async (prisma: Prisma.TransactionClient) => {
         let { exitNoteId, idPurchaseOrder, salesInvoiceLine, ...rest } =
           createSalesInvoiceDto;
+          console.log("exitNOteID", exitNoteId)
         if (!exitNoteId) {
           // kif nji nasna3 bon de sorti lazemni naaref stockId 3lech
           // 3la khater kif nasnaa bon sorti lazem aandha num te3ha
@@ -30,18 +31,19 @@ export class SalesInvoicesService {
               exitNoteLines: salesInvoiceLine,
             },
           ); //
+          console.log('newExitNote', newExitNote)
           exitNoteId = newExitNote.id;
-          return await prisma.salesInvoice.create({
-            data: {
-              ...rest,
-              date: new Date(rest.date).toISOString(),
-              salesInvoiceLine: {
-                createMany: { data: salesInvoiceLine },
-              },
-              exitNoteId
-            },
-          });
         }
+        return await prisma.salesInvoice.create({
+          data: {
+            ...rest,
+            date: new Date(rest.date).toISOString(),
+            salesInvoiceLine: {
+              createMany: { data: salesInvoiceLine },
+            },
+            exitNoteId
+          },
+        });
       },
     );
   }
