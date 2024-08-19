@@ -23,6 +23,7 @@ export class ReceiptNoteService {
   }
 
   findOne(id: number) {
+    console.log("hhh",id);
     return this.stocksClient.send(
       { cmd: 'getOne_receiptNote' },
       {id}

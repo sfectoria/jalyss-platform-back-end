@@ -18,17 +18,19 @@ export class ReceiptNoteController {
     return await this.receiptNoteService.findAll();
   }
 
-  @MessagePattern({ cmd : 'getOne_ReceiptNote' })
+  @MessagePattern({ cmd : 'getOne_receiptNote' })
   async findOne(@Payload() id: number) {
-    return await this.receiptNoteService.findOne(+id);
+    console.log('hello',id);
+    
+    return await this.receiptNoteService.findOne(id);
   }
 
-  @MessagePattern({ cmd : 'update_ReceiptNote' })
+  @MessagePattern({ cmd : 'update_receiptNote' })
   async update(@Payload()  data :{id: number, updateReceiptNoteDto: UpdateReceiptNoteDto}) {
     return await this.receiptNoteService.update(data.id, data.updateReceiptNoteDto);
   }
 
-  @MessagePattern({ cmd : 'delete_ReceiptNote' })
+  @MessagePattern({ cmd : 'delete_receiptNote' })
   async remove(@Payload() id: number) {
     return await this.receiptNoteService.remove(+id);
   }

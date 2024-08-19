@@ -23,6 +23,8 @@ export class ReceiptNoteController {
 
   @Get(':id')
   findOne(@Param(':id') id: number) {
+    console.log('hi',id);
+    
     return this.receiptNoteService.findOne(+id);
   }
 
