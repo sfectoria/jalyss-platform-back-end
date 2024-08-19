@@ -20,17 +20,17 @@ export class SalesDeliveryNoteController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.salesDeliveryNoteService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSalesDeliveryNoteDto: UpdateSalesDeliveryNoteDto) {
+  update(@Param('id') id: number, @Body() updateSalesDeliveryNoteDto: UpdateSalesDeliveryNoteDto) {
     return this.salesDeliveryNoteService.update(+id, updateSalesDeliveryNoteDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.salesDeliveryNoteService.remove(+id);
   }
 }

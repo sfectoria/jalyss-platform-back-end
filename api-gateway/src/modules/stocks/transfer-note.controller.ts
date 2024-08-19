@@ -3,7 +3,6 @@ import { TransferNoteService } from './transfer-note.service';
 import { CreateTransferNoteDto } from './dto/create-stock.dto';
 import { UpdateTransferNoteDto } from './dto/update-stock.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { Payload } from '@nestjs/microservices';
 
 @Controller('transfer-note')
 @ApiTags('transferNote')
@@ -11,7 +10,7 @@ export class TransferNoteController {
   constructor(private readonly transferNoteService: TransferNoteService) {}
 
   @Post('createTN')
-  create(@Payload() createTransferNoteDto: CreateTransferNoteDto) {
+  create(@Body() createTransferNoteDto: CreateTransferNoteDto) {
     return this.transferNoteService.create(createTransferNoteDto);
   }
 
@@ -21,17 +20,17 @@ export class TransferNoteController {
   }
 
   @Get(':id')
-  findOne(@Payload() id: number) {
+  findOne(@Param('id') id: number) {
     return this.transferNoteService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Payload() data :{id: number, updateTransferNoteDto: UpdateTransferNoteDto}) {
-    return this.transferNoteService.update(data.id, data.updateTransferNoteDto);
+  update(@Param('id') id: number, @Body() updateTransferNoteDto: UpdateTransferNoteDto) {
+    return this.transferNoteService.update(id,updateTransferNoteDto);
   }
 
   @Delete(':id')
-  remove(@Payload() id: number) {
+  remove(@Param('id') id: number) {
     return this.transferNoteService.remove(+id);
   }
 }
