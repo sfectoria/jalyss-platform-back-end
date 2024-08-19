@@ -8,12 +8,12 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 export class ReceiptNoteController {
   constructor(private readonly receiptNoteService: ReceiptNoteService) {}
 
-  @MessagePattern({ cmd: 'create_ReceiptNote' })
+  @MessagePattern({ cmd: 'create_receiptNote' })
   async create(@Payload() createReceiptNoteDto: CreateReceiptNoteDto) {
     return await this.receiptNoteService.create(createReceiptNoteDto);
   }
 
-  @MessagePattern({ cmd : 'all_ReceiptNote' })
+  @MessagePattern({ cmd : 'all_receiptNotes' })
   async findAll() {
     return await this.receiptNoteService.findAll();
   }

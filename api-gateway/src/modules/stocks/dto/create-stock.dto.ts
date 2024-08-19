@@ -11,8 +11,8 @@ export class CreateStockDto {
 class ReceiptNoteLine {
     @ApiProperty()
     idArtical: number;
-    @ApiProperty()
-    idReceiptNote: number;
+    // @ApiProperty()
+    // idReceiptNote: number;
     @ApiProperty()
     quantity: number;
   }
@@ -25,6 +25,8 @@ class ReceiptNoteLine {
     idStock : number;
     @ApiProperty({ type: [ReceiptNoteLine] })
     lines: ReceiptNoteLine[];
+    @ApiProperty()
+    numReceiptNote: number;
   }
 
 class ExitNoteLine {

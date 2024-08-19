@@ -5,8 +5,9 @@ import { UpdateReceiptNoteDto } from '../stocks/dto/update-stock.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Payload } from '@nestjs/microservices';
 
-@Controller('receiptNote')
 @ApiTags('receiptNote')
+
+@Controller('receiptNote')
 export class ReceiptNoteController {
   constructor(private readonly receiptNoteService: ReceiptNoteService) {}
 
@@ -21,17 +22,17 @@ export class ReceiptNoteController {
   }
 
   @Get(':id')
-  findOne(@Payload() id: number) {
+  findOne(@Param(':id') id: number) {
     return this.receiptNoteService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Payload() data : {id: number,  updateReceiptNoteDto: UpdateReceiptNoteDto}) {
-    return this.receiptNoteService.update(data.id, data.updateReceiptNoteDto);
+  update(@Param(':id') id: number,@Body() updateReceiptNoteDto: UpdateReceiptNoteDto) {
+    return this.receiptNoteService.update(id, updateReceiptNoteDto);
   }
 
   @Delete(':id')
-  remove(@Payload() id: number) {
+  remove(@Param(':id') id: number) {
     return this.receiptNoteService.remove(+id);
   }
 }

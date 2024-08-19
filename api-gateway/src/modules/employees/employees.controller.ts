@@ -4,7 +4,6 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { Payload } from '@nestjs/microservices';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('employees')
 
