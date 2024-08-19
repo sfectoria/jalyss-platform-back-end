@@ -8,13 +8,12 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 export class SalesInvoicesController {
   constructor(private readonly salesInvoicesService: SalesInvoicesService) {}
 
-  @MessagePattern({ cmd: 'create_salesInvioce'})
+  @MessagePattern({ cmd: 'create_salesInvoice'})
   async create(@Payload() createSalesInvoiceDto: CreateSalesInvoiceDto) {
-    console.log('createSalesInvioceDto:', createSalesInvoiceDto);
     return await this.salesInvoicesService.create(createSalesInvoiceDto);
   }
 
-  @MessagePattern({ cmd: 'all_salesInvioces'})
+  @MessagePattern({ cmd: 'all_salesInvoices'})
   async findAll() {
     return await this.salesInvoicesService.findAll();
   }
