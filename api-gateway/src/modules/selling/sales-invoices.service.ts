@@ -1,23 +1,23 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateSalesInvoiceDto } from './dto/create-selling.dto';
-import { UpdateSalesInvioceDto } from './dto/update-selling.dto';
+import { UpdateSalesInvoiceDto } from './dto/update-selling.dto';
 import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
-export class SalesInviocesService {
+export class SalesInvoicesService {
   constructor(
     @Inject ('SELLING_MICROSERVICE') private readonly sellingClient: ClientProxy
   ) {}
   async create(createSalesInvoiceDto: CreateSalesInvoiceDto) {
     return await this.sellingClient.send(
-      {cmd : 'create_salesInvioce'},
+      {cmd : 'create_salesInvoice'},
       createSalesInvoiceDto
     )
   }
 
   findAll() { 
     return this.sellingClient.send(
-      {cmd : 'all_salesInvioces'}, 
+      {cmd : 'all_salesInvoices'}, 
       {}
     )
   }
@@ -29,7 +29,7 @@ export class SalesInviocesService {
     )
   }
 
-  update(id: number, updateSalesInvioceDto: UpdateSalesInvioceDto) {
+  update(id: number, updateSalesInvioceDto: UpdateSalesInvoiceDto) {
     return this.sellingClient.send(
       {cmd : 'update_salesInvoice'},
       {id, updateSalesInvioceDto}
