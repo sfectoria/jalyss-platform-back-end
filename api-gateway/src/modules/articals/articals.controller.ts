@@ -34,7 +34,7 @@ export class ArticalsController {
 
   @Patch(':id')
   update(@Param ('id') id: number, @Body() updateArticalDto: UpdateArticalDto) {
-    return this.articalsService.update(id, updateArticalDto);
+    return this.articalsService.update(+id, updateArticalDto);
   }
 
   @Delete(':id')

@@ -26,7 +26,7 @@ export class SalesInvoicesController {
 
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateSalesInvoiceDto: UpdateSalesInvoiceDto) {
-    return this.salesInvoicesService.update(id, updateSalesInvoiceDto);
+    return this.salesInvoicesService.update(+id, updateSalesInvoiceDto);
   }
 
   @Delete(':id')

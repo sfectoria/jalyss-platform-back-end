@@ -26,7 +26,7 @@ export class StocksController {
 
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateStockDto: UpdateStockDto) {
-    return this.stocksService.update(id, updateStockDto);
+    return this.stocksService.update(+id, updateStockDto);
   }
 
   @Delete(':id')

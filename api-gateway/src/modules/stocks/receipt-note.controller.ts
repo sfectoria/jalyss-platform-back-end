@@ -26,7 +26,7 @@ export class ReceiptNoteController {
 
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateReceiptNoteDto: UpdateReceiptNoteDto) {
-    return this.receiptNoteService.update(id,updateReceiptNoteDto);
+    return this.receiptNoteService.update(+id,updateReceiptNoteDto);
   }
 
   @Delete(':id')

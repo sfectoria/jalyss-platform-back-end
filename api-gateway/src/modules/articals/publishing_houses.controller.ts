@@ -28,7 +28,7 @@ export class PublishingHousesController {
 
   @Patch(':id')
   update(@Param('id') id: number, @Body() updatePublishingHouses: UpdatePublishingHouses) {
-    return this.publishingHousesService.update(id,updatePublishingHouses);
+    return this.publishingHousesService.update(+id,updatePublishingHouses);
   }
 
   @Delete(':id')
