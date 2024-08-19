@@ -19,7 +19,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('register')
-  register(@Payload() createUserDto: CreateUserDto) {
+  register(@Body() createUserDto: CreateUserDto) {
     return this.usersService.register(createUserDto);
   }
 
@@ -29,17 +29,17 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Payload() id: number) {
+  findOne(@Param('id') id: number) {
     return this.usersService.findOne(+id);
   }
   
   @Patch(':id')
-  update(@Payload() data : {id: number, updateUserDto: UpdateUserDto}) {
-    return this.usersService.update(data.id, data.updateUserDto);
+  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Payload() id: number) {
+  remove(@Param() id: number) {
     return this.usersService.remove(+id);
   }
 }

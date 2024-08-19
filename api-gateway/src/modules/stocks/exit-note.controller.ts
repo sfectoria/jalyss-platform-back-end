@@ -26,7 +26,7 @@ export class ExitNoteController {
 
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateExitNoteDto: UpdateExitNoteDto) {
-    return this.exitNoteService.update(id, updateExitNoteDto);
+    return this.exitNoteService.update(+id, updateExitNoteDto);
   }
 
   @Delete(':id')

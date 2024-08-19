@@ -26,7 +26,7 @@ export class SellingController {
 
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateSellingDto: UpdateSellingDto) {
-    return this.sellingService.update(id, updateSellingDto);
+    return this.sellingService.update(+id, updateSellingDto);
   }
 
   @Delete(':id')
