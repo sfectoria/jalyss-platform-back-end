@@ -14,7 +14,7 @@ export class EmployeesController {
     return this.employeesService.create(createEmployeeDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.employeesService.findAll();
   }
