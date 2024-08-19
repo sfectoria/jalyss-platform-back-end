@@ -12,10 +12,8 @@ import { CreateArticalDto } from './dto/create-artical.dto';
 import { UpdateArticalDto } from './dto/update-artical.dto';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { Payload } from '@nestjs/microservices';
-@ApiTags('articals')
-@ApiSecurity('apiKey')
-
 @Controller('articals')
+@ApiTags('articals')
 export class ArticalsController {
   constructor(private readonly articalsService: ArticalsService) {}
 
@@ -24,7 +22,7 @@ export class ArticalsController {
     return this.articalsService.create(createArticalDto);
   }
 
-  @Get('all')
+  @Get('getAll')
   findAll() {
     return this.articalsService.findAll();
   }

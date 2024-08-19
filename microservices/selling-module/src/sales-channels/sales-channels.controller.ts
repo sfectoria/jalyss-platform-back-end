@@ -13,7 +13,7 @@ export class SalesChannelsController {
     return await this.salesChannelsService.create(createSalesChannelDto);
   }
 
-  @MessagePattern({ cmd: 'salesChannels' })
+  @MessagePattern({ cmd: 'all_salesChannels' })
   async findAll() {
     return await this.salesChannelsService.findAll();
   }

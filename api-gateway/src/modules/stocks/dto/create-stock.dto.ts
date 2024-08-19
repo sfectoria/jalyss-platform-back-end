@@ -30,13 +30,15 @@ class ReceiptNoteLine {
 class ExitNoteLine {
   @ApiProperty()
   articalId: number;
+  @ApiProperty()
+  quantity: number;
 }
 
 export class CreateExitNoteDto {
   @ApiProperty()
   exitDate: Date;
   @ApiProperty()
-  numExitNote : number; 
+  numExitNote : number 
   @ApiProperty()
   stockId : number
   @ApiProperty({ type: [ExitNoteLine] })

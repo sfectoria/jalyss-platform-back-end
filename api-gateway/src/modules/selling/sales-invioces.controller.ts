@@ -11,7 +11,8 @@ export class SalesInviocesController {
   constructor(private readonly salesInviocesService: SalesInviocesService) {}
 
   @Post('create')
-  create(@Payload() createSalesInvioceDto: CreateSalesInvoiceDto) {
+  create(@Body() createSalesInvioceDto: CreateSalesInvoiceDto) {
+    console.log('createSalesInvioceDto:', createSalesInvioceDto);
     return this.salesInviocesService.create(createSalesInvioceDto);
   }
 

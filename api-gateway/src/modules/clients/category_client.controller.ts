@@ -8,10 +8,8 @@ import { Payload } from '@nestjs/microservices';
 // import { CategorieClientsGatewayService } from './categorie-clients.gateway.service';
 // import { CreateCategorieClientDto } from './dto/create-categorie-client.dto';
 // import { UpdateCategorieClientDto } from './dto/update-categorie-client.dto';
-@ApiTags('categoryClients')
-@ApiSecurity('apiKey')
-
 @Controller('categoryClients')
+@ApiTags('categoryClients')
 export class CategoryClientsController {
   constructor(private readonly categoryClientsService: CategoryClientsService) {}
   // @ApiBearerAuth('jwt')

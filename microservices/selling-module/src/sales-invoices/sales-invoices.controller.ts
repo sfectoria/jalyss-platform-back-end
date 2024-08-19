@@ -10,6 +10,7 @@ export class SalesInvoicesController {
 
   @MessagePattern({ cmd: 'create_salesInvioce'})
   async create(@Payload() createSalesInvoiceDto: CreateSalesInvoiceDto) {
+    console.log('createSalesInvioceDto:', createSalesInvoiceDto);
     return await this.salesInvoicesService.create(createSalesInvoiceDto);
   }
 
