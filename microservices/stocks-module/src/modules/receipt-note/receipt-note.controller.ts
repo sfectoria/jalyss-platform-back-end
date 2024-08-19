@@ -19,10 +19,10 @@ export class ReceiptNoteController {
   }
 
   @MessagePattern({ cmd : 'getOne_receiptNote' })
-  async findOne(@Payload() id: number) {
-    console.log('hello',id);
+  async findOne(@Payload()  data: { id: number }) {
+    console.log('hello',data);
     
-    return await this.receiptNoteService.findOne(id);
+    return await this.receiptNoteService.findOne(data.id);
   }
 
   @MessagePattern({ cmd : 'update_receiptNote' })
@@ -31,7 +31,7 @@ export class ReceiptNoteController {
   }
 
   @MessagePattern({ cmd : 'delete_receiptNote' })
-  async remove(@Payload() id: number) {
-    return await this.receiptNoteService.remove(+id);
+  async remove(@Payload() data:{id: number}) {  
+    return await this.receiptNoteService.remove(data.id);
   }
 }

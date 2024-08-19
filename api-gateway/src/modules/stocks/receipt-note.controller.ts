@@ -22,19 +22,21 @@ export class ReceiptNoteController {
   }
 
   @Get(':id')
-  findOne(@Param(':id') id: number) {
+  findOne(@Param('id') id: number) {
     console.log('hi',id);
     
     return this.receiptNoteService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param(':id') id: number,@Body() updateReceiptNoteDto: UpdateReceiptNoteDto) {
+  update(@Param('id') id: number,@Body() updateReceiptNoteDto: UpdateReceiptNoteDto) {
     return this.receiptNoteService.update(id, updateReceiptNoteDto);
   }
 
   @Delete(':id')
-  remove(@Param(':id') id: number) {
+  remove(@Param('id') id: number) {
+    console.log('give me the id ',id);
+    
     return this.receiptNoteService.remove(+id);
   }
 }

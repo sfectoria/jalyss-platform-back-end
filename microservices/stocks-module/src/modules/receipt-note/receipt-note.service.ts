@@ -6,20 +6,46 @@ import { PrismaService } from 'nestjs-prisma';
 @Injectable()
 export class ReceiptNoteService {
   constructor(private readonly prisma: PrismaService) { }
+  // async create(createReceiptNoteDto: CreateReceiptNoteDto) {
+  //   const { lines, ...rest } = createReceiptNoteDto
+  //   return await this.prisma.receiptNote.create(
+  //     {
+  //       data:
+  //       {
+  //         ...rest,
+  //         receiptNoteLine:
+  //         {
+  //           createMany: { data: lines}
+  //         }
+  //       }
+  //     }
+  //   );
+  // }
   async create(createReceiptNoteDto: CreateReceiptNoteDto) {
-    const { lines, ...rest } = createReceiptNoteDto
-    return await this.prisma.receiptNote.create(
+    let { lines, numReceiptNote, ...rest } = createReceiptNoteDto
+    const lastReceiptOfStock = await this.prisma.receiptNote.findMany({
+      where: { idStock: createReceiptNoteDto.idStock },
+      take: 1,
+      orderBy: {
+        numReceiptNote: 'desc',
+      },     
+    });
+    console.log(numReceiptNote,'numReceiptNote');
+    if (lastReceiptOfStock.length == 0){
+      numReceiptNote = 1
+    }
+    else numReceiptNote=lastReceiptOfStock[0].numReceiptNote+1
+    return await this.prisma.receiptNote.create({
+      data : 
       {
-        data:
+        ...rest,
+        numReceiptNote,
+        receiptNoteLine :  
         {
-          ...rest,
-          receiptNoteLine:
-          {
-            createMany: { data: lines}
-          }
+          createMany : { data : lines }
         }
       }
-    );
+    });
   }
 
   async findAll() {

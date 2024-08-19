@@ -28,7 +28,7 @@ export class ArticalsController {
   }
 
   @Get(':id')
-  findOne(@Payload() id: number) {
+  findOne(@Param('id') id: number) {
     return this.articalsService.findOne(+id);
   }
 
@@ -38,7 +38,7 @@ export class ArticalsController {
   }
 
   @Delete(':id')
-  remove(@Payload() id: number) {
+  remove(@Param('id') id: number) {
     return this.articalsService.remove(+id);
   }
 }
