@@ -25,7 +25,7 @@ export class ExitNoteService {
       {
         ...rest,
         numExitNote,
-        exitNoteLine : 
+        exitNoteLine :  
         {
           createMany : { data : lines }
         }

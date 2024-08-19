@@ -27,7 +27,7 @@ export class ArticalsService {
     console.log('findOne id:', id);
     return this.articalClient.send(
       { cmd: 'getOne_artical' }, 
-      { id });
+      {id});
   }
 
   update(id: number, updateArticalDto: UpdateArticalDto) {

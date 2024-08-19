@@ -10,34 +10,34 @@ export class SellingService {
   ) {}
   create(createSellingDto: CreateSellingDto) {
     return this.sellingClient.send(
-      {cmd : 'create_selling'},
+      {cmd : 'create_salesChannel'},
        createSellingDto);
   }
 
   findAll() {
     return this.sellingClient.send(
-      {cmd : 'all_selling'},
+      {cmd : 'all_salesChannels'},
       {}
     );
   }
 
   findOne(id: number) {
     return this.sellingClient.send(
-      {cmd : 'getOne_selling'},
+      {cmd : 'getOne_salesChannel'},
       {id}
     )
   }
 
   update(id: number, updateSellingDto: UpdateSellingDto) {
     return this.sellingClient.send(
-      {cmd : 'update_selling'},
+      {cmd : 'update_salesChannel'},
       {id, updateSellingDto}
     )
   }
 
   remove(id: number) {
     return this.sellingClient.send(
-      {cmd : 'delete_selling'},
+      {cmd : 'delete_salesChannel'},
       {id}
     )
   }

@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateSellingDto {
     @ApiProperty()
-    nom : string;
+    name : string;
     @ApiProperty()
     type : string;
     @ApiProperty()
@@ -25,7 +25,9 @@ export class CreateSalesDeliveryNoteDto {
 
 class SalesInvoiceLine {
   @ApiProperty()
-  articleId: number;
+  articalId: number;
+  @ApiProperty()
+  quantity: number;
 }
 
 export class CreateSalesInvoiceDto {
@@ -40,7 +42,7 @@ export class CreateSalesInvoiceDto {
   @ApiProperty()
   date: Date;
   @ApiProperty({ type: [SalesInvoiceLine] })
-  SalesInvoiceLine: SalesInvoiceLine[];
+  salesInvoiceLine: SalesInvoiceLine[];
 }
 
 export class CreateSalesDeliveryInvoiceDto {

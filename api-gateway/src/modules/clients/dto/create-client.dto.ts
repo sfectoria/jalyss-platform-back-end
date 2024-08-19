@@ -16,7 +16,7 @@ export class CreateClientDto {
   @IsEmail()
   email: string;
   @ApiProperty()
-  registrationDate: string;
+  registrationDate?: string;
   @ApiProperty()
   @IsInt()
   idCategoryClient: number;

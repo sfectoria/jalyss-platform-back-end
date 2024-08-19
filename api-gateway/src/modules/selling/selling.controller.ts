@@ -6,7 +6,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Payload } from '@nestjs/microservices';
 
 @Controller('selling')
-@ApiTags('selling')
+@ApiTags('salesChannels')
 export class SellingController {
   constructor(private readonly sellingService: SellingService) {}
 

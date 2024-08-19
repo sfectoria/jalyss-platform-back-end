@@ -19,5 +19,5 @@ export class CreateSalesInvoiceDto {
   @ApiProperty()
   date: string;
   @ApiProperty({ type: [SalesInvoiceLine] })
-  salesInvoicelines: SalesInvoiceLine[];
+  salesInvoiceLine: SalesInvoiceLine[];
 }
