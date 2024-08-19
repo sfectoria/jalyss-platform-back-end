@@ -32,7 +32,7 @@ export class CategoryClientsController {
 
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateCategoryClientDto: UpdateCategoryClientDto) {
-    return await this.categoryClientsService.update(id, updateCategoryClientDto);
+    return await this.categoryClientsService.update(+id, updateCategoryClientDto);
   }
 
   @Delete(':id')

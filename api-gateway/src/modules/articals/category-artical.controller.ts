@@ -28,7 +28,7 @@ export class CategoryArticalController {
 
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateCategoryArticalDto: UpdateCategoryArticalDto) {
-    return this.categoryArticalsService.update(id,updateCategoryArticalDto);
+    return this.categoryArticalsService.update(+id,updateCategoryArticalDto);
   }
 
   @Delete(':id')

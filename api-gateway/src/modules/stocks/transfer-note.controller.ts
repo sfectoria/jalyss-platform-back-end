@@ -26,7 +26,7 @@ export class TransferNoteController {
 
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateTransferNoteDto: UpdateTransferNoteDto) {
-    return this.transferNoteService.update(id,updateTransferNoteDto);
+    return this.transferNoteService.update(+id,updateTransferNoteDto);
   }
 
   @Delete(':id')
