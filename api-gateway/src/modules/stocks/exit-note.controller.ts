@@ -10,7 +10,7 @@ import { Payload } from '@nestjs/microservices';
 export class ExitNoteController {
   constructor(private readonly exitNoteService: ExitNoteService) {}
 
-  @Post('create_en')
+  @Post('create_exitNote')
   create(@Payload() createExitNoteDto: CreateExitNoteDto) {
     return this.exitNoteService.create(createExitNoteDto);
   }

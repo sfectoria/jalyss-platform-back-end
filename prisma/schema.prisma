@@ -33,7 +33,7 @@ model Client {
   phoneNumber          String
   address              String
   email                String
-  registrationDate     DateTime
+  registrationDate     DateTime?
   idCategoryClient     Int
   categoryClient       CategoryClient?        @relation(fields: [idCategoryClient], references: [id])
   purchaseOrder        PurchaseOrder[] // bon de commande 

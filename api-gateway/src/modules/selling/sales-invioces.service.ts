@@ -8,10 +8,10 @@ export class SalesInviocesService {
   constructor(
     @Inject ('SELLING_MICROSERVICE') private readonly sellingClient: ClientProxy
   ) {}
-  create(CreateSalesInvoiceDto: CreateSalesInvoiceDto) {
-    return this.sellingClient.send(
+  async create(createSalesInvoiceDto: CreateSalesInvoiceDto) {
+    return await this.sellingClient.send(
       {cmd : 'create_salesInvioce'},
-      CreateSalesInvoiceDto
+      createSalesInvoiceDto
     )
   }
 
