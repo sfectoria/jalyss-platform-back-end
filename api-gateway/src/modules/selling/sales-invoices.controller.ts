@@ -5,7 +5,7 @@ import { UpdateSalesInvoiceDto } from './dto/update-selling.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('sales-invoices')
-@ApiTags('sales-invoices')
+@ApiTags('salesInvoices')
 export class SalesInvoicesController {
   constructor(private readonly salesInvoicesService: SalesInvoicesService) {}
 
