@@ -15,6 +15,7 @@ export class ReceiptNoteService {
   }
 
   findAll() {
+    console.log('find All receipt Note');
     return this.stocksClient.send(
       { cmd: 'all_receiptNotes' },
       {}
@@ -22,6 +23,7 @@ export class ReceiptNoteService {
   }
 
   findOne(id: number) {
+    console.log("hhh",id);
     return this.stocksClient.send(
       { cmd: 'getOne_receiptNote' },
       {id}
