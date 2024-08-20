@@ -1,34 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Delete } from '@nestjs/common';
 import { PurchaseDeliveryNoteService } from './purchase-delivery-note.service';
 import { CreatePurchaseDeliveryNoteDto } from './dto/create-purchase-delivery-note.dto';
 import { UpdatePurchaseDeliveryNoteDto } from './dto/update-purchase-delivery-note.dto';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('purchase-delivery-note')
 export class PurchaseDeliveryNoteController {
   constructor(private readonly purchaseDeliveryNoteService: PurchaseDeliveryNoteService) {}
 
-  @Post()
-  create(@Body() createPurchaseDeliveryNoteDto: CreatePurchaseDeliveryNoteDto) {
+  @MessagePattern({cmd: 'create_purchaseDeliveryNote'})
+  create(@Payload() createPurchaseDeliveryNoteDto: CreatePurchaseDeliveryNoteDto) {
     return this.purchaseDeliveryNoteService.create(createPurchaseDeliveryNoteDto);
   }
 
-  @Get()
-  findAll() {
-    return this.purchaseDeliveryNoteService.findAll();
+  @MessagePattern({cmd: 'all_purchaseDeliveryNote'})
+  async findAll() {
+    return await this.purchaseDeliveryNoteService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.purchaseDeliveryNoteService.findOne(+id);
+  @MessagePattern({cmd: 'getOne_purchaseDeliveryNote'})
+  async findOne(@Payload('id') id: number) {
+    return await this.purchaseDeliveryNoteService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePurchaseDeliveryNoteDto: UpdatePurchaseDeliveryNoteDto) {
-    return this.purchaseDeliveryNoteService.update(+id, updatePurchaseDeliveryNoteDto);
+  @MessagePattern({cmd: 'update_purchaseDeliveryNote'})
+  async update(@Payload('id') data:{id: number; updatePurchaseDeliveryNoteDto: UpdatePurchaseDeliveryNoteDto}) {
+    return await this.purchaseDeliveryNoteService.update(+data.id, data.updatePurchaseDeliveryNoteDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.purchaseDeliveryNoteService.remove(+id);
+  @MessagePattern({cmd: 'delete_purchaseDeliveryNote'})
+  async remove(@Payload('id') id: number) {
+    return await this.purchaseDeliveryNoteService.remove(+id);
   }
 }

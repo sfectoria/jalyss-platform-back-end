@@ -2,33 +2,34 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PurchaseDeliveryInvoiceService } from './purchase-delivery-invoice.service';
 import { CreatePurchaseDeliveryInvoiceDto } from './dto/create-purchase-delivery-invoice.dto';
 import { UpdatePurchaseDeliveryInvoiceDto } from './dto/update-purchase-delivery-invoice.dto';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('purchase-delivery-invoice')
 export class PurchaseDeliveryInvoiceController {
   constructor(private readonly purchaseDeliveryInvoiceService: PurchaseDeliveryInvoiceService) {}
-
-  @Post()
-  create(@Body() createPurchaseDeliveryInvoiceDto: CreatePurchaseDeliveryInvoiceDto) {
-    return this.purchaseDeliveryInvoiceService.create(createPurchaseDeliveryInvoiceDto);
+  
+  @MessagePattern({cmd: 'create_purchaseDeliveryInvoice'})
+  async create(@Payload() createPurchaseDeliveryInvoiceDto: CreatePurchaseDeliveryInvoiceDto) {
+    return await this.purchaseDeliveryInvoiceService.create(createPurchaseDeliveryInvoiceDto);
   }
 
-  @Get()
-  findAll() {
-    return this.purchaseDeliveryInvoiceService.findAll();
+  @MessagePattern({cmd: 'all_purchaseDeliveryInvoices'})
+  async findAll() {
+    return await this.purchaseDeliveryInvoiceService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.purchaseDeliveryInvoiceService.findOne(+id);
+  @MessagePattern({cmd: 'getOne_purchaseDeliveryInvoice'})
+  async findOne(@Payload('id') id: number) {
+    return await this.purchaseDeliveryInvoiceService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePurchaseDeliveryInvoiceDto: UpdatePurchaseDeliveryInvoiceDto) {
-    return this.purchaseDeliveryInvoiceService.update(+id, updatePurchaseDeliveryInvoiceDto);
+  @MessagePattern({cmd: 'update_purchaseDeliveryInvoice'})
+  async update(@Payload('id') data:{ id: number;  updatePurchaseDeliveryInvoiceDto: UpdatePurchaseDeliveryInvoiceDto}) {
+    return await this.purchaseDeliveryInvoiceService.update(+data.id, data.updatePurchaseDeliveryInvoiceDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.purchaseDeliveryInvoiceService.remove(+id);
+  @MessagePattern({cmd: 'delete_purchaseDeliveryInvoice'})
+  async remove(@Payload('id') id: number) {
+    return await this.purchaseDeliveryInvoiceService.remove(+id);
   }
 }
