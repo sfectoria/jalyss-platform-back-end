@@ -8,27 +8,27 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 export class ReturnNoteController {
   constructor(private readonly returnNoteService: ReturnNoteService) {}
 
-  @MessagePattern({ cmd:'create_return-note'})
+  @MessagePattern({ cmd:'create_returnNote'})
   async create(@Payload() createReturnNoteDto: CreateReturnNoteDto) {
     return await this.returnNoteService.create(createReturnNoteDto);
   }
 
-  @MessagePattern({cmd:'get_all_return-note'})
+  @MessagePattern({cmd:'all_returnNotes'})
   async findAll() {
     return await this.returnNoteService.findAll();
   }
 
-  @MessagePattern({ cmd:'get_one_return-note'})
-  async findOne(@Payload() id: number) {
-    return await this.returnNoteService.findOne(+id);
+  @MessagePattern({ cmd:'getOne_returnNote'})
+  async findOne(@Payload() data:{id: number}) {
+    return await this.returnNoteService.findOne(data.id);
   }
 
-  @MessagePattern({ cmd:'update_return-note'})
+  @MessagePattern({ cmd:'update_returnNote'})
   async update(@Payload() data: {id: number, updateReturnNoteDto: UpdateReturnNoteDto}) {
     return await this.returnNoteService.update(data.id, data.updateReturnNoteDto);
   }
 
-  @MessagePattern({ cmd:'delete_return-note'})
+  @MessagePattern({ cmd:'delete_returnNote'})
   async remove(@Payload() id: number) {
     return await this.returnNoteService.remove(+id);
   }
