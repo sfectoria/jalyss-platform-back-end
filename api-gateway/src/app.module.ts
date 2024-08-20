@@ -12,6 +12,7 @@ import { StocksModule } from './modules/stocks/stocks.module';
 import { ConfigModule } from '@nestjs/config';
 import { SellingModule } from './modules/selling/selling.module';
 import { EmployeesModule } from './modules/employees/employees.module';
+import { PurchasesModule } from './modules/purchases/purchases.module';
 @Module({
   imports: [
     PrismaModule.forRoot({
@@ -44,6 +45,11 @@ import { EmployeesModule } from './modules/employees/employees.module';
           options: { port: 3004 },
         },
         {
+          name: 'PURCHASE_MICROSERVICE',
+          transport: Transport.TCP,
+          options: { port: 3005 },
+        },
+        {
           name: 'ARTICAL_MICROSERVICE',
           transport: Transport.TCP,
           options: { port: 3006 },
@@ -68,6 +74,7 @@ import { EmployeesModule } from './modules/employees/employees.module';
     StocksModule,
     SellingModule,
     EmployeesModule,
+    PurchasesModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,26 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreatePurchaseDeliveryInvoiceDto } from './dto/create-purchase.dto';
 import { UpdatePurchaseDeliveryInvoiceDto } from './dto/update-purchase.dto';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class PurchaseDeliveryInvoicesService {
+  constructor(
+    @Inject ('PURCHASE_MICROSERVICE') private readonly purchaseClient: ClientProxy
+  ) {}
   create(createPurchaseDeliveryInvoiceDto: CreatePurchaseDeliveryInvoiceDto) {
-    return 'This action adds a new purchaseDeliveryInvoice';
+    return this.purchaseClient.send(
+      { cmd : 'create_purchaseDeliveryInvoice'},
+       createPurchaseDeliveryInvoiceDto);
   }
 
   findAll() {
-    return `This action returns all purchaseDeliveryInvoices`;
+    return this.purchaseClient.send(
+      { cmd: 'all_purchaseDeliveryInvoices' }, 
+      {});
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} purchaseDeliveryInvoice`;
+    return this.purchaseClient.send(
+      { cmd: 'getOne_purchaseDeliveryInvoice' },
+      {id}
+    )
   }
 
   update(id: number, updatePurchaseDeliveryInvoiceDto: UpdatePurchaseDeliveryInvoiceDto) {
-    return `This action updates a #${id} purchaseDeliveryInvoice`;
+    return this.purchaseClient.send(
+      { cmd: 'update_purchaseDeliveryInvoice' },
+      {id, updatePurchaseDeliveryInvoiceDto}
+    )
   }
 
   remove(id: number) {
-    return `This action removes a #${id} purchaseDeliveryInvoice`;
+    return this.purchaseClient.send(
+      { cmd: 'delete_purchaseDeliveryInvoice' },
+      {id}
+    )
   }
 }

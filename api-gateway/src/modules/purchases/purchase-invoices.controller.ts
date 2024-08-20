@@ -2,33 +2,35 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PurchaseInvoicesService } from './purchase-invoices.service';
 import { CreatePurchaseInvoiceDto } from './dto/create-purchase.dto';
 import { UpdatePurchaseInvoiceDto } from './dto/update-purchase.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('purchase-invoices')
+@ApiTags('purchase Invoices')
 export class PurchaseInvoicesController {
   constructor(private readonly purchaseInvoicesService: PurchaseInvoicesService) {}
 
-  @Post()
+  @Post('create') 
   create(@Body() createPurchaseInvoiceDto: CreatePurchaseInvoiceDto) {
     return this.purchaseInvoicesService.create(createPurchaseInvoiceDto);
   }
 
-  @Get()
+  @Get('getAll')
   findAll() {
     return this.purchaseInvoicesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.purchaseInvoicesService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePurchaseInvoiceDto: UpdatePurchaseInvoiceDto) {
+  update(@Param('id') id: number, @Body() updatePurchaseInvoiceDto: UpdatePurchaseInvoiceDto) {
     return this.purchaseInvoicesService.update(+id, updatePurchaseInvoiceDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.purchaseInvoicesService.remove(+id);
   }
 }
