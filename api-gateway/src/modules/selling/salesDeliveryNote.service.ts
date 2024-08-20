@@ -17,7 +17,7 @@ export class SalesDeliveryNoteService {
 
   findAll() {
     return this.sellingClient.send(
-      { cmd: 'all_salesDeliveryNote' },
+      { cmd: 'all_salesDeliveryNotes' },
       {}
     );
   }

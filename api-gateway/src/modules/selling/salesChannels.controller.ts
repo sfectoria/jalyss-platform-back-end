@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { SellingService } from './selling.service';
+import { SellingService } from './salesChannels.service';
 import { CreateSellingDto } from './dto/create-selling.dto';
 import { UpdateSellingDto } from './dto/update-selling.dto';
 import { ApiTags } from '@nestjs/swagger';
