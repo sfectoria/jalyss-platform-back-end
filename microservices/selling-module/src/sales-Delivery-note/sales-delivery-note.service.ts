@@ -3,7 +3,6 @@ import { CreateSalesDeliveryNoteDto } from './dto/create-sales-delivery-note.dto
 import { UpdateSalesDeliveryNoteDto } from './dto/update-sales-delivery-notedto';
 import { PrismaService } from 'nestjs-prisma';
 import { ExitNote } from 'src/helpers/exitNote';
-import {  Prisma } from '@prisma/client';
 
 @Injectable()
 export class SalesDeliveryNoteService {
@@ -12,8 +11,7 @@ export class SalesDeliveryNoteService {
     private helperExitNote: ExitNote,
   ) {}
   async create(createSalesDeliveryNoteDto: CreateSalesDeliveryNoteDto) {
-    return await this.prisma.$transaction(
-      async (prisma: Prisma.TransactionClient) => {
+    return await this.prisma.$transaction(async (prisma) => {
       let { exitNoteId, idPurchaseOrder, salesDeliveryNoteLine, ...rest } =
         createSalesDeliveryNoteDto;
 
@@ -24,20 +22,17 @@ export class SalesDeliveryNoteService {
 
         const newExitNote = await this.helperExitNote.create(prisma, {
           saleChannelId: createSalesDeliveryNoteDto.saleChannelId,
-          exitNoteLines: salesDeliveryNoteLine,
+          exitNoteLines: createSalesDeliveryNoteDto.salesDeliveryNoteLine,
           date: createSalesDeliveryNoteDto.deliveryDate,
         });
-
-        exitNoteId = newExitNote.id;
-
         return await prisma.salesDeliveryNote.create({
           data: {
             ...rest,
             deliveryDate: new Date(rest.deliveryDate).toISOString(),
             salesDeliveryNoteLine: {
-              createMany: { data: salesDeliveryNoteLine },
+              createMany: { data: createSalesDeliveryNoteDto.salesDeliveryNoteLine },
             },
-            exitNoteId
+            exitNoteId: newExitNote.id,
           },
         });
       }
@@ -54,17 +49,17 @@ export class SalesDeliveryNoteService {
 
   async update(id: number, updateSalesDeliveryNoteDto: UpdateSalesDeliveryNoteDto) {
     const { salesDeliveryNoteLine, ...rest } = updateSalesDeliveryNoteDto
-    return await this.prisma.salesDeliveryNote.update({
+    return await this.prisma.receiptNote.update({
       where: { id },
       data:
       {
         ...rest,
-        salesDeliveryNoteLine:
+        receiptNoteLine:
         {
           updateMany: salesDeliveryNoteLine.map(line => ({
             where: {
-              articalId: line.articalId,
-              salesDeliveryNoteId: id,
+              idArtical: line.articalId,
+              receiptNoteId: id,
             },
             data: {
               quantity: line.quantity,

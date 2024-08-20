@@ -3,7 +3,6 @@ import { ExitNoteService } from './exit-note.service';
 import { CreateExitNoteDto } from './dto/create-stock.dto';
 import { UpdateExitNoteDto } from './dto/update-stock.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { Payload } from '@nestjs/microservices';
 
 @Controller('exitNote')
 @ApiTags('exitNote')
@@ -11,7 +10,7 @@ export class ExitNoteController {
   constructor(private readonly exitNoteService: ExitNoteService) {}
 
   @Post('create_exitNote')
-  create(@Payload() createExitNoteDto: CreateExitNoteDto) {
+  create(@Body() createExitNoteDto: CreateExitNoteDto) {
     return this.exitNoteService.create(createExitNoteDto);
   }
 
@@ -21,17 +20,17 @@ export class ExitNoteController {
   }
 
   @Get(':id')
-  findOne(@Payload() id: number) {
+  findOne(@Param('id') id: number) {
     return this.exitNoteService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Payload() data : {id: number, updateExitNoteDto: UpdateExitNoteDto}) {
-    return this.exitNoteService.update(data.id, data.updateExitNoteDto);
+  update(@Param('id') id: number, @Body() updateExitNoteDto: UpdateExitNoteDto) {
+    return this.exitNoteService.update(+id, updateExitNoteDto);
   }
 
   @Delete(':id')
-  remove(@Payload() id: number) {
+  remove(@Param('id') id: number) {
     return this.exitNoteService.remove(+id);
   }
 }

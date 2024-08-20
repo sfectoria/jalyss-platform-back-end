@@ -10,15 +10,15 @@ import {
 import { ArticalsService } from './articals.service';
 import { CreateArticalDto } from './dto/create-artical.dto';
 import { UpdateArticalDto } from './dto/update-artical.dto';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { Payload } from '@nestjs/microservices';
+import { ApiTags } from '@nestjs/swagger';
+
 @Controller('articals')
 @ApiTags('articals')
 export class ArticalsController {
   constructor(private readonly articalsService: ArticalsService) {}
 
   @Post('create')
-  create(@Payload() createArticalDto: CreateArticalDto) {
+  create(@Body() createArticalDto: CreateArticalDto) {
     return this.articalsService.create(createArticalDto);
   }
 
@@ -33,8 +33,8 @@ export class ArticalsController {
   }
 
   @Patch(':id')
-  update(@Payload() data : {id: number, updateArticalDto: UpdateArticalDto}) {
-    return this.articalsService.update(data.id, data.updateArticalDto);
+  update(@Param ('id') id: number, @Body() updateArticalDto: UpdateArticalDto) {
+    return this.articalsService.update(+id, updateArticalDto);
   }
 
   @Delete(':id')

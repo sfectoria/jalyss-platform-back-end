@@ -1,14 +1,13 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { SalesInvoicesService } from './sales-invoices.service';
 import { CreateSalesInvoiceDto } from './dto/create-selling.dto';
-import { UpdateSalesInvoiceDto } from './dto/update-selling.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { Payload } from '@nestjs/microservices';
-
+import { UpdateSalesInvioceDto } from './dto/update-selling.dto';
+import { SalesInvoicesService } from './sales-invoices.service';
 @Controller('sales-invoices')
-@ApiTags('sales-invoices')
+@ApiTags('salesInvoices')
 export class SalesInvoicesController {
-  constructor(private readonly salesInvoicesService: SalesInvoicesService) {}
+  constructor(private readonly salesInvoicesService: SalesInvoicesService
+  ) {}
 
   @Post('create')
   create(@Body() createSalesInvoiceDto: CreateSalesInvoiceDto) {
@@ -21,17 +20,18 @@ export class SalesInvoicesController {
   }
 
   @Get(':id')
-  findOne(@Payload() id: number) {
+  findOne(@Param('id') id: number) {
     return this.salesInvoicesService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Payload() data : {id: number, updateSalesInvoiceDto: UpdateSalesInvoiceDto}) {
-    return this.salesInvoicesService.update(data.id, data.updateSalesInvoiceDto);
+  update(@Param('id') id: number, @Body() updateSalesInvoiceDto: UpdateSalesInvioceDto) {
+    return this.salesInvoicesService.update(+id, updateSalesInvoiceDto);
   }
 
+  
   @Delete(':id')
-  remove(@Payload() id: number) {
+  remove(@Param('id') id: number) {
     return this.salesInvoicesService.remove(+id);
   }
 }

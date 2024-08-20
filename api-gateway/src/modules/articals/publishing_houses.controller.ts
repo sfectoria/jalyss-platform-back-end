@@ -4,17 +4,15 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PublishingHousesService } from './publishing_houses.service';
 import { CreatePublishingHouseDto } from './dto/create-artical.dto';
 import { UpdatePublishingHouses } from './dto/update-artical.dto';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { Payload } from '@nestjs/microservices';
-@ApiTags('publishingHouses')
-@ApiSecurity('apiKey')
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('publishingHouses')
 @Controller('publishingHouses')
 export class PublishingHousesController {
   constructor(private readonly publishingHousesService: PublishingHousesService) {}
   
   @Post('create')
-  create(@Payload() createPublishingHouseDto: CreatePublishingHouseDto) {
+  create(@Body() createPublishingHouseDto: CreatePublishingHouseDto) {
     return this.publishingHousesService.create(createPublishingHouseDto);
   }
 
@@ -24,17 +22,17 @@ export class PublishingHousesController {
   }
 
   @Get(':id')
-  findOne(@Payload() id: number) {
+  findOne(@Param('id') id: number) {
     return this.publishingHousesService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Payload() data : {id: number, updatePublishingHouses: UpdatePublishingHouses}) {
-    return this.publishingHousesService.update(data.id, data.updatePublishingHouses);
+  update(@Param('id') id: number, @Body() updatePublishingHouses: UpdatePublishingHouses) {
+    return this.publishingHousesService.update(+id,updatePublishingHouses);
   }
 
   @Delete(':id')
-  remove(@Payload() id: number) {
+  remove(@Param('id') id: number) {
     return this.publishingHousesService.remove(+id);
   }
 }

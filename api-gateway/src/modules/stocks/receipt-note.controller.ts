@@ -12,7 +12,7 @@ export class ReceiptNoteController {
   constructor(private readonly receiptNoteService: ReceiptNoteService) {}
 
   @Post('create_rn')
-  create(@Payload() createReceiptNoteDto: CreateReceiptNoteDto) {
+  create(@Body() createReceiptNoteDto: CreateReceiptNoteDto) {
     return this.receiptNoteService.create(createReceiptNoteDto);
   }
 

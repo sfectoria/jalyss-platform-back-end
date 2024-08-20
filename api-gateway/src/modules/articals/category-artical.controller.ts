@@ -4,16 +4,15 @@ import { CreateCategoryArticalDto } from './dto/create-artical.dto';
 import { UpdateCategoryArticalDto } from './dto/update-artical.dto';
 // import { CreateCategorieArticleDto } from './dto/create-categorie-article.dto';
 // import { UpdateCategorieArticleDto } from './dto/update-categorie-article.dto';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { Payload } from '@nestjs/microservices';
+import { ApiTags } from '@nestjs/swagger';
+
 @ApiTags('categoryArtical')
-@ApiSecurity('apiKey')
 @Controller('catgoryArtical')
 export class CategoryArticalController {
   constructor(private readonly categoryArticalsService: CategoryArticalsService) {}
 
   @Post('create')
-  create(@Payload() createCategoryArticalDto: CreateCategoryArticalDto) {
+  create(@Body() createCategoryArticalDto: CreateCategoryArticalDto) {
     return this.categoryArticalsService.create(createCategoryArticalDto);
   }
 
@@ -23,17 +22,17 @@ export class CategoryArticalController {
   }
 
   @Get(':id')
-  findOne(@Payload() id: number) {
+  findOne(@Param('id') id: number) {
     return this.categoryArticalsService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Payload() data : {id: number, updateCategoryArticalDto: UpdateCategoryArticalDto}) {
-    return this.categoryArticalsService.update(data.id, data.updateCategoryArticalDto);
+  update(@Param('id') id: number, @Body() updateCategoryArticalDto: UpdateCategoryArticalDto) {
+    return this.categoryArticalsService.update(+id,updateCategoryArticalDto);
   }
 
   @Delete(':id')
-  remove(@Payload() id: number) {
+  remove(@Param('id') id: number) {
     return this.categoryArticalsService.remove(+id);
   }
 }

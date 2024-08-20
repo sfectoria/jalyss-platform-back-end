@@ -20,17 +20,17 @@ export class SalesDeliveryInvoiceController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.salesDeliveryInvoiceService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSalesDeliveryInvoiceDto: UpdateSalesDeliveryInvoiceDto) {
+  update(@Param('id') id: number, @Body() updateSalesDeliveryInvoiceDto: UpdateSalesDeliveryInvoiceDto) {
     return this.salesDeliveryInvoiceService.update(+id, updateSalesDeliveryInvoiceDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.salesDeliveryInvoiceService.remove(+id);
   }
 }
