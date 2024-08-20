@@ -17,7 +17,7 @@ export class SalesDeliveryInvoiceService {
 
   findAll() {
     return this.sellingClient.send(
-      { cmd: 'all_salesDeliveryInvoices' },
+      { cmd: 'all_salesDeliveryInvoice' },
       {}
     )
   }

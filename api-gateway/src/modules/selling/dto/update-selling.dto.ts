@@ -7,7 +7,7 @@ export class UpdatePurchaseOrderDto extends PartialType(CreatePurchaseOrderDto) 
 
 export class UpdateSalesDeliveryNoteDto extends PartialType(CreateSalesDeliveryNoteDto) {}
 
-export class UpdateSalesInvoiceDto extends PartialType(CreateSalesInvoiceDto) {}
+export class UpdateSalesInvioceDto extends PartialType(CreateSalesInvoiceDto) {}
 
 export class UpdateSalesDeliveryInvoiceDto extends PartialType(CreateSalesDeliveryInvoiceDto) {}
 
