@@ -85,4 +85,6 @@ export class CreateReturnNoteDto {
     lines: ReturnNoteLine[];
     @ApiProperty()
     idClient:number;
+    
+
 }
