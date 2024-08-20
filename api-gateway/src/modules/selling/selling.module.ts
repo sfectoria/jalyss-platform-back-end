@@ -5,10 +5,10 @@ import { PurchaseOrderController } from './purchase-order.controller';
 import { PurchaseOrderService } from './purchase-order.service';
 import { SalesDeliveryNoteController } from './salesDeliveryNote.controller';
 import { SalesDeliveryNoteService } from './salesDeliveryNote.service';
-import { SalesInvoicesController } from './sales-invoices.controller';
-import { SalesInvoicesService } from './sales-invoices.service';
 import { SalesDeliveryInvoiceController } from './salesDeliveryInvoice.controller';
 import { SalesDeliveryInvoiceService } from './salesDeliveryInvoice.service';
+import { SalesInvoicesService } from './sales-invioces.service';
+import { SalesInvoicesController } from './sales-invioces.controller';
 
 @Module({
   controllers: [SellingController, PurchaseOrderController, SalesDeliveryNoteController, SalesInvoicesController, SalesDeliveryInvoiceController],

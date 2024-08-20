@@ -1,13 +1,13 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { SalesInvoicesService } from './sales-invoices.service';
 import { CreateSalesInvoiceDto } from './dto/create-selling.dto';
-import { UpdateSalesInvoiceDto } from './dto/update-selling.dto';
 import { ApiTags } from '@nestjs/swagger';
-
+import { UpdateSalesDeliveryInvoiceDto, UpdateSalesInvioceDto } from './dto/update-selling.dto';
+import { SalesInvoicesService } from './sales-invioces.service';
 @Controller('sales-invoices')
 @ApiTags('sales-invoices')
 export class SalesInvoicesController {
-  constructor(private readonly salesInvoicesService: SalesInvoicesService) {}
+  constructor(private readonly salesInvoicesService: SalesInvoicesService
+  ) {}
 
   @Post('create')
   create(@Body() createSalesInvoiceDto: CreateSalesInvoiceDto) {
@@ -25,10 +25,11 @@ export class SalesInvoicesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateSalesInvoiceDto: UpdateSalesInvoiceDto) {
+  update(@Param('id') id: number, @Body() updateSalesInvoiceDto: UpdateSalesInvioceDto) {
     return this.salesInvoicesService.update(+id, updateSalesInvoiceDto);
   }
 
+  
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.salesInvoicesService.remove(+id);
