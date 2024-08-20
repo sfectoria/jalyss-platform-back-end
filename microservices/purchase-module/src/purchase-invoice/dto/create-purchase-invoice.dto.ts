@@ -5,7 +5,6 @@ class PurchaseInvoiceLine {
     idArtical: number;
     @ApiProperty()
     quantity: number;
-
 }
 
 export class CreatePurchaseInvoiceDto {
