@@ -13,7 +13,7 @@ export class SalesDeliveryInvoiceController {
     return await this.salesDeliveryInvoiceService.create(createSalesDeliveryInvoiceDto);
   }
 
-  @MessagePattern({cmd :'all_salesDeliveryInvoice'})
+  @MessagePattern({cmd :'all_salesDeliveryInvoices'})
   async findAll() {
     return await this.salesDeliveryInvoiceService.findAll();
   }

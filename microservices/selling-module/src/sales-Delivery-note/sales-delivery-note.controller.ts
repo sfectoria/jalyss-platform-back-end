@@ -13,7 +13,7 @@ export class SalesDeliveryNoteController {
     return await this.salesDeliveryNoteService.create(createSalesDeliveryNoteDto);
   }
 
-  @MessagePattern({ cmd: 'all_salesDeliveryNote' })
+  @MessagePattern({ cmd: 'all_salesDeliveryNotes' })
   async findAll() {
     return await this.salesDeliveryNoteService.findAll();
   }
