@@ -5,13 +5,13 @@ import { PurchaseOrderController } from './purchase-order.controller';
 import { PurchaseOrderService } from './purchase-order.service';
 import { SalesDeliveryNoteController } from './salesDeliveryNote.controller';
 import { SalesDeliveryNoteService } from './salesDeliveryNote.service';
-import { SalesInviocesController } from './sales-invioces.controller';
-import { SalesInviocesService } from './sales-invioces.service';
 import { SalesDeliveryInvoiceController } from './salesDeliveryInvoice.controller';
 import { SalesDeliveryInvoiceService } from './salesDeliveryInvoice.service';
+import { SalesInvoicesService } from './sales-invioces.service';
+import { SalesInvoicesController } from './sales-invioces.controller';
 
 @Module({
-  controllers: [SellingController, PurchaseOrderController, SalesDeliveryNoteController, SalesInviocesController, SalesDeliveryInvoiceController],
-  providers: [SellingService, PurchaseOrderService, SalesDeliveryNoteService, SalesInviocesService, SalesDeliveryInvoiceService],
+  controllers: [SellingController, PurchaseOrderController, SalesDeliveryNoteController, SalesInvoicesController, SalesDeliveryInvoiceController],
+  providers: [SellingService, PurchaseOrderService, SalesDeliveryNoteService, SalesInvoicesService, SalesDeliveryInvoiceService],
 })
 export class SellingModule {}

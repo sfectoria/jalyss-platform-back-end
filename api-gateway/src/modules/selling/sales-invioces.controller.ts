@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { SalesInviocesService } from './sales-invioces.service';
 import { CreateSalesInvoiceDto } from './dto/create-selling.dto';
 import { UpdateSalesInvioceDto } from './dto/update-selling.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Payload } from '@nestjs/microservices';
+import { SalesInvoicesService } from './sales-invioces.service';
 
 @Controller('sales-invioces')
 @ApiTags('sales-invioces')
-export class SalesInviocesController {
-  constructor(private readonly salesInviocesService: SalesInviocesService) {}
+export class SalesInvoicesController {
+  constructor(private readonly salesInviocesService: SalesInvoicesService) {}
 
   @Post('create')
   create(@Body() createSalesInvioceDto: CreateSalesInvoiceDto) {

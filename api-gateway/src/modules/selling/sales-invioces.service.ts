@@ -4,7 +4,7 @@ import { UpdateSalesInvioceDto } from './dto/update-selling.dto';
 import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
-export class SalesInviocesService {
+export class SalesInvoicesService {
   constructor(
     @Inject ('SELLING_MICROSERVICE') private readonly sellingClient: ClientProxy
   ) {}
