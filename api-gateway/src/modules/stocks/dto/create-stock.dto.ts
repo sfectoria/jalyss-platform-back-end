@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ReturnNoteLine } from '@prisma/client';
 
 export class CreateStockDto {
   @ApiProperty()
@@ -69,16 +68,20 @@ export class CreateTransferNoteDto {
     lines: TransferNoteLine[]
 }
 
-class returnNoteLine{
+
+
+class ReturnNoteLine {
     @ApiProperty()
-    idArticle: number;
+    idArtical: number;
     @ApiProperty()
     quantity: number;
   }
 
-export class CreateReturnNoteDto { 
+export class CreateReturnNoteDto {
     @ApiProperty()
     returnDate: Date
-    @ApiProperty({ type: [returnNoteLine]})
+    @ApiProperty({ type: [ReturnNoteLine] })
     lines: ReturnNoteLine[];
+    @ApiProperty()
+    idClient:number;
 }

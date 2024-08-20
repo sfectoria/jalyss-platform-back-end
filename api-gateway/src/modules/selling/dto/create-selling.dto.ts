@@ -11,12 +11,28 @@ export class CreateSellingDto {
     idStock : number;
 }
 
-export class CreatePurchaseOrderDto {
-    @ApiProperty()
-    orderDate: Date;
-    @ApiProperty()
-    date: Date;
+class PurchaseOrderLine {
+  @ApiProperty()
+  idArtical: number;
+  @ApiProperty()
+  quantity: number;
 }
+
+export class CreatePurchaseOrderDto {
+  @ApiProperty()
+  idClient: number;
+  @ApiProperty()
+  salesChannelsId: number;
+  @ApiProperty()
+  exitNoteId: number;
+  @ApiProperty()
+  orderDate: Date;
+  @ApiProperty()
+  date: Date;
+  @ApiProperty({type:[PurchaseOrderLine]})
+  purchaseOrderLine: PurchaseOrderLine[];
+}
+
 
 class SalesDeliveryNoteLine {
   @ApiProperty()
