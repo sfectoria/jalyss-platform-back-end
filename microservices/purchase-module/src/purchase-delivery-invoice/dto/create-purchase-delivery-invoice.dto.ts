@@ -1,12 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-class PurchaseDeliveryInvoiceLine {
-  
+class PurchaseDeliveryInvoiceLine {  
     @ApiProperty()
     idArtical: number;
     @ApiProperty()
     quantity: number;
-
 }
 
 export class CreatePurchaseDeliveryInvoiceDto {
