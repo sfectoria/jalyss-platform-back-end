@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreatePurchaseDeliveryInvoiceDto, CreatePurchaseDeliveryNoteDto, CreatePurchaseDto, CreatePurchaseInvoiceDto } from './create-purchase.dto';
+import { CreatePurchaseDeliveryInvoiceDto, CreatePurchaseDeliveryNoteDto, CreatePurchaseInvoiceDto } from './create-purchase.dto';
 
-export class UpdatePurchaseDto extends PartialType(CreatePurchaseDto) {}
+// export class UpdatePurchaseDto extends PartialType(CreatePurchaseDto) {}
 
 export class UpdatePurchaseInvoiceDto extends PartialType(CreatePurchaseInvoiceDto) {}
 

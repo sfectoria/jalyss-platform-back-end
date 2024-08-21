@@ -5,12 +5,12 @@ export class CreateEmployeeDto  {
     @ApiProperty()
     @IsString()
   
-    first_name: string;
+    firstName: string;
 
     @ApiProperty()
     @IsString()
 
-    last_name: string;
+    lastName: string;
 
     @ApiProperty()
     @IsString()
@@ -18,7 +18,7 @@ export class CreateEmployeeDto  {
     @ApiProperty()
     @IsString()
 
-    phone_number: string;
+    phoneNumber: string;
 
     @ApiProperty()
     @IsString()
