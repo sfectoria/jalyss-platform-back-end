@@ -60,12 +60,11 @@ export class PurchaseDeliveryInvoiceService {
   }
 
   async remove(id: number) {
+    await this.prisma.purchaseDeliveryInvoiceLine.deleteMany({
+      where: { idDeliveryInvoice: id },
+    });
     return await this.prisma.purchaseDeliveryInvoice.delete({
       where: { id },
-      include: {
-        purchaseDeliveryInvoiceLine: { include: { artical: true } },
-        receiptNote: true,
-      },
     });
   }
 }
