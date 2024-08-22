@@ -1,7 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 class PurchaseDeliveryNoteLine {
-    
     @ApiProperty()
     idArtical: number;
     @ApiProperty()

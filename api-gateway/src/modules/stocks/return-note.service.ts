@@ -17,14 +17,14 @@ export class ReturnNoteService {
 
   findAll() {
     return this.stocksClient.send(
-      { cmd :'all_returnNote'}, 
+      { cmd :'all_returnNotes'}, 
       {}
     );
   }
 
   findOne(id: number) {
     return this.stocksClient.send(
-      { cmd :'one_returnNote'}, 
+      { cmd :'getOne_returnNote'}, 
       {id}  
     )
   }
@@ -38,7 +38,7 @@ export class ReturnNoteService {
 
   remove(id: number) {
     return this .stocksClient.send(
-      { cmd :'remove_returnNote'}, 
+      { cmd :'delete_returnNote'}, 
       {id}
     )
   }

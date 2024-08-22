@@ -36,7 +36,7 @@ export class UsersService {
   update(id: number, updateUserDto: UpdateUserDto) {
     return this.userClient.send(
       { cmd: 'update_user' },
-      {id, UpdateUserDto}
+      {id, updateUserDto}
     )
     }
 
