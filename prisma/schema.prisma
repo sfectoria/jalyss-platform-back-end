@@ -231,7 +231,7 @@ model PurchaseInvoice {
   id                  Int                   @id @default(autoincrement())
   deliveryDate       DateTime
   idReceiptNote    Int
-  ReceiptNote       ReceiptNote?         @relation(fields: [idReceiptNote], references: [id])
+  ReceiptNote       ReceiptNote        @relation(fields: [idReceiptNote], references: [id])
   PurchaseInvoiceLine PurchaseInvoiceLine[]
 }
 

@@ -1,26 +1,71 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePurchaseDeliveryNoteDto } from './dto/create-purchase-delivery-note.dto';
 import { UpdatePurchaseDeliveryNoteDto } from './dto/update-purchase-delivery-note.dto';
+import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class PurchaseDeliveryNoteService {
-  create(createPurchaseDeliveryNoteDto: CreatePurchaseDeliveryNoteDto) {
-    return 'This action adds a new purchaseDeliveryNote';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(
+    createPurchaseDeliveryNoteDto: CreatePurchaseDeliveryNoteDto,
+  ) {
+    const { lines, ...rest } = createPurchaseDeliveryNoteDto;
+    return await this.prisma.purchaseDeliveryNote.create({
+      data: {
+        ...rest,
+        purchaseDeliveryNoteLine: {
+          createMany: { data: lines },
+        },
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all purchaseDeliveryNote`;
+  async findAll() {
+    return await this.prisma.purchaseDeliveryNote.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} purchaseDeliveryNote`;
+  async findOne(id: number) {
+    return await this.prisma.purchaseDeliveryNote.findUnique({
+      where: { id },
+      include: {
+        purchaseDeliveryNoteLine: { include: { artical: true } },
+        receiptNote: true,
+      },
+    });
   }
 
-  update(id: number, updatePurchaseDeliveryNoteDto: UpdatePurchaseDeliveryNoteDto) {
-    return `This action updates a #${id} purchaseDeliveryNote`;
+  async update(
+    id: number,
+    updatepurchaseDeliveryNoteDto: UpdatePurchaseDeliveryNoteDto,
+  ) {
+    const { lines, ...rest } = updatepurchaseDeliveryNoteDto;
+    return await this.prisma.purchaseDeliveryNote.update({
+      where: { id },
+      data: {
+        ...rest,
+        purchaseDeliveryNoteLine: {
+          updateMany: lines.map((line) => ({
+            where: {
+              idArtical: line.idArtical,
+              purchaseDeliveryNoteId: id,
+            },
+            data: {
+              quantity: line.quantity,
+            },
+          })),
+        },
+      },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} purchaseDeliveryNote`;
+  async remove(id: number) {
+    return await this.prisma.purchaseDeliveryNote.delete({
+      where: { id },
+      include: {
+        purchaseDeliveryNoteLine: { include: { artical: true } },
+        receiptNote: true,
+      },
+    });
   }
 }

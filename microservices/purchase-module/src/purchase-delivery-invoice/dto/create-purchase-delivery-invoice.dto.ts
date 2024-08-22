@@ -11,8 +11,8 @@ export class CreatePurchaseDeliveryInvoiceDto {
     @ApiProperty()
     deliveryDate: Date;
     @ApiProperty()
-    idReceipNote : number 
+    idReceiptNote : number 
     @ApiProperty({ type: [PurchaseDeliveryInvoiceLine] })
-    purchaseDeliveryInvoiceLine: PurchaseDeliveryInvoiceLine[]
+    lines: PurchaseDeliveryInvoiceLine[]
 }
 

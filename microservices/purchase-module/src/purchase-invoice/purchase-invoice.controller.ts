@@ -2,33 +2,34 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PurchaseInvoiceService } from './purchase-invoice.service';
 import { CreatePurchaseInvoiceDto } from './dto/create-purchase-invoice.dto';
 import { UpdatePurchaseInvoiceDto } from './dto/update-purchase-invoice.dto';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('purchase-invoice')
 export class PurchaseInvoiceController {
   constructor(private readonly purchaseInvoiceService: PurchaseInvoiceService) {}
 
-  @Post()
-  create(@Body() createPurchaseInvoiceDto: CreatePurchaseInvoiceDto) {
-    return this.purchaseInvoiceService.create(createPurchaseInvoiceDto);
+  @MessagePattern({cmd: 'create_purchaseInvoice'})
+  async create(@Payload() createPurchaseInvoiceDto: CreatePurchaseInvoiceDto) {
+    return await this.purchaseInvoiceService.create(createPurchaseInvoiceDto);
   }
 
-  @Get()
-  findAll() {
-    return this.purchaseInvoiceService.findAll();
+  @MessagePattern({cmd: 'all_purchaseInvoices'})
+  async findAll() {
+    return await this.purchaseInvoiceService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.purchaseInvoiceService.findOne(+id);
+  @MessagePattern({cmd: 'getOne_purchaseInvoice'})
+  async findOne(@Payload('id') id: number) {
+    return await this.purchaseInvoiceService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePurchaseInvoiceDto: UpdatePurchaseInvoiceDto) {
-    return this.purchaseInvoiceService.update(+id, updatePurchaseInvoiceDto);
+  @MessagePattern({cmd: 'update_purchaseInvoice'})
+   async update(@Payload('id') data:{id: number; updatePurchaseInvoiceDto: UpdatePurchaseInvoiceDto}) {
+    return await this.purchaseInvoiceService.update(+data.id,  data.updatePurchaseInvoiceDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.purchaseInvoiceService.remove(+id);
+  @MessagePattern({cmd: 'remove_purchaseInvoice'})
+  async remove(@Payload('id') id: number) {
+    return await this.purchaseInvoiceService.remove(+id);
   }
 }
