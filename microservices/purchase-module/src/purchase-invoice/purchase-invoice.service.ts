@@ -20,7 +20,12 @@ export class PurchaseInvoiceService {
   }
 
   async findAll() {
-    return await this.prisma.purchaseInvoice.findMany();
+    return await this.prisma.purchaseInvoice.findMany({
+      include: {
+        PurchaseInvoiceLine: { include: { Artical: true } },
+        ReceiptNote: true,
+      },
+    });
   }
 
   async findOne(id: number) {

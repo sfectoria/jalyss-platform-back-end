@@ -9,11 +9,11 @@ export class PurchaseDeliveryNoteController {
   constructor(private readonly purchaseDeliveryNoteService: PurchaseDeliveryNoteService) {}
 
   @MessagePattern({cmd: 'create_purchaseDeliveryNote'})
-  create(@Payload() createPurchaseDeliveryNoteDto: CreatePurchaseDeliveryNoteDto) {
-    return this.purchaseDeliveryNoteService.create(createPurchaseDeliveryNoteDto);
+  async create(@Payload() createPurchaseDeliveryNoteDto: CreatePurchaseDeliveryNoteDto) {
+    return await this.purchaseDeliveryNoteService.create(createPurchaseDeliveryNoteDto);
   }
 
-  @MessagePattern({cmd: 'all_purchaseDeliveryNote'})
+  @MessagePattern({cmd: 'all_purchaseDeliveryNotes'})
   async findAll() {
     return await this.purchaseDeliveryNoteService.findAll();
   }
