@@ -60,12 +60,13 @@ export class PurchaseInvoiceService {
   }
 
   async remove(id: number) {
+    // Supprime d'abord toutes les lignes associées
+    await this.prisma.purchaseInvoiceLine.deleteMany({
+      where: { idPurchaseInvoice: id },
+    });
+    // Ensuite, supprime la facture d'achat
     return await this.prisma.purchaseInvoice.delete({
       where: { id },
-      include: {
-        PurchaseInvoiceLine: { include: { Artical: true } },
-        ReceiptNote: true,
-      },
     });
   }
 }

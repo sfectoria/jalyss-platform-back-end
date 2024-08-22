@@ -28,7 +28,7 @@ export class PurchaseInvoiceController {
     return await this.purchaseInvoiceService.update(+data.id,  data.updatePurchaseInvoiceDto);
   }
 
-  @MessagePattern({cmd: 'remove_purchaseInvoice'})
+  @MessagePattern({cmd: 'delete_purchaseInvoice'})
   async remove(@Payload('id') id: number) {
     return await this.purchaseInvoiceService.remove(+id);
   }
