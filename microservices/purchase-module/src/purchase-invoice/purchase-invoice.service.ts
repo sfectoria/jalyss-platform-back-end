@@ -39,7 +39,7 @@ export class PurchaseInvoiceService {
   }
 
   async update(id: number, updatepurchaseInvoiceDto: UpdatePurchaseInvoiceDto) {
-    const { lines, ...rest } = updatepurchaseInvoiceDto;
+    let { lines, ...rest } = updatepurchaseInvoiceDto;
     return await this.prisma.purchaseInvoice.update({
       where: { id },
       data: {

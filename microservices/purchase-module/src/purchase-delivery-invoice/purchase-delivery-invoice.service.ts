@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePurchaseDeliveryInvoiceDto } from './dto/create-purchase-delivery-invoice.dto';
 import { UpdatePurchaseDeliveryInvoiceDto } from './dto/update-purchase-delivery-invoice.dto';
 import { PrismaService } from 'nestjs-prisma';
@@ -37,15 +37,16 @@ export class PurchaseDeliveryInvoiceService {
 
   async update(
     id: number,
-    updatepurchaseDeliveryInvoiceDto: UpdatePurchaseDeliveryInvoiceDto,
+    updatepurchaseDeliveryInvoiceDto: UpdatePurchaseDeliveryInvoiceDto
   ) {
     const { lines, ...rest } = updatepurchaseDeliveryInvoiceDto;
+    console.log(lines,"those are lines")
     return await this.prisma.purchaseDeliveryInvoice.update({
       where: { id },
       data: {
         ...rest,
         purchaseDeliveryInvoiceLine: {
-          updateMany: lines.map((line) => ({
+          updateMany: lines?.map((line) => ({
             where: {
               idArtical: line.idArtical,
               purchaseDeliveryInvoiceId: id,
@@ -60,6 +61,11 @@ export class PurchaseDeliveryInvoiceService {
   }
 
   async remove(id: number) {
+    const purchaseDeliveryInvoice = await this.prisma.purchaseDeliveryInvoice.findUnique({ where: { id } });
+    if (!purchaseDeliveryInvoice) {
+      throw new NotFoundException(`purchase delivery invoice with ID ${id} not found`);
+ }
+    console.log(purchaseDeliveryInvoice,"purchase delivery invoice")
     await this.prisma.purchaseDeliveryInvoiceLine.deleteMany({
       where: { idDeliveryInvoice: id },
     });
