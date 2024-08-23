@@ -24,8 +24,8 @@ export class PurchaseDeliveryNoteController {
   }
 
   @MessagePattern({cmd: 'update_purchaseDeliveryNote'})
-  async update(@Payload('id') data:{id: number; updatePurchaseDeliveryNoteDto: UpdatePurchaseDeliveryNoteDto}) {
-    return await this.purchaseDeliveryNoteService.update(+data.id, data.updatePurchaseDeliveryNoteDto);
+  async update(@Payload() data:{id: number; updatePurchaseDeliveryNoteDto: UpdatePurchaseDeliveryNoteDto}) {
+    return await this.purchaseDeliveryNoteService.update(data.id, data.updatePurchaseDeliveryNoteDto);
   }
 
   @MessagePattern({cmd: 'delete_purchaseDeliveryNote'})
