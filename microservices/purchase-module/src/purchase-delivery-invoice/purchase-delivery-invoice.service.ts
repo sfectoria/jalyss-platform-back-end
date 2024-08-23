@@ -3,6 +3,7 @@ import { CreatePurchaseDeliveryInvoiceDto } from './dto/create-purchase-delivery
 import { UpdatePurchaseDeliveryInvoiceDto } from './dto/update-purchase-delivery-invoice.dto';
 import { PrismaService } from 'nestjs-prisma';
 import { ReceiptNoteHelper } from 'src/helpers/receiptNoteHelper';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class PurchaseDeliveryInvoiceService {
@@ -14,19 +15,33 @@ export class PurchaseDeliveryInvoiceService {
   async create(
     createPurchaseDeliveryInvoiceDto: CreatePurchaseDeliveryInvoiceDto,
   ) {
-    let { lines,idReceiptNote,idStock, ...rest } = createPurchaseDeliveryInvoiceDto;
-    idReceiptNote=4
-    console.log('maybe type',typeof idReceiptNote);
-    
-    return await this.prisma.purchaseDeliveryInvoice.create({
+    return await this.prisma.$transaction(
+      async (prisma: Prisma.TransactionClient) => {
+        let {idReceiptNote,lines,idStock, ...rest } = createPurchaseDeliveryInvoiceDto;
+        if(!idReceiptNote){
+          const newReceiptNote = await this.helperReceiptNote.create(
+            prisma,
+            {
+              idStock: idStock,
+              typeReceipt:"achat",
+              date: createPurchaseDeliveryInvoiceDto.deliveryDate,
+              receiptNoteLines: lines,
+            },
+          );
+          idReceiptNote=newReceiptNote.id
+        }
+         return await prisma.purchaseDeliveryInvoice.create({
       data: {
         ...rest,
-        idReceiptNote,
+        deliveryDate:new Date(rest.deliveryDate).toISOString(),
         purchaseDeliveryInvoiceLine: {
           createMany: { data: lines },
         },
+        idReceiptNote
       },
     });
+        
+      })
   }
 
   async findAll() {

@@ -16,9 +16,6 @@ export class PurchaseDeliveryNoteService {
     return await this.prisma.$transaction(
       async (prisma: Prisma.TransactionClient) => {
         let {idReceiptNote,lines,idStock, ...rest } = createPurchaseDeliveryNoteDto;
-         console.log('idReceipt',idReceiptNote);
-         console.log('idReceipt');
-         
         if(!idReceiptNote){
           const newReceiptNote = await this.helperReceiptNote.create(
             prisma,
@@ -30,9 +27,8 @@ export class PurchaseDeliveryNoteService {
             },
           );
           idReceiptNote=newReceiptNote.id
-          console.log('newReceiptNote',idReceiptNote,newReceiptNote);
         }
-         return await this.prisma.purchaseDeliveryNote.create({
+         return await prisma.purchaseDeliveryNote.create({
       data: {
         ...rest,
         deliveryDate:new Date(rest.deliveryDate).toISOString(),
