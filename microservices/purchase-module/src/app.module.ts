@@ -6,6 +6,7 @@ import { PurchaseDeliveryInvoiceModule } from './purchase-delivery-invoice/purch
 import { PurchaseInvoiceModule } from './purchase-invoice/purchase-invoice.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from 'nestjs-prisma';
+import { ReceiptNoteHelper } from './helpers/receiptNoteHelper';
 
 @Module({
   imports: [    
@@ -15,6 +16,6 @@ import { PrismaModule } from 'nestjs-prisma';
   }),
   PrismaModule.forRoot({ isGlobal: true }),PurchaseDeliveryNoteModule, PurchaseDeliveryInvoiceModule, PurchaseInvoiceModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,ReceiptNoteHelper],
 })
 export class AppModule {}
