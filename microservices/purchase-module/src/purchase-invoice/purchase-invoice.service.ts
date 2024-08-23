@@ -39,16 +39,16 @@ export class PurchaseInvoiceService {
   }
 
   async update(id: number, updatepurchaseInvoiceDto: UpdatePurchaseInvoiceDto) {
-    const { lines, ...rest } = updatepurchaseInvoiceDto;
+    let { lines, ...rest } = updatepurchaseInvoiceDto;
     return await this.prisma.purchaseInvoice.update({
       where: { id },
       data: {
         ...rest,
         PurchaseInvoiceLine: {
-          updateMany: lines.map((line) => ({
+          updateMany: lines?.map((line) => ({
             where: {
               idArtical: line.idArtical,
-              purchaseInvoiceId: id,
+              idPurchaseInvoice: id,
             },
             data: {
               quantity: line.quantity,
@@ -60,12 +60,13 @@ export class PurchaseInvoiceService {
   }
 
   async remove(id: number) {
+    // Supprime d'abord toutes les lignes associées
+    await this.prisma.purchaseInvoiceLine.deleteMany({
+      where: { idPurchaseInvoice: id },
+    });
+    // Ensuite, supprime la facture d'achat
     return await this.prisma.purchaseInvoice.delete({
       where: { id },
-      include: {
-        PurchaseInvoiceLine: { include: { Artical: true } },
-        ReceiptNote: true,
-      },
     });
   }
 }

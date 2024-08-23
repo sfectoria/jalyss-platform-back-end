@@ -21,9 +21,9 @@ export class ArticalsController {
   }
 
   @MessagePattern({ cmd: 'getOne_artical' })
-  async findOne(@Payload() data: { id: number }) {
-    console.log('findOne payload:', data);
-    return await this.articalsService.findOne(data.id);
+  async findOne(@Payload('id')  id: number ) {
+    // console.log('findOne payload:', data);
+    return await this.articalsService.findOne(id);
   }
 
   @MessagePattern({ cmd: 'update_artical' })
