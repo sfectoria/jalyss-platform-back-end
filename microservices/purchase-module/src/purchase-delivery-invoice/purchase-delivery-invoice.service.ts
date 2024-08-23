@@ -1,26 +1,71 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePurchaseDeliveryInvoiceDto } from './dto/create-purchase-delivery-invoice.dto';
 import { UpdatePurchaseDeliveryInvoiceDto } from './dto/update-purchase-delivery-invoice.dto';
+import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class PurchaseDeliveryInvoiceService {
-  create(createPurchaseDeliveryInvoiceDto: CreatePurchaseDeliveryInvoiceDto) {
-    return 'This action adds a new purchaseDeliveryInvoice';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(
+    createPurchaseDeliveryInvoiceDto: CreatePurchaseDeliveryInvoiceDto,
+  ) {
+    const { lines, ...rest } = createPurchaseDeliveryInvoiceDto;
+    return await this.prisma.purchaseDeliveryInvoice.create({
+      data: {
+        ...rest,
+        purchaseDeliveryInvoiceLine: {
+          createMany: { data: lines },
+        },
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all purchaseDeliveryInvoice`;
+  async findAll() {
+    return await this.prisma.purchaseDeliveryInvoice.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} purchaseDeliveryInvoice`;
+  async findOne(id: number) {
+    return await this.prisma.purchaseDeliveryInvoice.findUnique({
+      where: { id },
+      include: {
+        purchaseDeliveryInvoiceLine: { include: { artical: true } },
+        receiptNote: true,
+      },
+    });
   }
 
-  update(id: number, updatePurchaseDeliveryInvoiceDto: UpdatePurchaseDeliveryInvoiceDto) {
-    return `This action updates a #${id} purchaseDeliveryInvoice`;
+  async update(
+    id: number,
+    updatepurchaseDeliveryInvoiceDto: UpdatePurchaseDeliveryInvoiceDto,
+  ) {
+    const { lines, ...rest } = updatepurchaseDeliveryInvoiceDto;
+    return await this.prisma.purchaseDeliveryInvoice.update({
+      where: { id },
+      data: {
+        ...rest,
+        purchaseDeliveryInvoiceLine: {
+          updateMany: lines.map((line) => ({
+            where: {
+              idArtical: line.idArtical,
+              purchaseDeliveryInvoiceId: id,
+            },
+            data: {
+              quantity: line.quantity,
+            },
+          })),
+        },
+      },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} purchaseDeliveryInvoice`;
+  async remove(id: number) {
+    return await this.prisma.purchaseDeliveryInvoice.delete({
+      where: { id },
+      include: {
+        purchaseDeliveryInvoiceLine: { include: { artical: true } },
+        receiptNote: true,
+      },
+    });
   }
 }
