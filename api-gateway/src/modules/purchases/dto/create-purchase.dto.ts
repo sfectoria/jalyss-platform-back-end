@@ -31,6 +31,8 @@ export class CreatePurchaseDeliveryNoteDto {
     deliveryDate: Date;
     @ApiProperty()
     idReceiptNote : number 
+    @ApiProperty()
+    idStock : number 
     @ApiProperty({ type: [PurchaseDeliveryNoteLine] })
     lines: PurchaseDeliveryNoteLine[]
 }
