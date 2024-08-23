@@ -2,21 +2,57 @@ import { Injectable } from '@nestjs/common';
 import { CreatePurchaseInvoiceDto } from './dto/create-purchase-invoice.dto';
 import { UpdatePurchaseInvoiceDto } from './dto/update-purchase-invoice.dto';
 import { PrismaService } from 'nestjs-prisma';
+import { ReceiptNoteHelper } from 'src/helpers/receiptNoteHelper';
+import {  Prisma } from '@prisma/client';
 
 @Injectable()
 export class PurchaseInvoiceService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private helperReceiptNote: ReceiptNoteHelper,
+  ) {}
 
   async create(createPurchaseInvoiceDto: CreatePurchaseInvoiceDto) {
-    const { lines, ...rest } = createPurchaseInvoiceDto;
-    return await this.prisma.purchaseInvoice.create({
+    return await this.prisma.$transaction(
+      async (prisma: Prisma.TransactionClient) => {
+        let {idReceiptNote,lines,idStock, ...rest } = createPurchaseInvoiceDto;
+         console.log('idReceipt',idReceiptNote);
+         console.log('idStock',idStock);
+         
+        if(!idReceiptNote){
+          const newReceiptNote = await this.helperReceiptNote.create(
+            prisma,
+            {
+              idStock: idStock,
+              typeReceipt:"achat",
+              date: createPurchaseInvoiceDto.deliveryDate,
+              receiptNoteLines: lines,
+            },
+          );
+          console.log('newReceiptNote',newReceiptNote,newReceiptNote.id);
+          idReceiptNote=newReceiptNote.id
+          console.log('id',idReceiptNote,newReceiptNote.id);
+        }
+
+        const existingReceiptNote = await prisma.receiptNote.findUnique({
+          where: { id: idReceiptNote },
+        });
+        console.log('verify',existingReceiptNote);
+        console.log('maybe type',typeof idReceiptNote);
+
+         return await this.prisma.purchaseInvoice.create({
       data: {
         ...rest,
+        deliveryDate:new Date(rest.deliveryDate).toISOString(),
         PurchaseInvoiceLine: {
           createMany: { data: lines },
         },
+        idReceiptNote,
       },
     });
+        
+      })
+
   }
 
   async findAll() {

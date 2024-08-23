@@ -2,18 +2,26 @@ import { Injectable } from '@nestjs/common';
 import { CreatePurchaseDeliveryInvoiceDto } from './dto/create-purchase-delivery-invoice.dto';
 import { UpdatePurchaseDeliveryInvoiceDto } from './dto/update-purchase-delivery-invoice.dto';
 import { PrismaService } from 'nestjs-prisma';
+import { ReceiptNoteHelper } from 'src/helpers/receiptNoteHelper';
 
 @Injectable()
 export class PurchaseDeliveryInvoiceService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private helperReceiptNote:ReceiptNoteHelper
+  ) {}
 
   async create(
     createPurchaseDeliveryInvoiceDto: CreatePurchaseDeliveryInvoiceDto,
   ) {
-    const { lines, ...rest } = createPurchaseDeliveryInvoiceDto;
+    let { lines,idReceiptNote,idStock, ...rest } = createPurchaseDeliveryInvoiceDto;
+    idReceiptNote=4
+    console.log('maybe type',typeof idReceiptNote);
+    
     return await this.prisma.purchaseDeliveryInvoice.create({
       data: {
         ...rest,
+        idReceiptNote,
         purchaseDeliveryInvoiceLine: {
           createMany: { data: lines },
         },
