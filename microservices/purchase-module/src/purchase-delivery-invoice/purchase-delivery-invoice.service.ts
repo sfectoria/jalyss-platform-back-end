@@ -49,7 +49,7 @@ export class PurchaseDeliveryInvoiceService {
           updateMany: lines?.map((line) => ({
             where: {
               idArtical: line.idArtical,
-              purchaseDeliveryInvoiceId: id,
+              idDeliveryInvoice: id,
             },
             data: {
               quantity: line.quantity,

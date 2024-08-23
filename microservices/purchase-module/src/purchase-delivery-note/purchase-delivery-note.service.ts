@@ -40,24 +40,33 @@ export class PurchaseDeliveryNoteService {
     updatepurchaseDeliveryNoteDto: UpdatePurchaseDeliveryNoteDto,
   ) {
     const { lines, ...rest } = updatepurchaseDeliveryNoteDto;
+    
+    // Commencez par la mise à jour des champs non liés aux lignes
+    const updateData: any = {
+      ...rest,
+    };
+  
+    // Si 'lines' est défini et non vide, mettez à jour les lignes associées
+    if (lines && lines.length > 0) {
+      updateData.purchaseDeliveryNoteLine = {
+        updateMany: lines.map((line) => ({
+          where: {
+            idArtical: line.idArtical,
+            idDeliveryNote: id,
+          },
+          data: {
+            quantity: line.quantity,
+          },
+        })),
+      };
+    }
+  
     return await this.prisma.purchaseDeliveryNote.update({
       where: { id },
-      data: {
-        ...rest,
-        purchaseDeliveryNoteLine: {
-          updateMany: lines?.map((line) => ({
-            where: {
-              idArtical: line.idArtical,
-              purchaseDeliveryNoteId: id,
-            },
-            data: {
-              quantity: line.quantity,
-            },
-          })),
-        },
-      },
+      data: updateData,
     });
   }
+  
 
   async remove(id: number) {
     await this.prisma.purchaseDeliveryNoteLine.deleteMany({

@@ -45,10 +45,10 @@ export class PurchaseInvoiceService {
       data: {
         ...rest,
         PurchaseInvoiceLine: {
-          updateMany: lines.map((line) => ({
+          updateMany: lines?.map((line) => ({
             where: {
               idArtical: line.idArtical,
-              purchaseInvoiceId: id,
+              idPurchaseInvoice: id,
             },
             data: {
               quantity: line.quantity,
