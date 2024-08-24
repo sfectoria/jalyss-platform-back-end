@@ -31,6 +31,8 @@ export class ExitNote {
     const stock = await prisma.stock.findMany({
       where: { salesChannels: { some: { id: saleChannelId } } },
     });
+    console.log('Stock',stock);
+    
     // }
     if (stock.length) {
       const lastExitNoteOfStock = await prisma.exitNote.findMany({

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+
 export class CreateStockDto {
   @ApiProperty()
   location: string;
@@ -84,4 +85,6 @@ export class CreateReturnNoteDto {
     lines: ReturnNoteLine[];
     @ApiProperty()
     idClient:number;
+    
+
 }

@@ -13,6 +13,8 @@ export class CreatePurchaseInvoiceDto {
     deliveryDate: Date;
     @ApiProperty()
     idReceiptNote : number 
+    @ApiProperty()
+    idStock : number 
     @ApiProperty({ type: [PurchaseInvoiceLine] })
     lines: PurchaseInvoiceLine[]
 }
@@ -29,6 +31,8 @@ export class CreatePurchaseDeliveryNoteDto {
     deliveryDate: Date;
     @ApiProperty()
     idReceiptNote : number 
+    @ApiProperty()
+    idStock : number 
     @ApiProperty({ type: [PurchaseDeliveryNoteLine] })
     lines: PurchaseDeliveryNoteLine[]
 }
@@ -45,6 +49,8 @@ export class CreatePurchaseDeliveryInvoiceDto {
     deliveryDate: Date;
     @ApiProperty()
     idReceiptNote : number 
+    @ApiProperty()
+    idStock : number 
     @ApiProperty({ type: [PurchaseDeliveryInvoiceLine] })
     lines: PurchaseDeliveryInvoiceLine[]
 }

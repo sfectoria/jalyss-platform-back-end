@@ -24,8 +24,8 @@ export class PurchaseDeliveryInvoiceController {
   }
 
   @MessagePattern({cmd: 'update_purchaseDeliveryInvoice'})
-  async update(@Payload('id') data:{ id: number;  updatePurchaseDeliveryInvoiceDto: UpdatePurchaseDeliveryInvoiceDto}) {
-    return await this.purchaseDeliveryInvoiceService.update(+data.id, data.updatePurchaseDeliveryInvoiceDto);
+  async update(@Payload() data:{ id: number,  updatePurchaseDeliveryInvoiceDto: UpdatePurchaseDeliveryInvoiceDto}) {
+    return await this.purchaseDeliveryInvoiceService.update(data.id, data.updatePurchaseDeliveryInvoiceDto);
   }
 
   @MessagePattern({cmd: 'delete_purchaseDeliveryInvoice'})

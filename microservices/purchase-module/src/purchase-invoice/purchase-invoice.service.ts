@@ -2,21 +2,47 @@ import { Injectable } from '@nestjs/common';
 import { CreatePurchaseInvoiceDto } from './dto/create-purchase-invoice.dto';
 import { UpdatePurchaseInvoiceDto } from './dto/update-purchase-invoice.dto';
 import { PrismaService } from 'nestjs-prisma';
+import { ReceiptNoteHelper } from 'src/helpers/receiptNoteHelper';
+import {  Prisma } from '@prisma/client';
 
 @Injectable()
 export class PurchaseInvoiceService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private helperReceiptNote: ReceiptNoteHelper,
+  ) {}
 
   async create(createPurchaseInvoiceDto: CreatePurchaseInvoiceDto) {
-    const { lines, ...rest } = createPurchaseInvoiceDto;
-    return await this.prisma.purchaseInvoice.create({
+    return await this.prisma.$transaction(
+      async (prisma: Prisma.TransactionClient) => {
+        let {idReceiptNote,lines,idStock, ...rest } = createPurchaseInvoiceDto;
+
+         
+        if(!idReceiptNote){
+          const newReceiptNote = await this.helperReceiptNote.create(
+            prisma,
+            {
+              idStock: idStock,
+              typeReceipt:"achat",
+              date: createPurchaseInvoiceDto.deliveryDate,
+              receiptNoteLines: lines,
+            },
+          );
+          idReceiptNote=newReceiptNote.id
+        }
+         return await prisma.purchaseInvoice.create({
       data: {
         ...rest,
+        deliveryDate:new Date(rest.deliveryDate).toISOString(),
         PurchaseInvoiceLine: {
           createMany: { data: lines },
         },
+        idReceiptNote,
       },
     });
+        
+      })
+
   }
 
   async findAll() {
@@ -39,16 +65,16 @@ export class PurchaseInvoiceService {
   }
 
   async update(id: number, updatepurchaseInvoiceDto: UpdatePurchaseInvoiceDto) {
-    const { lines, ...rest } = updatepurchaseInvoiceDto;
+    let { lines, ...rest } = updatepurchaseInvoiceDto;
     return await this.prisma.purchaseInvoice.update({
       where: { id },
       data: {
         ...rest,
         PurchaseInvoiceLine: {
-          updateMany: lines.map((line) => ({
+          updateMany: lines?.map((line) => ({
             where: {
               idArtical: line.idArtical,
-              purchaseInvoiceId: id,
+              idPurchaseInvoice: id,
             },
             data: {
               quantity: line.quantity,
@@ -60,12 +86,13 @@ export class PurchaseInvoiceService {
   }
 
   async remove(id: number) {
+    // Supprime d'abord toutes les lignes associées
+    await this.prisma.purchaseInvoiceLine.deleteMany({
+      where: { idPurchaseInvoice: id },
+    });
+    // Ensuite, supprime la facture d'achat
     return await this.prisma.purchaseInvoice.delete({
       where: { id },
-      include: {
-        PurchaseInvoiceLine: { include: { Artical: true } },
-        ReceiptNote: true,
-      },
     });
   }
 }

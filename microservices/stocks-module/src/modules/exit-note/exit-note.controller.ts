@@ -19,8 +19,8 @@ export class ExitNoteController {
   }
 
   @MessagePattern({ cmd: 'one_exitNote' })
-  async findOne(@Payload() id: number) {
-    return await this.exitNoteService.findOne(+id);
+  async findOne(@Payload() data:{id: number}) {
+    return await this.exitNoteService.findOne(data.id);
   }
 
   @MessagePattern({ cmd: 'update_exitNote' })

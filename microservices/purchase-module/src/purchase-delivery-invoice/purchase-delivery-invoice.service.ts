@@ -1,24 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePurchaseDeliveryInvoiceDto } from './dto/create-purchase-delivery-invoice.dto';
 import { UpdatePurchaseDeliveryInvoiceDto } from './dto/update-purchase-delivery-invoice.dto';
 import { PrismaService } from 'nestjs-prisma';
+import { ReceiptNoteHelper } from 'src/helpers/receiptNoteHelper';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class PurchaseDeliveryInvoiceService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private helperReceiptNote:ReceiptNoteHelper
+  ) {}
 
   async create(
     createPurchaseDeliveryInvoiceDto: CreatePurchaseDeliveryInvoiceDto,
   ) {
-    const { lines, ...rest } = createPurchaseDeliveryInvoiceDto;
-    return await this.prisma.purchaseDeliveryInvoice.create({
+    return await this.prisma.$transaction(
+      async (prisma: Prisma.TransactionClient) => {
+        let {idReceiptNote,lines,idStock, ...rest } = createPurchaseDeliveryInvoiceDto;
+        if(!idReceiptNote){
+          const newReceiptNote = await this.helperReceiptNote.create(
+            prisma,
+            {
+              idStock: idStock,
+              typeReceipt:"achat",
+              date: createPurchaseDeliveryInvoiceDto.deliveryDate,
+              receiptNoteLines: lines,
+            },
+          );
+          idReceiptNote=newReceiptNote.id
+        }
+         return await prisma.purchaseDeliveryInvoice.create({
       data: {
         ...rest,
+        deliveryDate:new Date(rest.deliveryDate).toISOString(),
         purchaseDeliveryInvoiceLine: {
           createMany: { data: lines },
         },
+        idReceiptNote
       },
     });
+        
+      })
   }
 
   async findAll() {
@@ -37,18 +60,19 @@ export class PurchaseDeliveryInvoiceService {
 
   async update(
     id: number,
-    updatepurchaseDeliveryInvoiceDto: UpdatePurchaseDeliveryInvoiceDto,
+    updatepurchaseDeliveryInvoiceDto: UpdatePurchaseDeliveryInvoiceDto
   ) {
     const { lines, ...rest } = updatepurchaseDeliveryInvoiceDto;
+    console.log(lines,"those are lines")
     return await this.prisma.purchaseDeliveryInvoice.update({
       where: { id },
       data: {
         ...rest,
         purchaseDeliveryInvoiceLine: {
-          updateMany: lines.map((line) => ({
+          updateMany: lines?.map((line) => ({
             where: {
               idArtical: line.idArtical,
-              purchaseDeliveryInvoiceId: id,
+              idDeliveryInvoice: id,
             },
             data: {
               quantity: line.quantity,
@@ -60,12 +84,16 @@ export class PurchaseDeliveryInvoiceService {
   }
 
   async remove(id: number) {
+    const purchaseDeliveryInvoice = await this.prisma.purchaseDeliveryInvoice.findUnique({ where: { id } });
+    if (!purchaseDeliveryInvoice) {
+      throw new NotFoundException(`purchase delivery invoice with ID ${id} not found`);
+ }
+    console.log(purchaseDeliveryInvoice,"purchase delivery invoice")
+    await this.prisma.purchaseDeliveryInvoiceLine.deleteMany({
+      where: { idDeliveryInvoice: id },
+    });
     return await this.prisma.purchaseDeliveryInvoice.delete({
       where: { id },
-      include: {
-        purchaseDeliveryInvoiceLine: { include: { artical: true } },
-        receiptNote: true,
-      },
     });
   }
 }
