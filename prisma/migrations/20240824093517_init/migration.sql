@@ -32,7 +32,7 @@ CREATE TABLE "Client" (
     "phoneNumber" TEXT NOT NULL,
     "address" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "registrationDate" TIMESTAMP(3) NOT NULL,
+    "registrationDate" TIMESTAMP(3),
     "idCategoryClient" INTEGER NOT NULL,
     "mediaId" TEXT,
 
@@ -51,10 +51,10 @@ CREATE TABLE "CategoryClient" (
 CREATE TABLE "Artical" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "coverId" TEXT,
-    "weight" DOUBLE PRECISION,
-    "pageNumber" INTEGER,
     "code" TEXT NOT NULL,
+    "pageNumber" INTEGER,
+    "weight" DOUBLE PRECISION,
+    "coverId" TEXT,
     "shortDescriptionEn" TEXT,
     "longDescriptionEn" TEXT,
     "shortDescriptionAr" TEXT,
