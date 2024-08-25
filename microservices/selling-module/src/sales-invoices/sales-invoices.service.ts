@@ -10,7 +10,8 @@ export class SalesInvoicesService {
   constructor(
     private readonly prisma: PrismaService,
     private helperExitNote: ExitNote,
-  ) {}
+  ) {} 
+  //creation dune facture de vente
   async create(createSalesInvoiceDto: CreateSalesInvoiceDto) {
     return await this.prisma.$transaction(
       async (prisma: Prisma.TransactionClient) => {
