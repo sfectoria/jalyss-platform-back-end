@@ -26,9 +26,9 @@ export class CreatePurchaseOrderDto {
   @ApiProperty()
   exitNoteId: number;
   @ApiProperty()
-  orderDate: Date;
+  orderDate: string;
   @ApiProperty()
-  date: Date;
+  date: string;
   @ApiProperty({type:[PurchaseOrderLine]})
   purchaseOrderLine: PurchaseOrderLine[];
 }
@@ -42,8 +42,18 @@ class SalesDeliveryNoteLine {
 }
 
 export class CreateSalesDeliveryNoteDto {
-    @ApiProperty()
-    deliveryDate: Date;
+  @ApiProperty()
+  idPurchaseOrder?: number;
+  @ApiProperty()
+  exitNoteId: number;
+  @ApiProperty()
+  idClient: number;
+  @ApiProperty()
+  saleChannelId: number;
+  @ApiProperty()
+  deliveryDate: Date;
+  @ApiProperty({type : [SalesDeliveryNoteLine]})
+  salesDeliveryNoteLine: SalesDeliveryNoteLine[]
 }
 
 class SalesInvoiceLine {
@@ -68,7 +78,24 @@ export class CreateSalesInvoiceDto {
   salesInvoiceLine: SalesInvoiceLine[];
 }
 
+class SalesDeliveryInvoiceLine {
+  @ApiProperty()
+  articalId: number;
+  @ApiProperty()
+  quantity: number;
+}
+
 export class CreateSalesDeliveryInvoiceDto {
-    @ApiProperty()
-    deliveryDate: Date;
+  @ApiProperty()
+  purchaseOrderId?: number; //bon de commande
+  @ApiProperty()
+  exitNoteId: number;
+  @ApiProperty()
+  clientId: number;
+  @ApiProperty()
+  salesChannelsId: number;
+  @ApiProperty()
+  deliveryDate: Date;
+  @ApiProperty({ type: [SalesDeliveryInvoiceLine] })
+  salesDeliveryInvoicelines: SalesDeliveryInvoiceLine[];
 }

@@ -1,5 +1,5 @@
 import { Global, Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, TypeReceipt } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 @Global()
 @Injectable()
@@ -8,7 +8,8 @@ class EntityReceiptNoteLine {
   quantity: number;
 }
 class EntityReceiptNote {
-  date: string;
+  date: Date;
+  typeReceipt: TypeReceipt;
   numReceiptNote?: number;
   idStock: number;
   receiptNoteLines: EntityReceiptNoteLine[];
@@ -24,8 +25,11 @@ export class ReceiptNoteHelper {
       numReceiptNote = 0,
       idStock,
       date,
+      typeReceipt,
       ...rest
     } = createReceiptNote;
+    console.log('give me an id of ',idStock);
+    
     const stock = await prisma.stock.findMany({
       where: { id: idStock  },
     });
@@ -42,13 +46,14 @@ export class ReceiptNoteHelper {
         lastReceiptNoteOfStock.length == 0
           ? 1
           : lastReceiptNoteOfStock[0].numReceiptNote + 1;
-      console.log(stock[0], 'numero ');
+      console.log('numero ',stock);
 
       return await prisma.receiptNote.create({
         data: {
         receiptDate: new Date(date).toISOString(),
+        typeReceipt,
           numReceiptNote,
-          idStock: stock[0].id,
+          idStock: idStock,
           receiptNoteLine: {
             createMany: { data: receiptNoteLines },
           },

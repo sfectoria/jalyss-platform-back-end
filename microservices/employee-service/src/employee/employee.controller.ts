@@ -9,9 +9,9 @@ export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
   @MessagePattern({ cmd: 'create_employee' })
-  async create(@Payload() message: CreateEmployeeDto): Promise<any> {
-    console.log('create payload:', message);
-    return await this.employeeService.create(message);
+  async create(@Payload() createEmployeeDto: CreateEmployeeDto) {
+    console.log('create payload:', createEmployeeDto);
+    return await this.employeeService.create(createEmployeeDto);
   }
 
 

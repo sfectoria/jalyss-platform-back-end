@@ -4,8 +4,6 @@ import { TypeReceipt } from '@prisma/client';
 class ReceiptNoteLine {
   @ApiProperty()
   idArtical: number;
-  // @ApiProperty()
-  // idReceiptNote: number;
   @ApiProperty()
   quantity: number;
 }

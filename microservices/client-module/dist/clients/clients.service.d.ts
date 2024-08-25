@@ -10,7 +10,7 @@ export declare class ClientsService {
         phoneNumber: string;
         address: string;
         email: string;
-        registrationDate: Date;
+        registrationDate: Date | null;
         idCategoryClient: number;
         mediaId: string | null;
     }>;
@@ -20,7 +20,7 @@ export declare class ClientsService {
         phoneNumber: string;
         address: string;
         email: string;
-        registrationDate: Date;
+        registrationDate: Date | null;
         idCategoryClient: number;
         mediaId: string | null;
     }[]>;
@@ -30,7 +30,7 @@ export declare class ClientsService {
         phoneNumber: string;
         address: string;
         email: string;
-        registrationDate: Date;
+        registrationDate: Date | null;
         idCategoryClient: number;
         mediaId: string | null;
     }>;
@@ -40,7 +40,7 @@ export declare class ClientsService {
         phoneNumber: string;
         address: string;
         email: string;
-        registrationDate: Date;
+        registrationDate: Date | null;
         idCategoryClient: number;
         mediaId: string | null;
     }>;
@@ -50,7 +50,7 @@ export declare class ClientsService {
         phoneNumber: string;
         address: string;
         email: string;
-        registrationDate: Date;
+        registrationDate: Date | null;
         idCategoryClient: number;
         mediaId: string | null;
     }>;
