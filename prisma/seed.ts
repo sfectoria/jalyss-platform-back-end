@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { userSeed } from './seeds/userSeed';
-import { articalSeed } from './seeds/articleSeed';
+import { articleSeed } from './seeds/articleSeed';
 import { stockSeed } from './seeds/stockSeed';
 import { salesChannelSeed } from './seeds/salesChannelSeed';
 import { employeeSeed } from './seeds/employeeSeed';
@@ -16,7 +16,7 @@ async function main() {
     return;
   } else {
     await userSeed();
-    await articalSeed();
+    await articleSeed();
     await employeeSeed();
     const stock1 = await stockSeed();
     salesChannelSeed(stock1);

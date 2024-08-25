@@ -68,7 +68,7 @@ export class SalesInvoicesService {
         {
           updateMany: salesInvoiceLine.map(line => ({
             where: {
-              articalId: line.articalId,
+              articleId: line.articleId,
               salesInvoiceId: id
             },
             data: {

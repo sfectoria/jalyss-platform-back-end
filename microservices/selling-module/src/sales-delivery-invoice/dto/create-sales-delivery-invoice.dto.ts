@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 class SalesDeliveryInvoiceLine {
   @ApiProperty()
-  articalId: number;
+  articleId: number;
   @ApiProperty()
   quantity: number;
 }

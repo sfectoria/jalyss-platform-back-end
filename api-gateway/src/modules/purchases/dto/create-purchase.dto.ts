@@ -3,7 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 class PurchaseInvoiceLine {
     @ApiProperty()
-    idArtical: number;
+    idArticle: number;
     @ApiProperty()
     quantity: number;
 }
@@ -21,7 +21,7 @@ export class CreatePurchaseInvoiceDto {
 
 class PurchaseDeliveryNoteLine {
     @ApiProperty()
-    idArtical: number;
+    idArticle: number;
     @ApiProperty()
     quantity: number;
 }
@@ -39,7 +39,7 @@ export class CreatePurchaseDeliveryNoteDto {
 
 class PurchaseDeliveryInvoiceLine {  
     @ApiProperty()
-    idArtical: number;
+    idArticle: number;
     @ApiProperty()
     quantity: number;
 }
