@@ -10,7 +10,8 @@ export class SalesInvoicesService {
   constructor(
     private readonly prisma: PrismaService,
     private helperExitNote: ExitNote,
-  ) {}
+  ) {} 
+  //creation dune facture de vente
   async create(createSalesInvoiceDto: CreateSalesInvoiceDto) {
     return await this.prisma.$transaction(
       async (prisma: Prisma.TransactionClient) => {
@@ -67,7 +68,7 @@ export class SalesInvoicesService {
         {
           updateMany: salesInvoiceLine.map(line => ({
             where: {
-              articalId: line.articalId,
+              articleId: line.articleId,
               salesInvoiceId: id
             },
             data: {

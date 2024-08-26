@@ -52,8 +52,8 @@ model CategoryClient {
   client Client[]
 }
 
-// Artical models 
-model Artical {
+// Article models 
+model Article {
   id                 Int      @id @default(autoincrement())
   title              String
   code               String   @unique
@@ -83,10 +83,10 @@ model Artical {
   transferNoteLine         TransferNoteLine[] // bon de transfere line 
   exitNoteLine             ExitNoteLine[] // bon de sortie line
 
-  articalByAuthor ArticalByAuthor[]
+  articleByAuthor ArticleByAuthor[]
 
-  articalByCategory        ArticalByCategory[]
-  articalByPublishingHouse ArticalByPublishingHouse[]
+  articleByCategory        ArticleByCategory[]
+  articleByPublishingHouse ArticleByPublishingHouse[]
 }
 
 model PublishingHouse {
@@ -98,16 +98,16 @@ model PublishingHouse {
   logo                     Media?                     @relation(fields: [logoId], references: [id])
   createdAt                DateTime                   @default(now())
   updatedAt                DateTime?                  @updatedAt
-  articalByPublishingHouse ArticalByPublishingHouse[]
+  articleByPublishingHouse ArticleByPublishingHouse[]
 }
 
-model ArticalByPublishingHouse {
+model ArticleByPublishingHouse {
   publishingHouse   PublishingHouse @relation(fields: [publishingHouseId], references: [id])
   publishingHouseId Int
-  artical           Artical         @relation(fields: [articalId], references: [id])
-  articalId         Int
+  article           Article         @relation(fields: [articleId], references: [id])
+  articleId         Int
 
-  @@unique([articalId, publishingHouseId])
+  @@unique([articleId, publishingHouseId])
 }
 
 model Author {
@@ -117,32 +117,32 @@ model Author {
   biographyAr     String?
   biographyEn     String?
   mediaId         String?
-  ArticalByAuthor ArticalByAuthor[]
+  ArticleByAuthor ArticleByAuthor[]
   Media           Media?            @relation(fields: [mediaId], references: [id])
 }
 
-model ArticalByAuthor {
-  artical   Artical @relation(fields: [articalId], references: [id], onDelete: Cascade)
-  articalId Int
+model ArticleByAuthor {
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId Int
   author    Author  @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  String
 
-  @@unique([authorId, articalId])
+  @@unique([authorId, articleId])
 }
 
-model CategoryArtical {
+model CategoryArticle {
   id                Int                 @id @default(autoincrement())
   name              String
-  articalByCategory ArticalByCategory[]
+  articleByCategory ArticleByCategory[]
 }
 
-model ArticalByCategory {
-  categoryArtical   CategoryArtical @relation(fields: [categoryarticalId], references: [id])
-  categoryarticalId Int
-  artical           Artical         @relation(fields: [articalId], references: [id])
-  articalId         Int
+model ArticleByCategory {
+  categoryArticle   CategoryArticle @relation(fields: [categoryarticleId], references: [id])
+  categoryarticleId Int
+  article           Article         @relation(fields: [articleId], references: [id])
+  articleId         Int
 
-  @@unique([articalId, categoryarticalId])
+  @@unique([articleId, categoryarticleId])
 }
 
 //canaux de vente
@@ -183,10 +183,10 @@ model ReceiptNote {
 model ReceiptNoteLine {
   id               Int           @id @default(autoincrement())
   idReceiptNote Int
-  idArtical       Int
+  idArticle       Int
   quantity         Int
   receiptNote    ReceiptNote? @relation(fields: [idReceiptNote], references: [id])
-  Artical          Artical?      @relation(fields: [idArtical], references: [id])
+  Article          Article?      @relation(fields: [idArticle], references: [id])
 }
 
 //achat bon de livraison
@@ -202,10 +202,10 @@ model PurchaseDeliveryNote {
 model PurchaseDeliveryNoteLine {
   id               Int                @id @default(autoincrement())
   idDeliveryNote Int
-  idArtical       Int
+  idArticle       Int
   quantity Int 
   purchaseDeliveryNote    PurchaseDeliveryNote? @relation(fields: [idDeliveryNote], references: [id])
-  artical          Artical?           @relation(fields: [idArtical], references: [id])
+  article          Article?           @relation(fields: [idArticle], references: [id])
 }
 
 // achat bon de livraison facture
@@ -220,10 +220,10 @@ model PurchaseDeliveryInvoice {
 model PurchaseDeliveryInvoiceLine {
   id            Int             @id @default(autoincrement())
   idDeliveryInvoice Int
-  idArtical    Int
+  idArticle    Int
   quantity Int 
   purchaseDeliveryInvoice    PurchaseDeliveryInvoice? @relation(fields: [idDeliveryInvoice], references: [id])
-  artical       Artical?        @relation(fields: [idArtical], references: [id])
+  article       Article?        @relation(fields: [idArticle], references: [id])
 }
 
 //achat facture
@@ -238,10 +238,10 @@ model PurchaseInvoice {
 model PurchaseInvoiceLine {
   id               Int           @id @default(autoincrement())
   idPurchaseInvoice Int
-  idArtical       Int
+  idArticle       Int
   quantity Int 
   purchaseInvoice    PurchaseInvoice? @relation(fields: [idPurchaseInvoice], references: [id])
-  Artical          Artical?      @relation(fields: [idArtical], references: [id])
+  Article          Article?      @relation(fields: [idArticle], references: [id])
 }
 
 //vente facture
@@ -261,8 +261,8 @@ model SalesInvoice {
 
 model SalesInvoiceLine {
   id             Int           @id @default(autoincrement())
-  artical        Artical?      @relation(fields: [articalId], references: [id])
-  articalId      Int
+  article        Article?      @relation(fields: [articleId], references: [id])
+  articleId      Int
   salesInvoice   SalesInvoice? @relation(fields: [salesInvoiceId], references: [id])
   salesInvoiceId Int
   quantity Int 
@@ -290,8 +290,8 @@ model SalesDeliveryNoteLine {
   salesDeliveryNote   SalesDeliveryNote? @relation(fields: [salesDeliveryNoteId], references: [id])
   salesDeliveryNoteId Int
 
-  artical   Artical? @relation(fields: [articalId], references: [id])
-  articalId Int
+  article   Article? @relation(fields: [articleId], references: [id])
+  articleId Int
 
   quantity Int 
 }
@@ -318,8 +318,8 @@ model SalesDeliveryInvoiceLine {
 
   salesDeliveryInvoice   SalesDeliveryInvoice? @relation(fields: [salesDeliveryInvoiceId], references: [id])
   salesDeliveryInvoiceId Int
-  artical                Artical?              @relation(fields: [articalId], references: [id])
-  articalId              Int
+  article                Article?              @relation(fields: [articleId], references: [id])
+  articleId              Int
 
   quantity Int 
 }
@@ -343,9 +343,9 @@ model PurchaseOrder {
 
 model PurchaseOrderLine {
   id              Int            @id @default(autoincrement())
-  idArtical      Int
+  idArticle      Int
   idPurchaseOrder Int
-  artical         Artical?       @relation(fields: [idArtical], references: [id])
+  article         Article?       @relation(fields: [idArticle], references: [id])
   purchaseOrder    PurchaseOrder? @relation(fields: [idPurchaseOrder], references: [id])
 
   quantity Int 
@@ -364,9 +364,9 @@ model ReturnNote {
 
 model ReturnNoteLine {
   id            Int         @id @default(autoincrement())
-  idArtical    Int
+  idArticle    Int
   idReturnNote Int
-  artical       Artical?    @relation(fields: [idArtical], references: [id])
+  article       Article?    @relation(fields: [idArticle], references: [id])
   returnNote    ReturnNote? @relation(fields: [idReturnNote], references: [id])
 
   quantity Int 
@@ -386,9 +386,9 @@ model Estimate {
 model EstimateLine {
   id          Int       @id @default(autoincrement())
   idEstimate Int
-  idArtical  Int
+  idArticle  Int
   Estimate    Estimate? @relation(fields: [idEstimate], references: [id])
-  Artical     Artical?  @relation(fields: [idArtical], references: [id])
+  Article     Article?  @relation(fields: [idArticle], references: [id])
 }
 
 //bon de transfer 
@@ -408,9 +408,9 @@ model TransferNote {
 
 model TransferNoteLine {
   id            Int          @id @default(autoincrement())
-  idArtical    Int
+  idArticle    Int
   transferNoteId Int
-  artical       Artical?     @relation(fields: [idArtical], references: [id])
+  article       Article?     @relation(fields: [idArticle], references: [id])
   transferNote   TransferNote? @relation(fields: [transferNoteId], references: [id])
 
   quantity Int 
@@ -453,8 +453,8 @@ model ExitNoteLine {
 
   exitNote   ExitNote? @relation(fields: [exitNoteId], references: [id])
   exitNoteId Int?
-  Artical     Artical?   @relation(fields: [articalId], references: [id])
-  articalId   Int?
+  Article     Article?   @relation(fields: [articleId], references: [id])
+  articleId   Int?
 
   quantity Int 
 }
@@ -485,7 +485,7 @@ model Media {
   extension       String?
   description     String?
   user            User[]
-  artical         Artical[]
+  article         Article[]
   employee        Employee[]
   publishingHouse PublishingHouse[]
   client          Client[]

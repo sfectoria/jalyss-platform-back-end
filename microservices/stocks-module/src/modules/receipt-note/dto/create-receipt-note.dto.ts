@@ -3,7 +3,7 @@ import { TypeReceipt } from '@prisma/client';
 
 class ReceiptNoteLine {
   @ApiProperty()
-  idArtical: number;
+  idArticle: number;
   @ApiProperty()
   quantity: number;
 }

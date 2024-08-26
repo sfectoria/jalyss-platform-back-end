@@ -58,7 +58,7 @@ export class SalesDeliveryNoteService {
         {
           updateMany: salesDeliveryNoteLine.map(line => ({
             where: {
-              idArtical: line.articalId,
+              idArticle: line.articleId,
               receiptNoteId: id,
             },
             data: {

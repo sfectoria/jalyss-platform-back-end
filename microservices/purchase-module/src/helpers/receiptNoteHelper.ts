@@ -4,7 +4,7 @@ import { PrismaService } from 'nestjs-prisma';
 @Global()
 @Injectable()
 class EntityReceiptNoteLine {
-  idArtical: number;
+  idArticle: number;
   quantity: number;
 }
 class EntityReceiptNote {

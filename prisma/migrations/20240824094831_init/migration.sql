@@ -1,6 +1,7 @@
 -- CreateEnum
 CREATE TYPE "TypeReceipt" AS ENUM ('achat', 'retour', 'transfer');
 
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,

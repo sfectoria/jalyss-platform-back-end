@@ -27,7 +27,7 @@ export class ReturnNoteService {
   async findOne(id: number) {
     return await this.prisma.returnNote.findUnique({ 
       where: { id },
-      include: {returnNoteLine: { include: { artical: true } }}
+      include: {returnNoteLine: { include: { article: true } }}
        });
   }
 
@@ -42,7 +42,7 @@ export class ReturnNoteService {
         {
           updateMany: lines.map(line => ({
             where: {
-              idArtical: line.idArtical,  
+              idArticle: line.idArticle,  
               ReturnNoteId: id,  
             },
             data: {
@@ -57,7 +57,7 @@ export class ReturnNoteService {
   async remove(id: number) {
     return await this.prisma.returnNote.delete({ 
       where: { id },
-      include: { returnNoteLine: { include: { artical: true } } }
+      include: { returnNoteLine: { include: { article: true } } }
      });
   }
 }

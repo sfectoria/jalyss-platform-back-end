@@ -50,7 +50,7 @@ export class PurchaseDeliveryNoteService {
     return await this.prisma.purchaseDeliveryNote.findUnique({
       where: { id },
       include: {
-        purchaseDeliveryNoteLine: { include: { artical: true } },
+        purchaseDeliveryNoteLine: { include: { article: true } },
         receiptNote: true,
       },
     });
@@ -72,7 +72,7 @@ export class PurchaseDeliveryNoteService {
       updateData.purchaseDeliveryNoteLine = {
         updateMany: lines.map((line) => ({
           where: {
-            idArtical: line.idArtical,
+            idArticle: line.idArticle,
             idDeliveryNote: id,
           },
           data: {
