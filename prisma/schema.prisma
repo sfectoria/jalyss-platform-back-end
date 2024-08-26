@@ -329,11 +329,9 @@ model PurchaseOrder {
   id                   Int                    @id @default(autoincrement())
   idClient            Int
   salesChannelsId       Int
-  exitNoteId          Int
   orderDate           DateTime
   date                 DateTime
   client               Client?                @relation(fields: [idClient], references: [id])
-  exitNote           ExitNote?             @relation(fields: [exitNoteId], references: [id])
   salesChannels       SalesChannels?         @relation(fields: [salesChannelsId], references: [id])
   salesInvoice         SalesInvoice[]
   salesDeliveryInvoice SalesDeliveryInvoice[]
@@ -441,7 +439,6 @@ model ExitNote {
 
   stock                Stock                  @relation(fields: [stockId], references: [id])
   transferNote          TransferNote[]
-  purchaseOrder         PurchaseOrder[]
   salesInvoice         SalesInvoice[]
   salesDeliveryInvoice SalesDeliveryInvoice[]
   exitNoteLine         ExitNoteLine[]
