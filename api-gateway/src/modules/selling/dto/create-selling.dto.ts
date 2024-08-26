@@ -13,7 +13,7 @@ export class CreateSellingDto {
 
 class PurchaseOrderLine {
   @ApiProperty()
-  idArtical: number;
+  idArticle: number;
   @ApiProperty()
   quantity: number;
 }
@@ -34,7 +34,7 @@ export class CreatePurchaseOrderDto {
 
 class SalesDeliveryNoteLine {
   @ApiProperty()
-  articalId: number;
+  articleId: number;
   @ApiProperty()
   quantity: number;
 }
@@ -56,7 +56,7 @@ export class CreateSalesDeliveryNoteDto {
 
 class SalesInvoiceLine {
   @ApiProperty()
-  articalId: number;
+  articleId: number;
   @ApiProperty()
   quantity: number;
 }
@@ -78,7 +78,7 @@ export class CreateSalesInvoiceDto {
 
 class SalesDeliveryInvoiceLine {
   @ApiProperty()
-  articalId: number;
+  articleId: number;
   @ApiProperty()
   quantity: number;
 }

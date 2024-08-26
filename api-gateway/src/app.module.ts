@@ -6,7 +6,7 @@ import { PrismaModule } from 'nestjs-prisma';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UsersModule } from './modules/users/users.module';
 // import { UsersModule } from './modules/users/users.module';
-import { ArticalsModule } from './modules/articals/articals.module';
+import { ArticlesModule } from './modules/article/article.module';
 import { ClientModule } from './modules/clients/clients.module';
 import { StocksModule } from './modules/stocks/stocks.module';
 import { ConfigModule } from '@nestjs/config';
@@ -50,7 +50,7 @@ import { PurchasesModule } from './modules/purchases/purchases.module';
           options: { port: 3005 },
         },
         {
-          name: 'ARTICAL_MICROSERVICE',
+          name: 'ARTICLE_MICROSERVICE',
           transport: Transport.TCP,
           options: { port: 3006 },
         },
@@ -69,7 +69,7 @@ import { PurchasesModule } from './modules/purchases/purchases.module';
     }),
     UsersModule,
     AuthModule,
-    ArticalsModule,
+    ArticlesModule,
     ClientModule,
     StocksModule,
     SellingModule,

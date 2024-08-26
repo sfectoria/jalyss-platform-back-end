@@ -52,7 +52,7 @@ export class PurchaseDeliveryInvoiceService {
     return await this.prisma.purchaseDeliveryInvoice.findUnique({
       where: { id },
       include: {
-        purchaseDeliveryInvoiceLine: { include: { artical: true } },
+        purchaseDeliveryInvoiceLine: { include: { article: true } },
         receiptNote: true,
       },
     });
@@ -71,7 +71,7 @@ export class PurchaseDeliveryInvoiceService {
         purchaseDeliveryInvoiceLine: {
           updateMany: lines?.map((line) => ({
             where: {
-              idArtical: line.idArtical,
+              idArticle: line.idArticle,
               idDeliveryInvoice: id,
             },
             data: {

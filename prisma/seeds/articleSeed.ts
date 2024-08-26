@@ -2,13 +2,13 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function articalSeed (){
-    const artical = await prisma.artical.create({
+export async function articleSeed (){
+    const article = await prisma.article.create({
         data: {
-          articalByCategory: {
-            create: { categoryArtical: { create: { name: 'khalil' } } },
+          articleByCategory: {
+            create: { categoryArticle: { create: { name: 'khalil' } } },
           },
-          articalByPublishingHouse: {
+          articleByPublishingHouse: {
             create: {
               publishingHouse: {
                 create: {
