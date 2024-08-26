@@ -52,7 +52,7 @@ export class ExitNoteService {
         {
           updateMany: lines.map(line => ({
             where: {
-              articalId: line.articalId,
+              articleId: line.articleId,
               exitNoteId: id,
             },
             data: {

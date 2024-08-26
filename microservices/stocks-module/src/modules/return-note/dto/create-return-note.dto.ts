@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 class ReturnNoteLine {
     @ApiProperty()
-    idArtical: number;
+    idArticle: number;
     @ApiProperty()
     quantity: number;
   }

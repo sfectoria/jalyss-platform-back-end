@@ -48,7 +48,7 @@ export class PurchaseInvoiceService {
   async findAll() {
     return await this.prisma.purchaseInvoice.findMany({
       include: {
-        PurchaseInvoiceLine: { include: { Artical: true } },
+        PurchaseInvoiceLine: { include: { Article: true } },
         ReceiptNote: true,
       },
     });
@@ -58,7 +58,7 @@ export class PurchaseInvoiceService {
     return await this.prisma.purchaseInvoice.findUnique({
       where: { id },
       include: {
-        PurchaseInvoiceLine: { include: { Artical: true } },
+        PurchaseInvoiceLine: { include: { Article: true } },
         ReceiptNote: true,
       },
     });
@@ -73,7 +73,7 @@ export class PurchaseInvoiceService {
         PurchaseInvoiceLine: {
           updateMany: lines?.map((line) => ({
             where: {
-              idArtical: line.idArtical,
+              idArticle: line.idArticle,
               idPurchaseInvoice: id,
             },
             data: {
