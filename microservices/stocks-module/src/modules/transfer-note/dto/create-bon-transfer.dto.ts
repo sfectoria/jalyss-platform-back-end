@@ -13,7 +13,7 @@ class TransferNoteLine {
       @ApiProperty()
       to: number
       @ApiProperty()
-      date: string
+      date: Date
       @ApiProperty()
       idReceiptNote: number
       @ApiProperty()
