@@ -166,6 +166,7 @@ model ReceiptNote {
   receiptDate    DateTime
   numReceiptNote Int
   typeReceipt    TypeReceipt @default(achat) // Enum with values "retour" or "achat" or "transfer"
+  totalAmount    Float?
 
   idProvider              Int?
   idStock                 Int
@@ -185,6 +186,7 @@ model ReceiptNoteLine {
   idReceiptNote Int
   idArticle     Int
   quantity      Int
+  price         Float?
   receiptNote   ReceiptNote? @relation(fields: [idReceiptNote], references: [id])
   Article       Article?     @relation(fields: [idArticle], references: [id])
 }
@@ -193,6 +195,7 @@ model ReceiptNoteLine {
 model PurchaseDeliveryNote {
   id                       Int                        @id @default(autoincrement())
   idReceiptNote            Int
+  totalAmount              Float?
   deliveryDate             DateTime
   receiptNote              ReceiptNote?               @relation(fields: [idReceiptNote], references: [id])
   purchaseDeliveryNoteLine PurchaseDeliveryNoteLine[]
@@ -204,6 +207,7 @@ model PurchaseDeliveryNoteLine {
   idDeliveryNote       Int
   idArticle            Int
   quantity             Int
+  price                Float?
   purchaseDeliveryNote PurchaseDeliveryNote? @relation(fields: [idDeliveryNote], references: [id])
   article              Article?              @relation(fields: [idArticle], references: [id])
 }
@@ -212,6 +216,7 @@ model PurchaseDeliveryNoteLine {
 model PurchaseDeliveryInvoice {
   id                          Int                           @id @default(autoincrement())
   idReceiptNote               Int
+  totalAmount              Float?
   deliveryDate                DateTime
   receiptNote                 ReceiptNote?                  @relation(fields: [idReceiptNote], references: [id])
   purchaseDeliveryInvoiceLine PurchaseDeliveryInvoiceLine[]
@@ -222,6 +227,7 @@ model PurchaseDeliveryInvoiceLine {
   idDeliveryInvoice       Int
   idArticle               Int
   quantity                Int
+  price                   Float?
   purchaseDeliveryInvoice PurchaseDeliveryInvoice? @relation(fields: [idDeliveryInvoice], references: [id])
   article                 Article?                 @relation(fields: [idArticle], references: [id])
 }
@@ -230,6 +236,7 @@ model PurchaseDeliveryInvoiceLine {
 model PurchaseInvoice {
   id                  Int                   @id @default(autoincrement())
   deliveryDate        DateTime
+  totalAmount         Float?
   idReceiptNote       Int
   ReceiptNote         ReceiptNote           @relation(fields: [idReceiptNote], references: [id])
   PurchaseInvoiceLine PurchaseInvoiceLine[]
@@ -240,6 +247,7 @@ model PurchaseInvoiceLine {
   idPurchaseInvoice Int
   idArticle         Int
   quantity          Int
+  price             Float?
   purchaseInvoice   PurchaseInvoice? @relation(fields: [idPurchaseInvoice], references: [id])
   Article           Article?         @relation(fields: [idArticle], references: [id])
 }
@@ -249,6 +257,7 @@ model SalesInvoice {
   id               Int                @id @default(autoincrement())
   date             DateTime
   idClient         Int
+  totalAmount      Float?
   client           Client             @relation(fields: [idClient], references: [id])
   idPurchaseOrder  Int?
   purchaseOrder    PurchaseOrder?     @relation(fields: [idPurchaseOrder], references: [id])
@@ -276,6 +285,7 @@ model SalesDeliveryNote {
   deliveryDate    DateTime
   saleChannelId   Int
   idPurchaseOrder Int?
+  totalAmount     Float?
 
   client                Client                  @relation(fields: [idClient], references: [id])
   exitNote              ExitNote                @relation(fields: [exitNoteId], references: [id])
@@ -304,6 +314,7 @@ model SalesDeliveryInvoice {
   deliveryDate    DateTime
   purchaseOrderId Int? //bon de commande 
   salesChannelsId Int
+  totalAmount     Float?
 
   client                   Client                     @relation(fields: [clientId], references: [id])
   exitNote                 ExitNote?                  @relation(fields: [exitNoteId], references: [id])
@@ -332,6 +343,8 @@ model PurchaseOrder {
   exitNoteId           Int
   orderDate            DateTime
   date                 DateTime
+  totalAmount         Float?
+
   client               Client?                @relation(fields: [idClient], references: [id])
   exitNote             ExitNote?              @relation(fields: [exitNoteId], references: [id])
   salesChannels        SalesChannels?         @relation(fields: [salesChannelsId], references: [id])
@@ -436,6 +449,7 @@ model ExitNote {
   numExitNote Int
   exitDate    DateTime
   stockId     Int
+  totalAmount Float?
 
   stock                Stock                  @relation(fields: [stockId], references: [id])
   transferNote         TransferNote[]
@@ -455,6 +469,7 @@ model ExitNoteLine {
   articleId  Int?
 
   quantity Int
+  
 }
 
 model Provider {
