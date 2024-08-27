@@ -186,15 +186,14 @@ model ReceiptNote {
 
   idProvider    Int?            //fournisseur
   idStock          Int
-  idReturnNote     Int?
   provider       Provider?        @relation(fields: [idProvider], references: [id])
   stock             Stock?              @relation(fields: [idStock], references: [id])
-  returnNote        ReturnNote?         @relation(fields: [idReturnNote], references: [id])
   purchaseDeliveryNote PurchaseDeliveryNote[] // achat bon de livraison
   transferNote       TransferNote[] // bon de transfere
   purchaseDeliveryInvoice    PurchaseDeliveryInvoice[] // achat bon de livraison facture
   purchaseInvoice      PurchaseInvoice[] // achat facture
   receiptNoteLine   ReceiptNoteLine[] // bon de reception line
+  returnNote ReturnNote[] //
 }
 
 model ReceiptNoteLine {
