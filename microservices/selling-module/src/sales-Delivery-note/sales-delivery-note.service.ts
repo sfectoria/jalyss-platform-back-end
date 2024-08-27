@@ -24,6 +24,7 @@ export class SalesDeliveryNoteService {
           saleChannelId: createSalesDeliveryNoteDto.saleChannelId,
           exitNoteLines: createSalesDeliveryNoteDto.salesDeliveryNoteLine,
           date: createSalesDeliveryNoteDto.deliveryDate,
+          totalAmount:createSalesDeliveryNoteDto?.totalAmount
         });
         return await prisma.salesDeliveryNote.create({
           data: {

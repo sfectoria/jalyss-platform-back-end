@@ -13,6 +13,7 @@ class EntityReceiptNote {
   numReceiptNote?: number;
   idStock: number;
   receiptNoteLines: EntityReceiptNoteLine[];
+  totalAmount?:number
 }
 
 export class ReceiptNoteHelper {
@@ -26,6 +27,7 @@ export class ReceiptNoteHelper {
       idStock,
       date,
       typeReceipt,
+      totalAmount,
       ...rest
     } = createReceiptNote;
     console.log('give me an id of ',idStock);
@@ -54,6 +56,7 @@ export class ReceiptNoteHelper {
         typeReceipt,
           numReceiptNote,
           idStock: idStock,
+          totalAmount,
           receiptNoteLine: {
             createMany: { data: receiptNoteLines },
           },

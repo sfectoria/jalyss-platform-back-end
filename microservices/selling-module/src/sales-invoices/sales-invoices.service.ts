@@ -30,6 +30,7 @@ export class SalesInvoicesService {
               saleChannelId: createSalesInvoiceDto.saleChannelId,
               date: createSalesInvoiceDto.date,
               exitNoteLines: salesInvoiceLine,
+              totalAmount:createSalesInvoiceDto?.totalAmount
             },
           ); //
           console.log('newExitNote', newExitNote)
