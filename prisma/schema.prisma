@@ -422,9 +422,6 @@ model Stock {
   location String
   capacity Int
 
-  //es2lou khalil
-  //relation with employee
-
   transferNoteFrom TransferNote[]  @relation("StockFrom")
   transferNoteTo   TransferNote[]  @relation("StockTo")
   salesChannels    SalesChannels[]

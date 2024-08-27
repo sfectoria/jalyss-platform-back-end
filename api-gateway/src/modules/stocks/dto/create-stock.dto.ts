@@ -83,6 +83,10 @@ export class CreateReturnNoteDto {
     lines: ReturnNoteLine[];
     @ApiProperty()
     idClient:number;
+    @ApiProperty()
+    idStock:number;
+    @ApiProperty()
+    receiptNoteId:number;
     
 
 }
