@@ -53,10 +53,10 @@ model CategoryClient {
 }
 
 // Article models 
-model Article {
-  id    Int    @id @default(autoincrement())
-  title String
-  code  String @unique
+model  Article {
+  id                 Int      @id @default(autoincrement())
+  title              String
+  code               String   @unique
 
   cover              Media?   @relation(fields: [coverId], references: [id])
   pageNumber         Int?
@@ -87,6 +87,8 @@ model Article {
 
   articleByCategory        ArticleByCategory[]
   articleByPublishingHouse ArticleByPublishingHouse[]
+  priceByChannel PriceByChannel[] // Relation avec le modèle PriceByChannel
+
 }
 
 model PublishingHouse {
@@ -158,7 +160,22 @@ model SalesChannels {
   salesInvoice         SalesInvoice[] // vente facture 
   salesDeliveryInvoice SalesDeliveryInvoice[] //vente bon de livraison facture
   salesDeliveryNote    SalesDeliveryNote[] // vente bon de livraison 
+  priceByChannel PriceByChannel[] // Relation avec le modèle PriceByChannel (lahne el relation m3a les articles)
+
 }
+
+model PriceByChannel {
+  id                Int          @id @default(autoincrement())
+  price             Float
+  idArticle         Int
+  idSalesChannel    Int
+
+  article           Article      @relation(fields: [idArticle], references: [id])
+  salesChannel      SalesChannels @relation(fields: [idSalesChannel], references: [id])
+
+  @@unique([idArticle, idSalesChannel]) 
+}
+
 
 //bon de reception
 model ReceiptNote {
@@ -168,17 +185,16 @@ model ReceiptNote {
   typeReceipt    TypeReceipt @default(achat) // Enum with values "retour" or "achat" or "transfer"
   totalAmount    Float?
 
-  idProvider              Int?
-  idStock                 Int
-  idReturnNote            Int?
-  provider                Provider?                 @relation(fields: [idProvider], references: [id])
-  stock                   Stock?                    @relation(fields: [idStock], references: [id])
-  returnNote              ReturnNote[]
-  purchaseDeliveryNote    PurchaseDeliveryNote[] // achat bon de livraison
-  transferNote            TransferNote[] // bon de transfere
-  purchaseDeliveryInvoice PurchaseDeliveryInvoice[] // achat bon de livraison facture
-  purchaseInvoice         PurchaseInvoice[] // achat facture
-  receiptNoteLine         ReceiptNoteLine[] // bon de reception line
+  idProvider    Int?            //fournisseur
+  idStock          Int
+  provider       Provider?        @relation(fields: [idProvider], references: [id])
+  stock             Stock?              @relation(fields: [idStock], references: [id])
+  purchaseDeliveryNote PurchaseDeliveryNote[] // achat bon de livraison
+  transferNote       TransferNote[] // bon de transfere
+  purchaseDeliveryInvoice    PurchaseDeliveryInvoice[] // achat bon de livraison facture
+  purchaseInvoice      PurchaseInvoice[] // achat facture
+  receiptNoteLine   ReceiptNoteLine[] // bon de reception line
+  returnNote ReturnNote[] //
 }
 
 model ReceiptNoteLine {
