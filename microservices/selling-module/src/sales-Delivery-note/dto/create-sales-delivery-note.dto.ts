@@ -20,4 +20,6 @@ export class CreateSalesDeliveryNoteDto {
   deliveryDate: string;
   @ApiProperty({type : [SalesDeliveryNoteLine]})
   salesDeliveryNoteLine: SalesDeliveryNoteLine[]
+  @ApiProperty()
+  totalAmount ?: number
 }

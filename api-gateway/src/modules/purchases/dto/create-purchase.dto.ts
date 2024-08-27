@@ -6,6 +6,8 @@ class PurchaseInvoiceLine {
     idArticle: number;
     @ApiProperty()
     quantity: number;
+    @ApiProperty()
+    price ?: number
 }
 
 export class CreatePurchaseInvoiceDto {
@@ -17,6 +19,8 @@ export class CreatePurchaseInvoiceDto {
     idStock : number 
     @ApiProperty({ type: [PurchaseInvoiceLine] })
     lines: PurchaseInvoiceLine[]
+    @ApiProperty()
+    totalAmount ?: number
 }
 
 class PurchaseDeliveryNoteLine {
@@ -24,6 +28,8 @@ class PurchaseDeliveryNoteLine {
     idArticle: number;
     @ApiProperty()
     quantity: number;
+    @ApiProperty()
+    price ?: number
 }
 
 export class CreatePurchaseDeliveryNoteDto {
@@ -35,6 +41,8 @@ export class CreatePurchaseDeliveryNoteDto {
     idStock : number 
     @ApiProperty({ type: [PurchaseDeliveryNoteLine] })
     lines: PurchaseDeliveryNoteLine[]
+    @ApiProperty()
+    totalAmount ?: number
 }
 
 class PurchaseDeliveryInvoiceLine {  
@@ -42,6 +50,8 @@ class PurchaseDeliveryInvoiceLine {
     idArticle: number;
     @ApiProperty()
     quantity: number;
+    @ApiProperty()
+    price ?: number
 }
 
 export class CreatePurchaseDeliveryInvoiceDto {
@@ -53,4 +63,6 @@ export class CreatePurchaseDeliveryInvoiceDto {
     idStock : number 
     @ApiProperty({ type: [PurchaseDeliveryInvoiceLine] })
     lines: PurchaseDeliveryInvoiceLine[]
+    @ApiProperty()
+    totalAmount ?: number
 }

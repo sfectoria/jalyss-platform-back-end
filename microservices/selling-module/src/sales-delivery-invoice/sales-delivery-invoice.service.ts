@@ -24,7 +24,8 @@ export class SalesDeliveryInvoiceService {
         const newExitNote = await this.helperExitNote.create(prisma, {
           saleChannelId: createSalesDeliveryInvoiceDto.salesChannelsId,
           exitNoteLines: salesDeliveryInvoicelines,
-          date : createSalesDeliveryInvoiceDto.deliveryDate
+          date : createSalesDeliveryInvoiceDto.deliveryDate,
+          totalAmount:createSalesDeliveryInvoiceDto?.totalAmount
         });
 
       return await prisma.salesDeliveryInvoice.create({

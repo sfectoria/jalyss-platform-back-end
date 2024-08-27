@@ -24,6 +24,7 @@ export class PurchaseDeliveryNoteService {
               typeReceipt:"achat",
               date: createPurchaseDeliveryNoteDto.deliveryDate,
               receiptNoteLines: lines,
+              totalAmount:createPurchaseDeliveryNoteDto?.totalAmount
             },
           );
           idReceiptNote=newReceiptNote.id

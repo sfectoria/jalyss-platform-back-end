@@ -12,6 +12,7 @@ class EntityExiteNote {
   numExitNote?: number;
   saleChannelId: number;
   exitNoteLines: EntityExiteNoteLine[];
+  totalAmount?:number
 }
 
 export class ExitNote {
@@ -25,6 +26,7 @@ export class ExitNote {
       numExitNote = 0,
       saleChannelId,
       date,
+      totalAmount,
       ...rest
     } = createExitNoteDto;
     // if (type === 'invoice') {
@@ -54,6 +56,7 @@ export class ExitNote {
           exitDate: new Date(date).toISOString(),
           numExitNote,
           stockId: stock[0].id,
+          totalAmount,
           exitNoteLine: {
             createMany: { data: exitNoteLines },
           },

@@ -13,6 +13,8 @@ class ReceiptNoteLine {
     idArticle: number;
     @ApiProperty()
     quantity: number;
+    @ApiProperty()
+    price?: number;
   }
   export class CreateReceiptNoteDto {
     @ApiProperty()
@@ -21,6 +23,8 @@ class ReceiptNoteLine {
     receiptDate: Date;
     @ApiProperty()
     idStock : number;
+    @ApiProperty()
+    totalAmount ?: number;
     @ApiProperty({ type: [ReceiptNoteLine] })
     lines: ReceiptNoteLine[];
     @ApiProperty()
@@ -39,6 +43,8 @@ export class CreateExitNoteDto {
   exitDate: Date;
   @ApiProperty()
   numExitNote : number 
+  @ApiProperty()
+  totalAmount ?: number
   @ApiProperty()
   stockId : number
   @ApiProperty({ type: [ExitNoteLine] })
