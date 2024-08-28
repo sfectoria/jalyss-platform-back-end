@@ -5,6 +5,8 @@ class PurchaseDeliveryNoteLine {
     idArticle: number;
     @ApiProperty()
     quantity: number;
+    @ApiProperty()
+    price ?: number
 }
 
 export class CreatePurchaseDeliveryNoteDto {
@@ -16,5 +18,7 @@ export class CreatePurchaseDeliveryNoteDto {
     idStock : number 
     @ApiProperty({ type: [PurchaseDeliveryNoteLine] })
     lines: PurchaseDeliveryNoteLine[]
+    @ApiProperty()
+    totalAmount ?: number
 }
 

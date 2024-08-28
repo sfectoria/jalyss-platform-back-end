@@ -52,6 +52,8 @@ export class CreateSalesDeliveryNoteDto {
   deliveryDate: Date;
   @ApiProperty({type : [SalesDeliveryNoteLine]})
   salesDeliveryNoteLine: SalesDeliveryNoteLine[]
+  @ApiProperty()
+  totalAmount ?: number
 }
 
 class SalesInvoiceLine {
@@ -74,6 +76,8 @@ export class CreateSalesInvoiceDto {
   date: Date;
   @ApiProperty({ type: [SalesInvoiceLine] })
   salesInvoiceLine: SalesInvoiceLine[];
+  @ApiProperty()
+  totalAmount ?: number
 }
 
 class SalesDeliveryInvoiceLine {
@@ -96,4 +100,6 @@ export class CreateSalesDeliveryInvoiceDto {
   deliveryDate: Date;
   @ApiProperty({ type: [SalesDeliveryInvoiceLine] })
   salesDeliveryInvoicelines: SalesDeliveryInvoiceLine[];
+  @ApiProperty()
+  totalAmount ?: number
 }

@@ -11,10 +11,10 @@ export class CreateStockDto {
 class ReceiptNoteLine {
     @ApiProperty()
     idArticle: number;
-    // @ApiProperty()
-    // idReceiptNote: number;
     @ApiProperty()
     quantity: number;
+    @ApiProperty()
+    price?: number;
   }
   export class CreateReceiptNoteDto {
     @ApiProperty()
@@ -23,6 +23,8 @@ class ReceiptNoteLine {
     receiptDate: Date;
     @ApiProperty()
     idStock : number;
+    @ApiProperty()
+    totalAmount ?: number;
     @ApiProperty({ type: [ReceiptNoteLine] })
     lines: ReceiptNoteLine[];
     @ApiProperty()
@@ -42,6 +44,8 @@ export class CreateExitNoteDto {
   @ApiProperty()
   numExitNote : number 
   @ApiProperty()
+  totalAmount ?: number
+  @ApiProperty()
   stockId : number
   @ApiProperty({ type: [ExitNoteLine] })
   lines: ExitNoteLine[]
@@ -51,7 +55,7 @@ class TransferNoteLine {
   @ApiProperty()
   idArticle : number
   @ApiProperty()
-  transferNoteId : number
+  quantity : number
 }
 
 export class CreateTransferNoteDto {
@@ -85,6 +89,10 @@ export class CreateReturnNoteDto {
     lines: ReturnNoteLine[];
     @ApiProperty()
     idClient:number;
+    @ApiProperty()
+    idStock:number;
+    @ApiProperty()
+    receiptNoteId:number;
     
 
 }

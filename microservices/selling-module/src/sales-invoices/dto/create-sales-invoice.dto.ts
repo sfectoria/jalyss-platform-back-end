@@ -20,4 +20,6 @@ export class CreateSalesInvoiceDto {
   date: string;
   @ApiProperty({ type: [SalesInvoiceLine] })
   salesInvoiceLine: SalesInvoiceLine[];
+  @ApiProperty()
+  totalAmount ?: number
 }

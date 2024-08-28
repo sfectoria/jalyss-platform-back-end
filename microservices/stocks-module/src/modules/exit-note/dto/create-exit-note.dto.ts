@@ -13,6 +13,8 @@ export class CreateExitNoteDto {
     @ApiProperty()
     numExitNote : number 
     @ApiProperty()
+    totalAmount ?: number
+    @ApiProperty()
     stockId : number
     @ApiProperty({ type: [ExitNoteLine] })
     lines: ExitNoteLine[]
