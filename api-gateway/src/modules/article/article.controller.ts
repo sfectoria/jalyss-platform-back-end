@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ArticlesService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Filters } from './entities/article.entity';
 
 @Controller('articles')
 @ApiTags('articles')
@@ -23,8 +25,8 @@ export class ArticlesController {
   }
 
   @Get('getAll')
-  findAll() {
-    return this.articlesService.findAll();
+  findAll(@Query() filters:Filters) {
+    return this.articlesService.findAll(filters);
   }
 
   @Get(':id')
