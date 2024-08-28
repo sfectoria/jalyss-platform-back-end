@@ -9,9 +9,11 @@ import { SalesDeliveryInvoiceController } from './salesDeliveryInvoice.controlle
 import { SalesDeliveryInvoiceService } from './salesDeliveryInvoice.service';
 import { SalesInvoicesService } from './sales-invoices.service';
 import { SalesInvoicesController } from './sales-invoices.controller';
+import { PriceByChannelService } from './priceByChannel.service';
+import { PriceByChannelController } from './priceByChannel.controller';
 
 @Module({
-  controllers: [SellingController, PurchaseOrderController, SalesDeliveryNoteController, SalesInvoicesController, SalesDeliveryInvoiceController],
-  providers: [SellingService, PurchaseOrderService, SalesDeliveryNoteService, SalesInvoicesService, SalesDeliveryInvoiceService],
+  controllers: [SellingController, PurchaseOrderController, SalesDeliveryNoteController, SalesInvoicesController, SalesDeliveryInvoiceController,PriceByChannelController],
+  providers: [SellingService, PurchaseOrderService, SalesDeliveryNoteService, SalesInvoicesService, SalesDeliveryInvoiceService,PriceByChannelService],
 })
 export class SellingModule {}
