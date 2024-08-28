@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { ClientProxy } from '@nestjs/microservices';
+import { Filters } from './entities/article.entity';
 
 @Injectable()
 export class ArticlesService {
@@ -11,23 +12,17 @@ export class ArticlesService {
 
   create(createArticleDto: CreateArticleDto) {
     console.log('create article data:', createArticleDto);
-    return this.articleClient.send(
-      { cmd: 'create_article' }, 
-      createArticleDto);
+    return this.articleClient.send({ cmd: 'create_article' }, createArticleDto);
   }
 
-  findAll() {
+  findAll(filters?:Filters) {
     console.log('findAll called');
-    return this.articleClient.send(
-      { cmd: 'all_articles' },
-       {});
+    return this.articleClient.send({ cmd: 'all_articles' }, filters);
   }
 
   findOne(id: number) {
     console.log('findOne id:', id);
-    return this.articleClient.send(
-      { cmd: 'getOne_article' }, 
-      {id});
+    return this.articleClient.send({ cmd: 'getOne_article' }, { id });
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
@@ -40,8 +35,6 @@ export class ArticlesService {
 
   remove(id: number) {
     console.log('remove id:', id);
-    return this.articleClient.send(
-      { cmd: 'delete_article' }, 
-      { id });
+    return this.articleClient.send({ cmd: 'delete_article' }, { id });
   }
 }

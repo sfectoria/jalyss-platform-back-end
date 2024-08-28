@@ -3,6 +3,8 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ArticlesService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
+import { skip, take } from 'rxjs';
+import { Filters } from './entities/article.entity';
 
 @Controller('articles')
 export class ArticlesController {
@@ -15,9 +17,9 @@ export class ArticlesController {
   }
 
   @MessagePattern({ cmd: 'all_articles' })
-  async findAll() {
-    console.log('findAll called');
-    return await this.articlesService.findAll();
+  async findAll(@Payload() filters:Filters) {
+    console.log('findAll called',filters);
+    return await this.articlesService.findAll(filters);
   }
 
   @MessagePattern({ cmd: 'getOne_article' })
