@@ -19,7 +19,8 @@ export class ArticlesService {
           create: priceByChannel.map((priceData) => ({
             price: priceData.price,
             salesChannel: {
-              connect: { id: priceData.idSalesChannel },
+              connect: { id: priceData.idSalesChannel }, //nous ne créons pas un nouveau canal de vente mais que nous connectons 
+                                                         //le priceByChannel a un canal de vente existant
             },
           })),
         },
