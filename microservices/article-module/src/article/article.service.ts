@@ -10,10 +10,28 @@ export class ArticlesService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createArticleDto: CreateArticleDto) {
-    return await this.prisma.article.create({
-      data: createArticleDto,
+    const { priceByChannel, ...articleData } = createArticleDto;
+  
+    const article = await this.prisma.article.create({
+      data: {
+        ...articleData,
+        priceByChannel: {
+          create: priceByChannel.map((priceData) => ({
+            price: priceData.price,
+            salesChannel: {
+              connect: { id: priceData.idSalesChannel },
+            },
+          })),
+        },
+      },
+      include: {
+        priceByChannel: true,
+      },
     });
+  
+    return article;
   }
+  
 
   async findAll(filters: Filters) {
     let { take, skip, publishingHousesIds, authorsIds, text } = filters;
@@ -69,21 +87,44 @@ export class ArticlesService {
       skip,
       include:{
         articleByAuthor:{include:{author:true}},
-        articleByPublishingHouse:{include:{publishingHouse:true}}
+        articleByPublishingHouse:{include:{publishingHouse:true}},
+        priceByChannel:{include:{salesChannel:true}},
       }
     });
   }
 
   async findOne(id: number) {
-    return await this.prisma.article.findUnique({ where: { id } });
+    return await this.prisma.article.findUnique({ where: { id }, include:{priceByChannel:{include:{salesChannel:true,}}} });
   }
 
   async update(id: number, updateArticleDto: UpdateArticleDto) {
-    return await this.prisma.article.update({
+    const { priceByChannel, ...articleData } = updateArticleDto;
+  
+    const article = await this.prisma.article.update({
       where: { id },
-      data: updateArticleDto,
+      data: {
+        ...articleData,
+        // Si des prix sont fournis, mettez à jour les entrées PriceByChannel associées
+        priceByChannel: priceByChannel
+          ? {
+              deleteMany: {}, // Supprime les anciennes entrées PriceByChannel
+              create: priceByChannel.map((priceData) => ({
+                price: priceData.price,
+                salesChannel: {
+                  connect: { id: priceData.idSalesChannel },
+                },
+              })),
+            }
+          : undefined,
+      },
+      include: {
+        priceByChannel: true,
+      },
     });
+  
+    return article;
   }
+  
 
   async remove(id: number) {
     return await this.prisma.article.delete({ where: { id } });
