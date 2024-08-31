@@ -3,6 +3,7 @@ import { SalesChannelsService } from './sales-channels.service';
 import { CreateSalesChannelDto } from './dto/create-sales-channel.dto';
 import { UpdateSalesChannelDto } from './dto/update-sales-channel.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { FiltersChannels } from './entities/sales-channel.entity';
 
 @Controller('sales-channels')
 export class SalesChannelsController {
@@ -14,7 +15,7 @@ export class SalesChannelsController {
   }
 
   @MessagePattern({ cmd: 'all_salesChannels' })
-  async findAll() {
+  async findAll(@Payload() filters:FiltersChannels) {
     return await this.salesChannelsService.findAll();
   }
 

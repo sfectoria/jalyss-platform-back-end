@@ -3,6 +3,7 @@ import { StocksService } from './stocks.service';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { FiltersStock } from './entities/stock.entity';
 
 @Controller('stocks')
 export class StocksController {
@@ -14,8 +15,8 @@ export class StocksController {
   }
 
   @MessagePattern({ cmd: 'all_stocks' })
-  async findAll() {
-    return await this.stocksService.findAll();
+  async findAll(@Payload() filters:FiltersStock) {
+    return await this.stocksService.findAll(filters);
   }
 
 @MessagePattern({ cmd: 'getOne_stock' })
