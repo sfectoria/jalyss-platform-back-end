@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { PrismaService } from 'nestjs-prisma';
+import { FiltersStock } from './entities/stock.entity';
 
 @Injectable()
 export class StocksService {
@@ -13,8 +14,12 @@ export class StocksService {
   }
 
 
-  async findAll() {
-    return await this.prisma.stock.findMany(); 
+  async findAll(filters?: FiltersStock) {
+    let { take, skip, text } = filters;
+    take = !take ? 10 : +take;
+    skip = !skip ? 0 : +skip;
+    let where = {};
+    return await this.prisma.stock.findMany({where,take,skip}); 
   }
 
   async findOne(id: number) {

@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete,Query } from '@nestjs/common';
 import { SellingService } from './salesChannels.service';
 import { CreateSellingDto } from './dto/create-selling.dto';
 import { UpdateSellingDto } from './dto/update-selling.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { FiltersChannels } from './entities/selling.entity';
 
 @Controller('selling')
 @ApiTags('salesChannels')
@@ -15,8 +16,8 @@ export class SellingController {
   }
 
   @Get('getAll')
-  findAll() {
-    return this.sellingService.findAll();
+  findAll(@Query() filters:FiltersChannels) {
+    return this.sellingService.findAll(filters);
   }
 
   @Get(':id')
