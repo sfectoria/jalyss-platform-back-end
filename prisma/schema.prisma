@@ -350,13 +350,13 @@ model SalesDeliveryInvoiceLine {
 
 //bon de commande 
 model PurchaseOrder {
-  id              Int               @id @default(autoincrement())
-  idClient        Int
-  salesChannelsId Int
-  orderDate       DateTime
-  date            DateTime
-  totalAmount     Float?
-  status          TypePurchaseOrder @default(Pending) //enum with values "Confirmed" & "Pending" & "Cancelled"
+  id                   Int                    @id @default(autoincrement())
+  idClient             Int
+  salesChannelsId      Int
+  exitNoteId           Int
+  orderDate            DateTime
+  date                 DateTime
+  totalAmount         Float?
 
   client               Client?                @relation(fields: [idClient], references: [id])
   salesChannels        SalesChannels?         @relation(fields: [salesChannelsId], references: [id])
@@ -443,6 +443,7 @@ model TransferNoteLine {
 
 model Stock {
   id       Int    @id @default(autoincrement())
+  name     String
   location String
   capacity Int
 

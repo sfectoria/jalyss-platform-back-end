@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete,Query } from '@nestjs/common';
 import { StocksService } from './stocks.service';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { FiltersStock } from './entities/stock.entity';
 
 @Controller('stocks')
 @ApiTags('stocks')
@@ -15,8 +16,8 @@ export class StocksController {
   }
 
   @Get('getAll')
-  findAll() {
-    return this.stocksService.findAll();
+  findAll(@Query() filters:FiltersStock) {
+    return this.stocksService.findAll(filters);
   }
 
   @Get(':id')

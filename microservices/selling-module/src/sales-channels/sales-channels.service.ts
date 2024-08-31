@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateSalesChannelDto } from './dto/create-sales-channel.dto';
 import { UpdateSalesChannelDto } from './dto/update-sales-channel.dto';
 import { PrismaService } from 'nestjs-prisma';
+import { FiltersChannels } from './entities/sales-channel.entity';
 
 @Injectable()
 export class SalesChannelsService {
@@ -12,8 +13,12 @@ export class SalesChannelsService {
     });
   }
 
-  async findAll() {
-    return await this.prisma.salesChannels.findMany();
+  async findAll(filters?: FiltersChannels) {
+    let { take, skip, text } = filters;
+    take = !take ? 10 : +take;
+    skip = !skip ? 0 : +skip;
+    let where = {};
+    return await this.prisma.salesChannels.findMany({where,take,skip});
   }
 
   async findOne(id: number) {

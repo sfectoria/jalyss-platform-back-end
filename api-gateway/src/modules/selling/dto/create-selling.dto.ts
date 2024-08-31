@@ -103,3 +103,12 @@ export class CreateSalesDeliveryInvoiceDto {
   @ApiProperty()
   totalAmount ?: number
 }
+
+export class CreatePriceByChannelDto {
+  @ApiProperty()
+  price: number;
+  @ApiProperty()
+  idArticle: number;
+  @ApiProperty()
+  idSalesChannel: number;
+}
