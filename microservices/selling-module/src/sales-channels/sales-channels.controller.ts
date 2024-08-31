@@ -16,7 +16,7 @@ export class SalesChannelsController {
 
   @MessagePattern({ cmd: 'all_salesChannels' })
   async findAll(@Payload() filters:FiltersChannels) {
-    return await this.salesChannelsService.findAll();
+    return await this.salesChannelsService.findAll(filters);
   }
 
   @MessagePattern({ cmd: 'getOne_salesChannel' })
