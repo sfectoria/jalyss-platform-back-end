@@ -12,24 +12,24 @@ export class ArticlesService {
   async create(createArticleDto: CreateArticleDto) {
     const { priceByChannel, mediaData, ...articleData } = createArticleDto;
 
-    const media = await this.prisma.media.create({
-      data: {
-        path: mediaData.path,
-        type: mediaData.type,
-        alt: mediaData.alt,
-        extension: mediaData.extension,
-        description: mediaData.description,
-      },
-    });
+    // const media = await this.prisma.media.create({
+    //   data: {
+    //     path: mediaData.path,
+    //     type: mediaData.type,
+    //     alt: mediaData.alt,
+    //     extension: mediaData.extension,
+    //     description: mediaData.description,
+    //   },
+    // });
 
     const article = await this.prisma.article.create({
       data: {
         ...articleData,
-        cover: {
-          connect: { id: media.id },
-        },
+        // cover: {
+        //   connect: { id: media.id },
+        // },
         priceByChannel: {
-          create: priceByChannel.map((priceData) => ({
+          create: priceByChannel?.map((priceData) => ({
             price: priceData.price,
             salesChannel: {
               connect: { id: priceData.idSalesChannel }, //nous ne créons pas un nouveau canal de vente mais que nous connectons

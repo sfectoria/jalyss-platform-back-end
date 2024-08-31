@@ -30,6 +30,7 @@ export class MediasController {
     return this.mediasService.update(id, updateMediaDto);
   }
 
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.mediasService.remove(id);

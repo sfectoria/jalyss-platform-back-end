@@ -42,8 +42,8 @@ export class CreateArticleDto {
   @ApiProperty({ type: MediaDto, required: false })
   mediaData?: MediaDto;
 
-  @ApiProperty()
-  createdAt: string;
-  @ApiProperty()
-  updatedAt: string;
+  // @ApiProperty()
+  // createdAt: string;
+  // @ApiProperty()
+  // updatedAt: string;
 }

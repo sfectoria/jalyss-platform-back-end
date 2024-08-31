@@ -40,11 +40,6 @@ export class CreateArticleDto {
   priceByChannel?: PriceByChannelDto[];
   @ApiProperty({ type: MediaDto, required: false })
   mediaData?: MediaDto;
-
-  // @ApiProperty()
-  // createdAt: string;
-  // @ApiProperty()
-  // updatedAt: string;
 }
 
 

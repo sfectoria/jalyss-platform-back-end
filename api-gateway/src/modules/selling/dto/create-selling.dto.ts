@@ -26,9 +26,9 @@ export class CreatePurchaseOrderDto {
   @ApiProperty()
   exitNoteId: number;
   @ApiProperty()
-  orderDate: string;
+  orderDate?: string;
   @ApiProperty()
-  date: string;
+  date?: string;
   @ApiProperty({type:[PurchaseOrderLine]})
   purchaseOrderLine: PurchaseOrderLine[];
 }
