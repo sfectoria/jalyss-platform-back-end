@@ -3,6 +3,7 @@ import { SalesInvoicesService } from './sales-invoices.service';
 import { CreateSalesInvoiceDto } from './dto/create-sales-invoice.dto';
 import { UpdateSalesInvoiceDto } from './dto/update-sales-invoice.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Filters } from './entities/sales-invoice.entity';
 
 @Controller('sales-invoices')
 export class SalesInvoicesController {
@@ -15,8 +16,8 @@ export class SalesInvoicesController {
   }
 
   @MessagePattern({ cmd: 'all_salesInvioces'})
-  async findAll() {
-    return await this.salesInvoicesService.findAll();
+  async findAll(@Payload() filters: Filters) {
+    return await this.salesInvoicesService.findAll(filters);
   }
 
   @MessagePattern({ cmd: 'getOne_salesInvoice'})
