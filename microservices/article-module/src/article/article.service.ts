@@ -64,7 +64,7 @@ export class ArticlesService {
     }
 
     console.log(require('util').inspect(where, { depth: null }));
-    return await this.prisma.article.findMany({
+    let data= await this.prisma.article.findMany({
       where,
       take,
       skip,
@@ -73,6 +73,10 @@ export class ArticlesService {
         articleByPublishingHouse:{include:{publishingHouse:true}}
       }
     });
+
+    let count =await this.prisma.article.count()
+
+    return {data,count}
   }
 
   async findOne(id: number) {

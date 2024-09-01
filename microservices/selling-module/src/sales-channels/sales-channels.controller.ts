@@ -20,7 +20,7 @@ export class SalesChannelsController {
   }
 
   @MessagePattern({ cmd: 'getOne_salesChannel' })
-  async findOne(@Payload() id: number) {
+  async findOne(@Payload('id') id: number) {
     return await this.salesChannelsService.findOne(+id);
   }
 
