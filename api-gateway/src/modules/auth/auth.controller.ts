@@ -12,7 +12,8 @@ import {
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from './auth.guard';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -24,36 +25,15 @@ export class AuthController {
     return this.authService.login(CreateUserDto);
   }
   
-  @UseGuards(AuthGuard('jwt'))
+  @ApiSecurity('apiKey') //logo cadna
+  @UseGuards(JwtAuthGuard)
   @Get('me')
-  myInfo(@Request() req: any) {    
-    return this.authService.me(req.user);
+  findMe(@Request() req: any) {    
+    return this.authService.findMe(req.user);
 
   }
 
-  // @Post('register')
-  // regiter(@Body() dto: CreateUserDto) {
-  //   return this.authService.regiter(dto);
-  // }
-  
 
-  // @Post()
-  // create(@Body() createAuthDto: CreateAuthDto) {
-  //   return this.authService.create(createAuthDto);
-  // }
-
-  // @Get()
-  // l(){
-  //   return"this "
-  // }
-  // findAll() {
-  //   return this.authService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.authService.findOne(+id);
-  // }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
