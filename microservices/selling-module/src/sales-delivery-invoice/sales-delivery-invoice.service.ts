@@ -3,6 +3,7 @@ import { CreateSalesDeliveryInvoiceDto } from './dto/create-sales-delivery-invoi
 import { UpdateSalesDeliveryInvoiceDto } from './dto/update-sales-delivery-invoice.dto';
 import { PrismaService } from 'nestjs-prisma';
 import { ExitNote } from 'src/helpers/exitNote';
+import { Filters } from './entities/sales-delivery-invoice.entity';
 
 @Injectable() //vente bon de livraison facture
 export class SalesDeliveryInvoiceService {
@@ -42,8 +43,29 @@ export class SalesDeliveryInvoiceService {
     });
   }
 
-  async findAll() {
-    return this.prisma.salesDeliveryInvoice.findMany();
+  async findAll(filters: Filters) {
+    let { take, skip, clientIds } = filters;
+    console.log('THIS', take, skip);
+  
+    take = !take ? 10 : +take;
+    skip = !skip ? 0 : +skip;
+    
+    let where = {};
+    
+    if (Array.isArray(clientIds) && clientIds.length > 0) {
+      where['idClient'] = {
+        in: clientIds.map((elem) => +elem), // Convertir chaque élément en nombre
+      };
+    }
+  
+    return await this.prisma.salesDeliveryNote.findMany({
+      where,
+      take,
+      skip,
+      include: {
+        client: true,
+      },
+    });
   }
 
   async findOne(id: number) {

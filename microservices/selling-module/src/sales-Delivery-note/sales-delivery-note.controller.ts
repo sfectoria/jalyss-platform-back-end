@@ -1,21 +1,37 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { SalesDeliveryNoteService } from './sales-delivery-note.service';
 import { CreateSalesDeliveryNoteDto } from './dto/create-sales-delivery-note.dto';
 import { UpdateSalesDeliveryNoteDto } from './dto/update-sales-delivery-notedto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Filters } from './entities/sales-bl.entity';
 
 @Controller('sales-DeliveryNote')
 export class SalesDeliveryNoteController {
-  constructor(private readonly salesDeliveryNoteService: SalesDeliveryNoteService) {}
+  constructor(
+    private readonly salesDeliveryNoteService: SalesDeliveryNoteService,
+  ) {}
 
   @MessagePattern({ cmd: 'create_salesDeliveryNote' })
-  async create(@Payload() createSalesDeliveryNoteDto: CreateSalesDeliveryNoteDto) {
-    return await this.salesDeliveryNoteService.create(createSalesDeliveryNoteDto);
+  async create(
+    @Payload() createSalesDeliveryNoteDto: CreateSalesDeliveryNoteDto,
+  ) {
+    return await this.salesDeliveryNoteService.create(
+      createSalesDeliveryNoteDto,
+    );
   }
 
   @MessagePattern({ cmd: 'all_salesDeliveryNotes' })
-  async findAll() {
-    return await this.salesDeliveryNoteService.findAll();
+  async findAll(@Payload() filters: Filters) {
+    console.log('findAll called', filters);
+    return await this.salesDeliveryNoteService.findAll(filters);
   }
 
   @MessagePattern({ cmd: 'gteOne_salesDeliveryNote' })
@@ -24,8 +40,17 @@ export class SalesDeliveryNoteController {
   }
 
   @MessagePattern({ cmd: 'update_salesDeliveryNote' })
-  async update(@Payload() data :{id: number, updateSalesDeliveryNoteDto: UpdateSalesDeliveryNoteDto}) {
-    return await this.salesDeliveryNoteService.update(data.id, data.updateSalesDeliveryNoteDto);
+  async update(
+    @Payload()
+    data: {
+      id: number;
+      updateSalesDeliveryNoteDto: UpdateSalesDeliveryNoteDto;
+    },
+  ) {
+    return await this.salesDeliveryNoteService.update(
+      data.id,
+      data.updateSalesDeliveryNoteDto,
+    );
   }
 
   @MessagePattern({ cmd: 'delete_salesDeliveryNote' })

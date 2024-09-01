@@ -10,9 +10,41 @@ export class ArticlesService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createArticleDto: CreateArticleDto) {
-    return await this.prisma.article.create({
-      data: createArticleDto,
+    const { priceByChannel, mediaData, ...articleData } = createArticleDto;
+
+    // const media = await this.prisma.media.create({
+    //   data: {
+    //     path: mediaData.path,
+    //     type: mediaData.type,
+    //     alt: mediaData.alt,
+    //     extension: mediaData.extension,
+    //     description: mediaData.description,
+    //   },
+    // });
+
+    const article = await this.prisma.article.create({
+      data: {
+        ...articleData,
+        // cover: {
+        //   connect: { id: media.id },
+        // },
+        priceByChannel: {
+          create: priceByChannel?.map((priceData) => ({
+            price: priceData.price,
+            salesChannel: {
+              connect: { id: priceData.idSalesChannel }, //nous ne créons pas un nouveau canal de vente mais que nous connectons
+              //le priceByChannel a un canal de vente existant
+            },
+          })),
+        },
+      },
+      include: {
+        priceByChannel: true,
+        cover: true,
+      },
     });
+
+    return article;
   }
 
   async findAll(filters: Filters) {
@@ -68,22 +100,50 @@ export class ArticlesService {
       where,
       take,
       skip,
-      include:{
-        articleByAuthor:{include:{author:true}},
-        articleByPublishingHouse:{include:{publishingHouse:true}}
-      }
+      include: {
+        articleByAuthor: { include: { author: true } },
+        articleByPublishingHouse: { include: { publishingHouse: true } },
+        priceByChannel: { include: { salesChannel: true } },
+        cover: true,
+      },
     });
   }
 
   async findOne(id: number) {
-    return await this.prisma.article.findUnique({ where: { id } });
+    return await this.prisma.article.findUnique({
+      where: { id },
+      include: {
+        priceByChannel: { include: { salesChannel: true } },
+        cover: true, 
+      },
+    });
   }
 
   async update(id: number, updateArticleDto: UpdateArticleDto) {
-    return await this.prisma.article.update({
+    const { priceByChannel, ...articleData } = updateArticleDto;
+
+    const article = await this.prisma.article.update({
       where: { id },
-      data: updateArticleDto,
+      data: {
+        ...articleData,
+        priceByChannel: priceByChannel
+          ? {
+              deleteMany: {},
+              create: priceByChannel.map((priceData) => ({
+                price: priceData.price,
+                salesChannel: {
+                  connect: { id: priceData.idSalesChannel },
+                },
+              })),
+            }
+          : undefined,
+      },
+      include: {
+        priceByChannel: true,
+      },
     });
+
+    return article;
   }
 
   async remove(id: number) {
