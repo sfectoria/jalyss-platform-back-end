@@ -1,4 +1,4 @@
-import { ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { TypePurchaseOrder } from '@prisma/client';
 
 class PurchaseOrderLine {
@@ -13,8 +13,6 @@ export class CreatePurchaseOrderDto {
   idClient: number;
   @ApiProperty()
   salesChannelsId: number;
-  @ApiProperty()
-  status : TypePurchaseOrder;
   @ApiProperty()
   status : TypePurchaseOrder;
   @ApiProperty()

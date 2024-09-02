@@ -361,7 +361,7 @@ model PurchaseOrder {
   orderDate       DateTime
   date            DateTime
   totalAmount     Float?
-  status          TypePurchaseOrder
+  status          TypePurchaseOrder @default(Pending) //enum with values "Confirmed" & "Pending" & "Cancelled"
 
   client               Client?                @relation(fields: [idClient], references: [id])
   salesChannels        SalesChannels?         @relation(fields: [salesChannelsId], references: [id])
