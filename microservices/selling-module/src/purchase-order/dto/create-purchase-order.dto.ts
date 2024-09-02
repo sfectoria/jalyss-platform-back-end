@@ -13,7 +13,7 @@ export class CreatePurchaseOrderDto {
   @ApiProperty()
   salesChannelsId: number;
   @ApiProperty()
-  exitNoteId: number;
+  status : boolean;
   @ApiProperty()
   orderDate: string;
   @ApiProperty()
