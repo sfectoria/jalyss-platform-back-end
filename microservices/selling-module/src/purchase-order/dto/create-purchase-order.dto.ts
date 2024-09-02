@@ -15,8 +15,12 @@ export class CreatePurchaseOrderDto {
   salesChannelsId: number;
   @ApiProperty()
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   status : TypePurchaseOrder;
+=======
+  exitNoteId: number;
+>>>>>>> parent of 3ec5de1 (Merge branch 'main' into rawen)
   @ApiProperty()
   status : TypePurchaseOrder;
   @ApiProperty()
