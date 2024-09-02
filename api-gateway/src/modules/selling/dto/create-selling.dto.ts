@@ -24,11 +24,9 @@ export class CreatePurchaseOrderDto {
   @ApiProperty()
   salesChannelsId: number;
   @ApiProperty()
-  exitNoteId: number;
+  orderDate: string;
   @ApiProperty()
-  orderDate?: string;
-  @ApiProperty()
-  date?: string;
+  date: Date;
   @ApiProperty({type:[PurchaseOrderLine]})
   purchaseOrderLine: PurchaseOrderLine[];
 }

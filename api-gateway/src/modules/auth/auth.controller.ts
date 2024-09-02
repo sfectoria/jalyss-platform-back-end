@@ -14,6 +14,7 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from './auth.guard';
+import { UpdateAuthDto } from './dto/update-auth.dto';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -35,14 +36,18 @@ export class AuthController {
   
 
 
+  @ApiSecurity('apiKey')
+  @UseGuards(JwtAuthGuard)
+  @Patch(':id')
+  update(@Param('id') id: number, @Body() dto: UpdateAuthDto) {
+    return this.authService.update(+id, dto);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-  //   return this.authService.update(+id, updateAuthDto);
-  // }
+  @ApiSecurity('apiKey')
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  remove(@Param('id') id: number) {
+    return this.authService.remove(+id);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.authService.remove(+id);
-  // }
 }

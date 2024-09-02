@@ -25,7 +25,18 @@ export class AuthController {
     return this.authService.login(data);
   }
   @MessagePattern({ cmd: 'me' })
-  findMe(@Payload() user: any) {
+  findMe(@Payload() user: string) {
     return user;  // Retourner l'utilisateur tel quel ou effectuer des traitements supplémentaires
+  }
+
+  @MessagePattern({ cmd: 'update_auth' })
+  async update(@Payload() data: { id: number, dto: UpdateAuthDto }) {
+    console.log('Received data:', data);
+    return await this.authService.update(data.id, data.dto);
+  }
+
+  @MessagePattern({ cmd: 'delete_auth' })
+  async remove(@Payload('id') id: number ) {
+    return await this.authService.remove(id);
   }
 }
