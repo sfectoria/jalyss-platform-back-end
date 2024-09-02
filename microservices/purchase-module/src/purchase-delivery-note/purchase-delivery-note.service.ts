@@ -4,6 +4,7 @@ import { UpdatePurchaseDeliveryNoteDto } from './dto/update-purchase-delivery-no
 import { PrismaService } from 'nestjs-prisma';
 import { Prisma } from '@prisma/client';
 import { ReceiptNoteHelper } from 'src/helpers/receiptNoteHelper';
+import { Filters } from './entities/purchase-delivery-note.entity';
 
 @Injectable()
 export class PurchaseDeliveryNoteService {
@@ -43,8 +44,32 @@ export class PurchaseDeliveryNoteService {
       })
 
   }
-  async findAll() {
-    return await this.prisma.purchaseDeliveryNote.findMany();
+  async findAll(filters : Filters) {
+
+    let { take, skip, receipNotesIds } = filters;
+    console.log('THIS', take, skip);
+  
+    take = !take ? 10 : +take;
+    skip = !skip ? 0 : +skip;
+    
+    let where = {};
+    
+    if (Array.isArray(receipNotesIds) && receipNotesIds.length > 0) {
+      where['idReceiptNote'] = {
+        in: receipNotesIds.map((elem) => +elem), // Convertir chaque élément en nombre
+      };
+    }
+
+    return await this.prisma.purchaseDeliveryNote.findMany({
+      where,
+      take,
+      skip,
+      include: {
+        purchaseDeliveryNoteLine: { include: { article: true } },
+        receiptNote: true,
+      },
+    }
+    );
   }
 
   async findOne(id: number) {

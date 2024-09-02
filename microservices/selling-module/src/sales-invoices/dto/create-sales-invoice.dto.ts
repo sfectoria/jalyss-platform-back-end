@@ -10,6 +10,7 @@ class SalesInvoiceLine {
 export class CreateSalesInvoiceDto {
   @ApiProperty()
   idPurchaseOrder?: number;
+  status : boolean;
   @ApiProperty()
   exitNoteId: number;
   @ApiProperty()

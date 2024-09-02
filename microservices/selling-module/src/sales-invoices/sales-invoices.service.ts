@@ -16,8 +16,11 @@ export class SalesInvoicesService {
   async create(createSalesInvoiceDto: CreateSalesInvoiceDto) {
     return await this.prisma.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        let { exitNoteId, idPurchaseOrder, salesInvoiceLine, ...rest } =
+        let { exitNoteId, idPurchaseOrder, salesInvoiceLine, status, ...rest } =
           createSalesInvoiceDto;
+          if (!idPurchaseOrder) {
+             status = true
+          }
           console.log("exitNOteID", exitNoteId)
         if (!exitNoteId) {
           // kif nji nasna3 bon de sorti lazemni naaref stockId 3lech
@@ -40,6 +43,7 @@ export class SalesInvoicesService {
         return await prisma.salesInvoice.create({
           data: {
             ...rest,
+            status,
             date: new Date(rest.date).toISOString(),
             salesInvoiceLine: {
               createMany: { data: salesInvoiceLine },
