@@ -16,8 +16,8 @@ export class AuthService {
       data);
   }
 
-  me(data: CreateAuthDto) {
-    return this.authClient.send({ cmd: 'me' }, data);
+  findMe(token: any) {
+    return this.authClient.send({ cmd: 'me' }, token);
   }
 
 
