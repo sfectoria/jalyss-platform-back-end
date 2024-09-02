@@ -4,7 +4,6 @@ import {
   Post,
   Body,
   Patch,
-  Param,
   Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -28,17 +27,17 @@ export class UsersController {
   }
 
   @MessagePattern({ cmd: 'getOne_user' })
-  async findOne(@Param('id') id: string) {
-    return await this.usersService.findOne(+id);
+  async findOne(@Payload('id') id: number) {
+    return await this.usersService.findOne(id);
   }
 
   @MessagePattern({ cmd: 'update_user' })
-  async update(@Param('id') id: string, @Body() UpdateUserDto: UpdateUserDto) {
-    return await this.usersService.update(+id, UpdateUserDto);
+  async update(@Payload() data:{id: number,  updateUserDto: UpdateUserDto }) {
+    return await this.usersService.update(data.id, data.updateUserDto);
   }
 
   @MessagePattern({ cmd: 'delete_user' })
-  async remove(@Param('id') id: string) {
-    return await this.usersService.remove(+id);
+  async remove(@Payload('id') id: number) {
+    return await this.usersService.remove(id);
   }
 }
