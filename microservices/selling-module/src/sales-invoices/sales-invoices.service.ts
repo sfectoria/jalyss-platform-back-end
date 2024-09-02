@@ -4,6 +4,7 @@ import { UpdateSalesInvoiceDto } from './dto/update-sales-invoice.dto';
 import { PrismaService } from 'nestjs-prisma';
 import { ExitNote } from 'src/helpers/exitNote';
 import {  Prisma } from '@prisma/client';
+import { Filters } from './entities/sales-invoice.entity';
 
 @Injectable()
 export class SalesInvoicesService {
@@ -50,8 +51,29 @@ export class SalesInvoicesService {
     );
   }
 
-  async findAll() {
-    return await this.prisma.salesInvoice.findMany();
+  async findAll(filters: Filters) {
+    let { take, skip, clientIds } = filters;
+    console.log('THIS', take, skip);
+  
+    take = !take ? 10 : +take;
+    skip = !skip ? 0 : +skip;
+    
+    let where = {};
+    
+    if (Array.isArray(clientIds) && clientIds.length > 0) {
+      where['idClient'] = {
+        in: clientIds.map((elem) => +elem), // Convertir chaque élément en nombre
+      };
+    }
+  
+    return await this.prisma.salesDeliveryNote.findMany({
+      where,
+      take,
+      skip,
+      include: {
+        client: true,
+      },
+    });
   }
 
   async findOne(id: number) {

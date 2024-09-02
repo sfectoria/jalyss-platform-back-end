@@ -12,7 +12,9 @@ import {
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from './auth.guard';
+import { UpdateAuthDto } from './dto/update-auth.dto';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -24,44 +26,28 @@ export class AuthController {
     return this.authService.login(CreateUserDto);
   }
   
-  @UseGuards(AuthGuard('jwt'))
+  @ApiSecurity('apiKey')
+  @UseGuards(JwtAuthGuard)
   @Get('me')
-  myInfo(@Request() req: any) {    
-    return this.authService.me(req.user);
-
+  findMe(@Request() req: any) {    
+  
+    return this.authService.findMe(req.user);
   }
-
-  // @Post('register')
-  // regiter(@Body() dto: CreateUserDto) {
-  //   return this.authService.regiter(dto);
-  // }
   
 
-  // @Post()
-  // create(@Body() createAuthDto: CreateAuthDto) {
-  //   return this.authService.create(createAuthDto);
-  // }
 
-  // @Get()
-  // l(){
-  //   return"this "
-  // }
-  // findAll() {
-  //   return this.authService.findAll();
-  // }
+  @ApiSecurity('apiKey')
+  @UseGuards(JwtAuthGuard)
+  @Patch(':id')
+  update(@Param('id') id: number, @Body() dto: UpdateAuthDto) {
+    return this.authService.update(+id, dto);
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.authService.findOne(+id);
-  // }
+  @ApiSecurity('apiKey')
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  remove(@Param('id') id: number) {
+    return this.authService.remove(+id);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-  //   return this.authService.update(+id, updateAuthDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.authService.remove(+id);
-  // }
 }

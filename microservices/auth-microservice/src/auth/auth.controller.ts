@@ -25,32 +25,18 @@ export class AuthController {
     return this.authService.login(data);
   }
   @MessagePattern({ cmd: 'me' })
-  myInfo(@Payload() req: any) {
-    return req;
+  findMe(@Payload() user: string) {
+    return user;  // Retourner l'utilisateur tel quel ou effectuer des traitements supplémentaires
   }
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @MessagePattern({ cmd: 'update_auth' })
+  async update(@Payload() data: { id: number, dto: UpdateAuthDto }) {
+    console.log('Received data:', data);
+    return await this.authService.update(data.id, data.dto);
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @MessagePattern({ cmd: 'delete_auth' })
+  async remove(@Payload('id') id: number ) {
+    return await this.authService.remove(id);
   }
 }
