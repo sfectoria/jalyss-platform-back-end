@@ -14,7 +14,7 @@ export class CreatePurchaseOrderDto {
   @ApiProperty()
   salesChannelsId: number;
   @ApiProperty()
-  exitNoteId: number;
+  status : TypePurchaseOrder;
   @ApiProperty()
   status : TypePurchaseOrder;
   @ApiProperty()
