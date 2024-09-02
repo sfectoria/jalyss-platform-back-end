@@ -5,7 +5,7 @@ import { PrismaService } from 'nestjs-prisma';
 
 @Injectable()
 export class ReceiptNoteService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
   // async create(createReceiptNoteDto: CreateReceiptNoteDto) {
   //   const { lines, ...rest } = createReceiptNoteDto
   //   return await this.prisma.receiptNote.create(
@@ -22,34 +22,41 @@ export class ReceiptNoteService {
   //   );
   // }
   async create(createReceiptNoteDto: CreateReceiptNoteDto) {
-    let { lines, numReceiptNote, ...rest } = createReceiptNoteDto
+    let { lines, numReceiptNote, ...rest } = createReceiptNoteDto;
     const lastReceiptOfStock = await this.prisma.receiptNote.findMany({
       where: { idStock: createReceiptNoteDto.idStock },
       take: 1,
       orderBy: {
         numReceiptNote: 'desc',
-      },     
+      },
     });
-    console.log(numReceiptNote,'numReceiptNote');
-    if (lastReceiptOfStock.length == 0){
-      numReceiptNote = 1
-    }
-    else numReceiptNote=lastReceiptOfStock[0].numReceiptNote+1
+    console.log(numReceiptNote, 'numReceiptNote');
+    if (lastReceiptOfStock.length == 0) {
+      numReceiptNote = 1;
+    } else numReceiptNote = lastReceiptOfStock[0].numReceiptNote + 1;
     return await this.prisma.receiptNote.create({
-      data : 
-      {
+      data: {
         ...rest,
         numReceiptNote,
-        receiptNoteLine :  
-        {
-          createMany : { data : lines }
-        }
-      }
+        receiptNoteLine: {
+          createMany: { data: lines },
+        },
+      },
     });
   }
 
   async findAll() {
-    return await this.prisma.receiptNote.findMany();
+    return await this.prisma.receiptNote.findMany({
+      include: {
+        receiptNoteLine: { include: { Article: {include:{cover:true}} } },
+        stock: true,
+        provider: true,
+        transferNote: true,
+        purchaseDeliveryInvoice: true,
+        purchaseDeliveryNote: true,
+        purchaseInvoice: true,
+      },
+    });
   }
 
   async findOne(id: number) {
@@ -60,15 +67,13 @@ export class ReceiptNoteService {
   }
 
   async update(id: number, updatereceiptNoteDto: UpdateReceiptNoteDto) {
-    const { lines, ...rest } = updatereceiptNoteDto
+    const { lines, ...rest } = updatereceiptNoteDto;
     return await this.prisma.receiptNote.update({
       where: { id },
-      data:
-      {
+      data: {
         ...rest,
-        receiptNoteLine:
-        {
-          updateMany: lines.map(line => ({
+        receiptNoteLine: {
+          updateMany: lines.map((line) => ({
             where: {
               idArticle: line.idArticle,
               receiptNoteId: id,
@@ -76,9 +81,9 @@ export class ReceiptNoteService {
             data: {
               quantity: line.quantity,
             },
-          }))
+          })),
         },
-      }
+      },
     });
   }
 
@@ -86,6 +91,6 @@ export class ReceiptNoteService {
     return await this.prisma.receiptNote.delete({
       where: { id },
       include: { receiptNoteLine: { include: { Article: true } }, stock: true },
-    })
+    });
   }
 }
