@@ -271,6 +271,7 @@ model SalesInvoice {
   date             DateTime
   idClient         Int
   totalAmount      Float?
+  status Boolean @default(false)
   client           Client             @relation(fields: [idClient], references: [id])
   idPurchaseOrder  Int?
   purchaseOrder    PurchaseOrder?     @relation(fields: [idPurchaseOrder], references: [id])
@@ -299,6 +300,8 @@ model SalesDeliveryNote {
   saleChannelId   Int
   idPurchaseOrder Int?
   totalAmount     Float?
+  status Boolean @default(false)
+
 
   client                Client                  @relation(fields: [idClient], references: [id])
   exitNote              ExitNote                @relation(fields: [exitNoteId], references: [id])
@@ -328,6 +331,8 @@ model SalesDeliveryInvoice {
   purchaseOrderId Int? //bon de commande 
   salesChannelsId Int
   totalAmount     Float?
+  status Boolean @default(false)
+
 
   client                   Client                     @relation(fields: [clientId], references: [id])
   exitNote                 ExitNote?                  @relation(fields: [exitNoteId], references: [id])
@@ -350,13 +355,14 @@ model SalesDeliveryInvoiceLine {
 
 //bon de commande 
 model PurchaseOrder {
-  id                   Int                    @id @default(autoincrement())
-  idClient             Int
-  salesChannelsId      Int
-  exitNoteId           Int
-  orderDate            DateTime
-  date                 DateTime
-  totalAmount         Float?
+  id              Int               @id @default(autoincrement())
+  idClient        Int
+  salesChannelsId Int
+  exitNoteId      Int
+  orderDate       DateTime
+  date            DateTime
+  totalAmount     Float?
+  status          TypePurchaseOrder
 
   client               Client?                @relation(fields: [idClient], references: [id])
   salesChannels        SalesChannels?         @relation(fields: [salesChannelsId], references: [id])
