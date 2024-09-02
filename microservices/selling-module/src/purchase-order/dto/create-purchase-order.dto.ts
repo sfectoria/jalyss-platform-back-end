@@ -2,7 +2,7 @@ import { ApiProperty, ApiTags } from '@nestjs/swagger';
 
 class PurchaseOrderLine {
   @ApiProperty()
-  idArtical: number;
+  idArticle: number;
   @ApiProperty()
   quantity: number;
 }
@@ -12,8 +12,6 @@ export class CreatePurchaseOrderDto {
   idClient: number;
   @ApiProperty()
   salesChannelsId: number;
-  @ApiProperty()
-  status : boolean;
   @ApiProperty()
   orderDate: string;
   @ApiProperty()
