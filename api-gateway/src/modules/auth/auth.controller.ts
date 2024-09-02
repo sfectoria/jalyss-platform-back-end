@@ -25,13 +25,14 @@ export class AuthController {
     return this.authService.login(CreateUserDto);
   }
   
-  @ApiSecurity('apiKey') //logo cadna
+  @ApiSecurity('apiKey')
   @UseGuards(JwtAuthGuard)
   @Get('me')
   findMe(@Request() req: any) {    
+  
     return this.authService.findMe(req.user);
-
   }
+  
 
 
 

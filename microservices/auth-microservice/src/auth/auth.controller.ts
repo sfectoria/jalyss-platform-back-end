@@ -25,7 +25,7 @@ export class AuthController {
     return this.authService.login(data);
   }
   @MessagePattern({ cmd: 'me' })
-  findMe(@Payload() token: string) {
-    return this.authService.findMe(token);
+  findMe(@Payload() user: any) {
+    return user;  // Retourner l'utilisateur tel quel ou effectuer des traitements supplémentaires
   }
 }
