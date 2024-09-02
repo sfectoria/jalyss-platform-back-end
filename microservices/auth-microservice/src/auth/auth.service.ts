@@ -36,6 +36,10 @@ export class AuthService {
 
 
   async update(id: number, dto: UpdateAuthDto) {
+
+    if (!dto) {
+      throw new Error('DTO is undefined');
+    }
     const { password, ...rest } = dto;
 
     const updateData: any = { ...rest };
@@ -47,7 +51,7 @@ export class AuthService {
     }
 
     return this.prisma.user.update({
-      where: { id },
+      where: { id:id },
       data: updateData,
     });
   }

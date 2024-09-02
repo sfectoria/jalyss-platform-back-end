@@ -30,8 +30,9 @@ export class AuthController {
   }
 
   @MessagePattern({ cmd: 'update_auth' })
-  async update(@Payload() data: { id: number, updateArticleDto: UpdateAuthDto }) {
-    return await this.authService.update(data.id, data.updateArticleDto);
+  async update(@Payload() data: { id: number, dto: UpdateAuthDto }) {
+    console.log('Received data:', data);
+    return await this.authService.update(data.id, data.dto);
   }
 
   @MessagePattern({ cmd: 'delete_auth' })

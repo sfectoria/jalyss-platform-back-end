@@ -9,22 +9,17 @@ export class AuthService {
     // private readonly prisma: PrismaService,
     @Inject('AUTH_MICROSERVICE') private readonly authClient: ClientProxy,
   ) {}
-  
+
   login(data: CreateAuthDto) {
-    return this.authClient.send(
-      { cmd: 'login' }, 
-      data);
+    return this.authClient.send({ cmd: 'login' }, data);
   }
 
   findMe(token: any) {
     return this.authClient.send({ cmd: 'me' }, token);
   }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return this.authClient.send(
-      { cmd: 'update_auth' },
-      { id, updateAuthDto },
-    );
+  update(id: number, dto: UpdateAuthDto) {
+    return this.authClient.send({ cmd: 'update_auth' }, { id, dto });
   }
 
   remove(id: number) {
