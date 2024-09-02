@@ -33,4 +33,31 @@ export class AuthService {
   async findMe(token: string) {
     return await this.jwtService.decode(token);
   }
+
+
+  async update(id: number, dto: UpdateAuthDto) {
+
+    if (!dto) {
+      throw new Error('DTO is undefined');
+    }
+    const { password, ...rest } = dto;
+
+    const updateData: any = { ...rest };
+
+    if (password) {
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(password, salt);
+      updateData.password = hashedPassword;
+    }
+
+    return this.prisma.user.update({
+      where: { id:id },
+      data: updateData,
+    });
+  }
+
+
+  async remove(id: number) {
+    return await this.prisma.user.delete({ where: { id } });
+  }
 }
