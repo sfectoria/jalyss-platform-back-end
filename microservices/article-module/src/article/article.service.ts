@@ -60,6 +60,7 @@ export class ArticlesService {
         },
       };
     }
+    
     if (authorsIds) {
       where['articleByAuthor'] = {
         some: { authorId: { in: authorsIds.map((elem) => +elem) } },

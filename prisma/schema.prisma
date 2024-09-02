@@ -358,7 +358,6 @@ model PurchaseOrder {
   id              Int               @id @default(autoincrement())
   idClient        Int
   salesChannelsId Int
-  exitNoteId      Int
   orderDate       DateTime
   date            DateTime
   totalAmount     Float?
