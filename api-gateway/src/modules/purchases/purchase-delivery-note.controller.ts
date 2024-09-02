@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { PurchaseDeliveryNoteService } from './purchase-delivery-note.service';
 import { CreatePurchaseDeliveryNoteDto } from './dto/create-purchase.dto';
 import { UpdatePurchaseDeliveryNoteDto } from './dto/update-purchase.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Filters } from './entities/purchase.entity';
 
 @Controller('purchase-delivery-note')
 @ApiTags('Purchase Delivery Note')
@@ -15,8 +16,8 @@ export class PurchaseDeliveryNoteController {
   }
 
   @Get('getAll')
-  findAll() {
-    return this.purchaseDeliveryNoteService.findAll();
+  findAll(@Query () filters : Filters) {
+    return this.purchaseDeliveryNoteService.findAll(filters);
   }
 
   @Get(':id')

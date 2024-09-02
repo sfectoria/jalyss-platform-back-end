@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreatePurchaseInvoiceDto } from './dto/create-purchase.dto';
 import { UpdatePurchaseInvoiceDto } from './dto/update-purchase.dto';
 import { ClientProxy } from '@nestjs/microservices';
+import { Filters } from './entities/purchase.entity';
 
 @Injectable()
 export class PurchaseInvoicesService {
@@ -15,10 +16,10 @@ export class PurchaseInvoicesService {
     )
   }
 
-  findAll() {
+  findAll(filters : Filters) {
     return this.purchaseClient.send(
       {cmd : 'all_purchaseInvoices'},
-      {}
+      filters
     )
   }
 

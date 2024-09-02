@@ -3,6 +3,7 @@ import { PurchaseDeliveryInvoiceService } from './purchase-delivery-invoice.serv
 import { CreatePurchaseDeliveryInvoiceDto } from './dto/create-purchase-delivery-invoice.dto';
 import { UpdatePurchaseDeliveryInvoiceDto } from './dto/update-purchase-delivery-invoice.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Filters } from './entities/purchase-delivery-invoice.entity';
 
 @Controller('purchase-delivery-invoice')
 export class PurchaseDeliveryInvoiceController {
@@ -14,8 +15,8 @@ export class PurchaseDeliveryInvoiceController {
   }
 
   @MessagePattern({cmd: 'all_purchaseDeliveryInvoices'})
-  async findAll() {
-    return await this.purchaseDeliveryInvoiceService.findAll();
+  async findAll(@Payload() filters:Filters) {
+    return await this.purchaseDeliveryInvoiceService.findAll(filters);
   }
 
   @MessagePattern({cmd: 'getOne_purchaseDeliveryInvoice'})
