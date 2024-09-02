@@ -3,6 +3,7 @@ import { CreateSalesDeliveryNoteDto } from './dto/create-sales-delivery-note.dto
 import { UpdateSalesDeliveryNoteDto } from './dto/update-sales-delivery-notedto';
 import { PrismaService } from 'nestjs-prisma';
 import { ExitNote } from 'src/helpers/exitNote';
+import { Filters } from './entities/sales-bl.entity';
 
 @Injectable()
 export class SalesDeliveryNoteService {
@@ -24,6 +25,7 @@ export class SalesDeliveryNoteService {
           saleChannelId: createSalesDeliveryNoteDto.saleChannelId,
           exitNoteLines: createSalesDeliveryNoteDto.salesDeliveryNoteLine,
           date: createSalesDeliveryNoteDto.deliveryDate,
+          totalAmount:createSalesDeliveryNoteDto?.totalAmount
         });
         return await prisma.salesDeliveryNote.create({
           data: {
@@ -39,9 +41,31 @@ export class SalesDeliveryNoteService {
     });
   }
 
-  async findAll() {
-    return await this.prisma.salesDeliveryNote.findMany();
+  async findAll(filters: Filters) {
+    let { take, skip, clientIds } = filters;
+    console.log('THIS', take, skip);
+  
+    take = !take ? 10 : +take;
+    skip = !skip ? 0 : +skip;
+    
+    let where = {};
+    
+    if (Array.isArray(clientIds) && clientIds.length > 0) {
+      where['idClient'] = {
+        in: clientIds.map((elem) => +elem), // Convertir chaque élément en nombre
+      };
+    }
+  
+    return await this.prisma.salesDeliveryNote.findMany({
+      where,
+      take,
+      skip,
+      include: {
+        client: true,
+      },
+    });
   }
+  
 
   async findOne(id: number) {
     return await this.prisma.salesDeliveryNote.findUnique({ where: { id } });
@@ -58,7 +82,7 @@ export class SalesDeliveryNoteService {
         {
           updateMany: salesDeliveryNoteLine.map(line => ({
             where: {
-              idArtical: line.articalId,
+              idArticle: line.articleId,
               receiptNoteId: id,
             },
             data: {

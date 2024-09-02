@@ -29,9 +29,8 @@ let ArticalsController = class ArticalsController {
         console.log('findAll called');
         return await this.articalsService.findAll();
     }
-    async findOne(data) {
-        console.log('findOne payload:', data);
-        return await this.articalsService.findOne(data.id);
+    async findOne(id) {
+        return await this.articalsService.findOne(id);
     }
     async update(data) {
         console.log('update payload:', data);
@@ -58,9 +57,9 @@ __decorate([
 ], ArticalsController.prototype, "findAll", null);
 __decorate([
     (0, microservices_1.MessagePattern)({ cmd: 'getOne_artical' }),
-    __param(0, (0, microservices_1.Payload)()),
+    __param(0, (0, microservices_1.Payload)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], ArticalsController.prototype, "findOne", null);
 __decorate([

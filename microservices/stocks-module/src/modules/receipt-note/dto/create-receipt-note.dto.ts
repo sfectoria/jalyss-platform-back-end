@@ -3,11 +3,11 @@ import { TypeReceipt } from '@prisma/client';
 
 class ReceiptNoteLine {
   @ApiProperty()
-  idArtical: number;
-  // @ApiProperty()
-  // idReceiptNote: number;
+  idArticle: number;
   @ApiProperty()
   quantity: number;
+  @ApiProperty()
+  price?: number;
 }
 export class CreateReceiptNoteDto {
   @ApiProperty()
@@ -20,4 +20,6 @@ export class CreateReceiptNoteDto {
   lines: ReceiptNoteLine[];
   @ApiProperty()
   numReceiptNote: number;
+  @ApiProperty()
+  totalAmount?: number;
 }

@@ -19,9 +19,7 @@ export declare class ArticalsController {
         createdAt: Date;
         updatedAt: Date;
     }[]>;
-    findOne(data: {
-        id: number;
-    }): Promise<{
+    findOne(id: number): Promise<{
         id: number;
         title: string;
         code: string;

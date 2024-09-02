@@ -2,22 +2,46 @@ import { Injectable } from '@nestjs/common';
 import { CreateReturnNoteDto } from './dto/create-return-note.dto';
 import {  UpdateReturnNoteDto } from './dto/update-return-note.dto';
 import { PrismaService } from 'nestjs-prisma';
+import { Prisma } from '@prisma/client';
+import { ReceiptNoteHelper } from 'src/helpers/ExitAndReceiptNote';
 
 @Injectable()
 export class ReturnNoteService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(
+    private readonly prisma: PrismaService,
+    private helperReceiptNote:ReceiptNoteHelper
+  ) { }
   async create(createReturnNoteDto: CreateReturnNoteDto) {
-    const { lines, ...rest } = createReturnNoteDto
-    return await this.prisma.returnNote.create({
-      data:
-      {
-        ...rest,
-        returnNoteLine:
-        {
-          createMany: { data: lines }
+    return await this.prisma.$transaction(
+      async(prisma : Prisma.TransactionClient) => {
+        let { lines,idStock,receiptNoteId, ...rest } = createReturnNoteDto
+        if(!receiptNoteId){
+          const newReceiptNote=await this.helperReceiptNote.create(
+            prisma,
+            {
+              idStock:idStock,
+              typeReceipt:"retour",
+              date:new Date,
+              receiptNoteLines:lines
+            }
+          )
+          receiptNoteId=newReceiptNote.id
         }
+        return await prisma.returnNote.create({
+          data:
+          {
+            ...rest,
+            receiptNoteId,
+            returnNoteLine:
+            {
+              createMany: { data: lines }
+            }
+          }
+        });
       }
-    });
+    )
+   
+    
   }
 
   async findAll() {
@@ -27,7 +51,7 @@ export class ReturnNoteService {
   async findOne(id: number) {
     return await this.prisma.returnNote.findUnique({ 
       where: { id },
-      include: {returnNoteLine: { include: { artical: true } }}
+      include: {returnNoteLine: { include: { article: true } }}
        });
   }
 
@@ -42,7 +66,7 @@ export class ReturnNoteService {
         {
           updateMany: lines.map(line => ({
             where: {
-              idArtical: line.idArtical,  
+              idArticle: line.idArticle,  
               ReturnNoteId: id,  
             },
             data: {
@@ -57,7 +81,7 @@ export class ReturnNoteService {
   async remove(id: number) {
     return await this.prisma.returnNote.delete({ 
       where: { id },
-      include: { returnNoteLine: { include: { artical: true } } }
+      include: { returnNoteLine: { include: { article: true } } }
      });
   }
 }

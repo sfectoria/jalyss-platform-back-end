@@ -4,7 +4,7 @@ import { PrismaService } from 'nestjs-prisma';
 @Global()
 @Injectable()
 class EntityExiteNoteLine {
-  articalId: number;
+  articleId: number;
   quantity: number;
 }
 class EntityExiteNote {
@@ -12,6 +12,7 @@ class EntityExiteNote {
   numExitNote?: number;
   saleChannelId: number;
   exitNoteLines: EntityExiteNoteLine[];
+  totalAmount?:number
 }
 
 export class ExitNote {
@@ -25,12 +26,15 @@ export class ExitNote {
       numExitNote = 0,
       saleChannelId,
       date,
+      totalAmount,
       ...rest
     } = createExitNoteDto;
     // if (type === 'invoice') {
     const stock = await prisma.stock.findMany({
       where: { salesChannels: { some: { id: saleChannelId } } },
     });
+    console.log('Stock',stock);
+    
     // }
     if (stock.length) {
       const lastExitNoteOfStock = await prisma.exitNote.findMany({
@@ -52,6 +56,7 @@ export class ExitNote {
           exitDate: new Date(date).toISOString(),
           numExitNote,
           stockId: stock[0].id,
+          totalAmount,
           exitNoteLine: {
             createMany: { data: exitNoteLines },
           },

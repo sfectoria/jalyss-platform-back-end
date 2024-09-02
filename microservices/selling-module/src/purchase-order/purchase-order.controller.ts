@@ -13,7 +13,7 @@ export class PurchaseOrderController {
     return await this.purchaseOredrService.create(createPurchaseOrderDto);
   }
 
-  @MessagePattern({ cmd: 'all_purchaseOredr' })
+  @MessagePattern({ cmd: 'all_purchaseOrders' })
   async findAll() {
     return await this.purchaseOredrService.findAll();
   }

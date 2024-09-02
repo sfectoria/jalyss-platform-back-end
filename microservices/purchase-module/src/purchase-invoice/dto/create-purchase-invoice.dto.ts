@@ -2,18 +2,23 @@ import { ApiProperty } from "@nestjs/swagger";
 
 class PurchaseInvoiceLine {
     @ApiProperty()
-    idArtical: number;
+    idArticle: number;
     @ApiProperty()
     quantity: number;
-
+    @ApiProperty()
+    price ?: number
 }
 
 export class CreatePurchaseInvoiceDto {
     @ApiProperty()
     deliveryDate: Date;
     @ApiProperty()
-    idReceipNote : number 
+    idReceiptNote : number 
+    @ApiProperty()
+    idStock : number 
     @ApiProperty({ type: [PurchaseInvoiceLine] })
-    purchaseInvoiceLine: PurchaseInvoiceLine[]
+    lines: PurchaseInvoiceLine[]
+    @ApiProperty()
+    totalAmount ?: number
 }
 

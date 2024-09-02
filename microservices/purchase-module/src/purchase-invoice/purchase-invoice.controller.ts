@@ -3,6 +3,7 @@ import { PurchaseInvoiceService } from './purchase-invoice.service';
 import { CreatePurchaseInvoiceDto } from './dto/create-purchase-invoice.dto';
 import { UpdatePurchaseInvoiceDto } from './dto/update-purchase-invoice.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Filters } from './entities/purchase-invoice.entity';
 
 @Controller('purchase-invoice')
 export class PurchaseInvoiceController {
@@ -14,8 +15,8 @@ export class PurchaseInvoiceController {
   }
 
   @MessagePattern({cmd: 'all_purchaseInvoices'})
-  async findAll() {
-    return await this.purchaseInvoiceService.findAll();
+  async findAll(@Payload () filters: Filters) {
+    return await this.purchaseInvoiceService.findAll(filters);
   }
 
   @MessagePattern({cmd: 'getOne_purchaseInvoice'})
@@ -24,11 +25,11 @@ export class PurchaseInvoiceController {
   }
 
   @MessagePattern({cmd: 'update_purchaseInvoice'})
-   async update(@Payload('id') data:{id: number; updatePurchaseInvoiceDto: UpdatePurchaseInvoiceDto}) {
-    return await this.purchaseInvoiceService.update(+data.id,  data.updatePurchaseInvoiceDto);
+   async update(@Payload() data:{id: number; updatePurchaseInvoiceDto: UpdatePurchaseInvoiceDto}) {
+    return await this.purchaseInvoiceService.update(data.id,  data.updatePurchaseInvoiceDto);
   }
 
-  @MessagePattern({cmd: 'remove_purchaseInvoice'})
+  @MessagePattern({cmd: 'delete_purchaseInvoice'})
   async remove(@Payload('id') id: number) {
     return await this.purchaseInvoiceService.remove(+id);
   }

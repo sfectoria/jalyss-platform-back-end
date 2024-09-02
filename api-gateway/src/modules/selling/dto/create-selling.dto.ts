@@ -11,21 +11,54 @@ export class CreateSellingDto {
     idStock : number;
 }
 
+class PurchaseOrderLine {
+  @ApiProperty()
+  idArticle: number;
+  @ApiProperty()
+  quantity: number;
+}
+
 export class CreatePurchaseOrderDto {
-    @ApiProperty()
-    orderDate: Date;
-    @ApiProperty()
-    date: Date;
+  @ApiProperty()
+  idClient: number;
+  @ApiProperty()
+  salesChannelsId: number;
+  @ApiProperty()
+  orderDate: string;
+  @ApiProperty()
+  date: Date;
+  @ApiProperty({type:[PurchaseOrderLine]})
+  purchaseOrderLine: PurchaseOrderLine[];
+}
+
+
+class SalesDeliveryNoteLine {
+  @ApiProperty()
+  articleId: number;
+  @ApiProperty()
+  quantity: number;
 }
 
 export class CreateSalesDeliveryNoteDto {
-    @ApiProperty()
-    deliveryDate: Date;
+  @ApiProperty()
+  idPurchaseOrder?: number;
+  @ApiProperty()
+  exitNoteId: number;
+  @ApiProperty()
+  idClient: number;
+  @ApiProperty()
+  saleChannelId: number;
+  @ApiProperty()
+  deliveryDate: Date;
+  @ApiProperty({type : [SalesDeliveryNoteLine]})
+  salesDeliveryNoteLine: SalesDeliveryNoteLine[]
+  @ApiProperty()
+  totalAmount ?: number
 }
 
 class SalesInvoiceLine {
   @ApiProperty()
-  articalId: number;
+  articleId: number;
   @ApiProperty()
   quantity: number;
 }
@@ -43,9 +76,39 @@ export class CreateSalesInvoiceDto {
   date: Date;
   @ApiProperty({ type: [SalesInvoiceLine] })
   salesInvoiceLine: SalesInvoiceLine[];
+  @ApiProperty()
+  totalAmount ?: number
+}
+
+class SalesDeliveryInvoiceLine {
+  @ApiProperty()
+  articleId: number;
+  @ApiProperty()
+  quantity: number;
 }
 
 export class CreateSalesDeliveryInvoiceDto {
-    @ApiProperty()
-    deliveryDate: Date;
+  @ApiProperty()
+  purchaseOrderId?: number; //bon de commande
+  @ApiProperty()
+  exitNoteId: number;
+  @ApiProperty()
+  clientId: number;
+  @ApiProperty()
+  salesChannelsId: number;
+  @ApiProperty()
+  deliveryDate: Date;
+  @ApiProperty({ type: [SalesDeliveryInvoiceLine] })
+  salesDeliveryInvoicelines: SalesDeliveryInvoiceLine[];
+  @ApiProperty()
+  totalAmount ?: number
+}
+
+export class CreatePriceByChannelDto {
+  @ApiProperty()
+  price: number;
+  @ApiProperty()
+  idArticle: number;
+  @ApiProperty()
+  idSalesChannel: number;
 }

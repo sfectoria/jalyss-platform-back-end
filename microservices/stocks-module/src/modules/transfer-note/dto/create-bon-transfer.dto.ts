@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 class TransferNoteLine {
     @ApiProperty()
-    idArtical : number
+    idArticle : number
     @ApiProperty()
     quantity : number
   }
@@ -13,7 +13,7 @@ class TransferNoteLine {
       @ApiProperty()
       to: number
       @ApiProperty()
-      date: string
+      date: Date
       @ApiProperty()
       idReceiptNote: number
       @ApiProperty()

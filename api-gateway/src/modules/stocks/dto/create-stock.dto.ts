@@ -1,7 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ReturnNoteLine } from '@prisma/client';
+
 
 export class CreateStockDto {
+  @ApiProperty()
+  name: string;
   @ApiProperty()
   location: string;
   @ApiProperty()
@@ -10,11 +12,11 @@ export class CreateStockDto {
 
 class ReceiptNoteLine {
     @ApiProperty()
-    idArtical: number;
-    @ApiProperty()
-    idReceiptNote: number;
+    idArticle: number;
     @ApiProperty()
     quantity: number;
+    @ApiProperty()
+    price?: number;
   }
   export class CreateReceiptNoteDto {
     @ApiProperty()
@@ -23,13 +25,17 @@ class ReceiptNoteLine {
     receiptDate: Date;
     @ApiProperty()
     idStock : number;
+    @ApiProperty()
+    totalAmount ?: number;
     @ApiProperty({ type: [ReceiptNoteLine] })
     lines: ReceiptNoteLine[];
+    @ApiProperty()
+    numReceiptNote: number;
   }
 
 class ExitNoteLine {
   @ApiProperty()
-  articalId: number;
+  articleId: number;
   @ApiProperty()
   quantity: number;
 }
@@ -40,6 +46,8 @@ export class CreateExitNoteDto {
   @ApiProperty()
   numExitNote : number 
   @ApiProperty()
+  totalAmount ?: number
+  @ApiProperty()
   stockId : number
   @ApiProperty({ type: [ExitNoteLine] })
   lines: ExitNoteLine[]
@@ -47,9 +55,9 @@ export class CreateExitNoteDto {
 
 class TransferNoteLine {
   @ApiProperty()
-  idArtical : number
+  idArticle : number
   @ApiProperty()
-  transferNoteId : number
+  quantity : number
 }
 
 export class CreateTransferNoteDto {
@@ -67,16 +75,26 @@ export class CreateTransferNoteDto {
     lines: TransferNoteLine[]
 }
 
-class returnNoteLine{
+
+
+class ReturnNoteLine {
     @ApiProperty()
     idArticle: number;
     @ApiProperty()
     quantity: number;
   }
 
-export class CreateReturnNoteDto { 
+export class CreateReturnNoteDto {
     @ApiProperty()
     returnDate: Date
-    @ApiProperty({ type: [returnNoteLine]})
+    @ApiProperty({ type: [ReturnNoteLine] })
     lines: ReturnNoteLine[];
+    @ApiProperty()
+    idClient:number;
+    @ApiProperty()
+    idStock:number;
+    @ApiProperty()
+    receiptNoteId:number;
+    
+
 }

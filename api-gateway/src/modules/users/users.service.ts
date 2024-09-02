@@ -9,40 +9,23 @@ export class UsersService {
     @Inject('USER_MICROSERVICE') private readonly userClient: ClientProxy,
   ) {}
 
-  register(data:CreateUserDto) {
-    return this.userClient.send(
-      { cmd: 'register' }, 
-      data);
+  register(data: CreateUserDto) {
+    return this.userClient.send({ cmd: 'register' }, data);
   }
 
-  
-  // create(createUserDto: CreateUserDto) {
-  //   return 'This action adds a new user';
-  // } 
-
   findAll() {
-    return this.userClient.send(
-      { cmd: 'all_user' },
-      {}
-    );    }
+    return this.userClient.send({ cmd: 'all_user' }, {});
+  }
 
   findOne(id: number) {
-    return this.userClient.send(
-      { cmd: 'getOne_user' },
-      {id}
-    );
+    return this.userClient.send({ cmd: 'getOne_user' }, { id });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return this.userClient.send(
-      { cmd: 'update_user' },
-      {id, UpdateUserDto}
-    )
-    }
+    return this.userClient.send({ cmd: 'update_user' }, { id, updateUserDto });
+  }
 
   remove(id: number) {
-    return this.userClient.send(
-      { cmd: 'delete_user' },
-      {id}
-    )  }
+    return this.userClient.send({ cmd: 'delete_user' }, { id } );
+  }
 }

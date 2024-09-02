@@ -271,6 +271,10 @@ model SalesInvoice {
   date             DateTime
   idClient         Int
   totalAmount      Float?
+<<<<<<< HEAD
+=======
+  status Boolean @default(false)
+>>>>>>> 0eae873a4c9c391374a59790e5d5dccca4810a74
   client           Client             @relation(fields: [idClient], references: [id])
   idPurchaseOrder  Int?
   purchaseOrder    PurchaseOrder?     @relation(fields: [idPurchaseOrder], references: [id])
@@ -299,6 +303,11 @@ model SalesDeliveryNote {
   saleChannelId   Int
   idPurchaseOrder Int?
   totalAmount     Float?
+<<<<<<< HEAD
+=======
+  status Boolean @default(false)
+
+>>>>>>> 0eae873a4c9c391374a59790e5d5dccca4810a74
 
   client                Client                  @relation(fields: [idClient], references: [id])
   exitNote              ExitNote                @relation(fields: [exitNoteId], references: [id])
@@ -328,6 +337,11 @@ model SalesDeliveryInvoice {
   purchaseOrderId Int? //bon de commande 
   salesChannelsId Int
   totalAmount     Float?
+<<<<<<< HEAD
+=======
+  status Boolean @default(false)
+
+>>>>>>> 0eae873a4c9c391374a59790e5d5dccca4810a74
 
   client                   Client                     @relation(fields: [clientId], references: [id])
   exitNote                 ExitNote?                  @relation(fields: [exitNoteId], references: [id])
@@ -356,7 +370,11 @@ model PurchaseOrder {
   orderDate       DateTime
   date            DateTime
   totalAmount     Float?
+<<<<<<< HEAD
   status          TypePurchaseOrder @default(Pending) //enum with values "Confirmed" & "Pending" & "Cancelled"
+=======
+  status          TypePurchaseOrder
+>>>>>>> 0eae873a4c9c391374a59790e5d5dccca4810a74
 
   client               Client?                @relation(fields: [idClient], references: [id])
   salesChannels        SalesChannels?         @relation(fields: [salesChannelsId], references: [id])
@@ -443,6 +461,10 @@ model TransferNoteLine {
 
 model Stock {
   id       Int    @id @default(autoincrement())
+<<<<<<< HEAD
+=======
+  name     String
+>>>>>>> 0eae873a4c9c391374a59790e5d5dccca4810a74
   location String
   capacity Int
 
