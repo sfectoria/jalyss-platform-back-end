@@ -23,6 +23,7 @@ export class SellingService {
   }
 
   findOne(id: number) {
+    console.log('findOne id:', id);
     return this.sellingClient.send(
       {cmd : 'getOne_salesChannel'},
       {id}
