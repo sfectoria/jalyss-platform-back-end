@@ -19,3 +19,10 @@ export class Filters {
 export class SalesInvioce {}
 
 export class SalesDeliveryInvoice {}
+
+export class Price {
+  take: number;
+  skip: number;
+  articleIds: number[];
+  salesChannelIds: number[];
+}
