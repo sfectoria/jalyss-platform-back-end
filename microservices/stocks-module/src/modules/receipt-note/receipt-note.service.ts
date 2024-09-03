@@ -46,20 +46,33 @@ export class ReceiptNoteService {
     });
   }
 
-  async findAll(filters:FiltersReceipt) {
-    let {take,skip,stocksIds}=filters
+  async findAll(filters: FiltersReceipt) {
+    let { take, skip, stocksIds } = filters;
     let where = {};
-    if(stocksIds){
-      console.log('stocksIds',stocksIds);
-      
-    where["idStock"]={
-      in:stocksIds.map((e)=> +e)
+    if (stocksIds) {
+      console.log('stocksIds', stocksIds);
+
+      where['idStock'] = {
+        in: stocksIds.map((e) => +e),
+      };
     }
-  }
     return await this.prisma.receiptNote.findMany({
-     where,
+      where,
       include: {
-        receiptNoteLine: { include: { Article: {include:{cover:true}} } },
+        receiptNoteLine: {
+          include: {
+            Article: {
+              include: {
+                articleByAuthor: { include: { author: true } },
+                articleByPublishingHouse: {
+                  include: { publishingHouse: true },
+                },
+                priceByChannel: { include: { salesChannel: true } },
+                cover: true,
+              },
+            },
+          },
+        },
         stock: true,
         provider: true,
         transferNote: true,
