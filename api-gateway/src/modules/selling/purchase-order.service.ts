@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreatePurchaseOrderDto} from './dto/create-selling.dto';
 import { UpdatePurchaseOrderDto } from './dto/update-selling.dto';
 import { ClientProxy } from '@nestjs/microservices';
+import { Filters } from './entities/selling.entity';
 
 @Injectable()
 export class PurchaseOrderService {
@@ -14,10 +15,10 @@ export class PurchaseOrderService {
        createPurchaseOrderDto)
   }
 
-  findAll() {
+  findAll(filters: Filters) {
     return this.sellingClient.send(
       {cmd :'all_purchaseOrders'},
-      {}
+      filters
     )
   }
 

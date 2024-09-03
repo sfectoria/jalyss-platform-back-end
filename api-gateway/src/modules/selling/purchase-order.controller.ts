@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { PurchaseOrderService } from './purchase-order.service';
 import { CreatePurchaseOrderDto } from './dto/create-selling.dto';
 import { UpdatePurchaseOrderDto } from './dto/update-selling.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Filters } from './entities/selling.entity';
 
 @Controller('purchaseOrder')
 @ApiTags('purchaseOrder')
@@ -15,9 +16,10 @@ export class PurchaseOrderController {
   }
 
   @Get('getAll')
-  findAll() {
-    return this.purchaseOrderService.findAll();
+  findAll(@Query() filters: Filters) {
+    return this.purchaseOrderService.findAll(filters);
   }
+  
 
   @Get(':id')
   findOne(@Param('id') id: number) {
