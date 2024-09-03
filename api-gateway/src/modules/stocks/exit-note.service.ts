@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateExitNoteDto } from './dto/create-stock.dto';
 import { UpdateExitNoteDto } from './dto/update-stock.dto';
 import { ClientProxy } from '@nestjs/microservices';
+import { FiltersExit } from './entities/stock.entity';
 
 @Injectable()
 export class ExitNoteService {
@@ -14,10 +15,10 @@ export class ExitNoteService {
     );
   }
 
-  findAll() {
+  findAll(filters:FiltersExit) {
     return this.stocksClient.send(
       { cmd: 'all_exitNote' },
-      {}
+      filters
     )
   }
 

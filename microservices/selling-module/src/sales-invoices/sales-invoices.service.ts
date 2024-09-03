@@ -70,7 +70,7 @@ export class SalesInvoicesService {
       };
     }
   
-    return await this.prisma.salesDeliveryNote.findMany({
+    return await this.prisma.salesInvoice.findMany({
       where,
       take,
       skip,

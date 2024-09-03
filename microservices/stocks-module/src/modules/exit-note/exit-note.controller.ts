@@ -3,6 +3,7 @@ import { ExitNoteService } from './exit-note.service';
 import { CreateExitNoteDto } from './dto/create-exit-note.dto';
 import { UpdateExitNoteDto } from './dto/update-exit-note.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { FiltersExit } from './entities/exit-note.entity';
 
 @Controller('exit-note')
 export class ExitNoteController {
@@ -14,8 +15,8 @@ export class ExitNoteController {
   }
 
   @MessagePattern({ cmd: 'all_exitNote' }) 
-  async findAll() {
-    return await this.exitNoteService.findAll();
+  async findAll(@Payload() filters?:FiltersExit) {
+    return await this.exitNoteService.findAll(filters);
   }
 
   @MessagePattern({ cmd: 'one_exitNote' })

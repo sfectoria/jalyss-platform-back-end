@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateExitNoteDto } from './dto/create-exit-note.dto';
 import {  UpdateExitNoteDto } from './dto/update-exit-note.dto';
 import { PrismaService } from 'nestjs-prisma';
+import { FiltersExit } from './entities/exit-note.entity';
 
 @Injectable()
 export class ExitNoteService {
@@ -33,8 +34,27 @@ export class ExitNoteService {
     });
   }
 
-  async findAll() {
-    return await this.prisma.exitNote.findMany();
+  async findAll(filters:FiltersExit) {
+    let {take,skip,stocksIds}=filters
+    let where = {};
+    if(stocksIds){
+      console.log('stocksIds',stocksIds);
+      
+    where["stockId"]={
+      in:stocksIds.map((e)=> +e)
+    }
+  }
+    return await this.prisma.exitNote.findMany({
+      where,
+      include: {
+        exitNoteLine: { include: { Article: {include:{cover:true}} } },
+        stock: true,
+        transferNote: true,
+        salesDeliveryInvoice: true,
+        salesDeliveryNote: true,
+        salesInvoice: true,
+      },
+    });
   }
 
   async findOne(id: number) {

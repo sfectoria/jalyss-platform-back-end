@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateReceiptNoteDto } from './dto/create-receipt-note.dto';
 import { UpdateReceiptNoteDto } from './dto/update-receipt-note.dto';
 import { PrismaService } from 'nestjs-prisma';
+import { FiltersReceipt } from './entities/receipt-note.entity';
 
 @Injectable()
 export class ReceiptNoteService {
@@ -45,8 +46,18 @@ export class ReceiptNoteService {
     });
   }
 
-  async findAll() {
+  async findAll(filters:FiltersReceipt) {
+    let {take,skip,stocksIds}=filters
+    let where = {};
+    if(stocksIds){
+      console.log('stocksIds',stocksIds);
+      
+    where["idStock"]={
+      in:stocksIds.map((e)=> +e)
+    }
+  }
     return await this.prisma.receiptNote.findMany({
+     where,
       include: {
         receiptNoteLine: { include: { Article: {include:{cover:true}} } },
         stock: true,

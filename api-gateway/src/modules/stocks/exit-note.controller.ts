@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ExitNoteService } from './exit-note.service';
 import { CreateExitNoteDto } from './dto/create-stock.dto';
 import { UpdateExitNoteDto } from './dto/update-stock.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { filter } from 'rxjs';
+import { FiltersExit } from './entities/stock.entity';
 
 @Controller('exitNote')
 @ApiTags('exitNote')
@@ -15,8 +17,8 @@ export class ExitNoteController {
   }
 
   @Get('all_en')
-  findAll() {
-    return this.exitNoteService.findAll();
+  findAll(@Query() filters?:FiltersExit ) {
+    return this.exitNoteService.findAll(filters);
   }
 
   @Get(':id')
