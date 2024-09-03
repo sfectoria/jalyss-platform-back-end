@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateReceiptNoteDto } from './dto/create-stock.dto';
 import { UpdateReceiptNoteDto } from './dto/update-stock.dto';
 import { ClientProxy } from '@nestjs/microservices';
+import { FiltersReceipt } from './entities/stock.entity';
 
 @Injectable()
 export class ReceiptNoteService {
@@ -14,11 +15,11 @@ export class ReceiptNoteService {
     );
   }
 
-  findAll() {
+  findAll(filters:FiltersReceipt) {
     console.log('find All receipt Note');
     return this.stocksClient.send(
       { cmd: 'all_receiptNotes' },
-      {}
+      filters
     )
   }
 

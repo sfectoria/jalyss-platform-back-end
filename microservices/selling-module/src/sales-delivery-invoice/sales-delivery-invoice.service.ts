@@ -51,14 +51,16 @@ export class SalesDeliveryInvoiceService {
     skip = !skip ? 0 : +skip;
     
     let where = {};
+    console.log("clientIds",(typeof clientIds));
     
     if (Array.isArray(clientIds) && clientIds.length > 0) {
-      where['idClient'] = {
+      console.log("clientIds",clientIds);
+      where['clientId'] = {
         in: clientIds.map((elem) => +elem), // Convertir chaque élément en nombre
       };
     }
   
-    return await this.prisma.salesDeliveryNote.findMany({
+    return await this.prisma.salesDeliveryInvoice.findMany({
       where,
       take,
       skip,
