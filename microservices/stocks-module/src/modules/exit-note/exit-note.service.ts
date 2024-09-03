@@ -40,6 +40,7 @@ export class ExitNoteService {
     if(stocksIds){
       console.log('stocksIds',stocksIds);
       
+      
     where["stockId"]={
       in:stocksIds.map((e)=> +e)
     }

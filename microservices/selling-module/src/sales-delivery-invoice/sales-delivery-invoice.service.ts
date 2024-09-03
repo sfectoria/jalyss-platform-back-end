@@ -68,6 +68,7 @@ export class SalesDeliveryInvoiceService {
         client: true,
       },
     });
+    
   }
 
   async findOne(id: number) {

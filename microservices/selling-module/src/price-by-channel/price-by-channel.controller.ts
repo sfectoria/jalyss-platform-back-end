@@ -4,6 +4,7 @@ import { PriceByChannelService } from './price-by-channel.service';
 import { CreatePriceByChannelDto } from './dto/create-price-by-channel.dto';
 import { UpdatePriceByChannelDto } from './dto/update-price-by-channel.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Price } from './entities/price-by-channel.entity';
 
 @Controller('price-by-channel')
 export class PriceByChannelController {
@@ -15,8 +16,8 @@ export class PriceByChannelController {
   }
 
   @MessagePattern({ cmd: 'all_priceByChannels' })
-  async findAll() {
-    return await  this.priceByChannelService.findAll();
+  async findAll(@Payload() filters: Price) {
+    return await  this.priceByChannelService.findAll(filters);
   }
 
   @MessagePattern({ cmd: 'getOne_priceByChannel' })

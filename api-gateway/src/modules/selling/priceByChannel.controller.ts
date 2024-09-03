@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { CreatePriceByChannelDto } from './dto/create-selling.dto';
 import { UpdatePriceByChannelDto } from './dto/update-selling.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { PriceByChannelService } from './priceByChannel.service';
+import { query } from 'express';
+import { Price } from './entities/selling.entity';
 
 @Controller('price-By-Channel')
 @ApiTags('priceByChannel')
@@ -15,8 +17,8 @@ export class PriceByChannelController {
   }
 
   @Get('getAll')
-  findAll() {
-    return this.priceByChannelService.findAll();
+  findAll(@Query() filters: Price) {
+    return this.priceByChannelService.findAll(filters);
   }
 
   @Get(':id')
