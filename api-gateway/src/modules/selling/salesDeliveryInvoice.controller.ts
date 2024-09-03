@@ -15,6 +15,7 @@ export class SalesDeliveryInvoiceController {
     return this.salesDeliveryInvoiceService.create(createSalesDeliveryInvoiceDto);
   }
 
+  
   @Get('getAll')
   findAll(@Query() filters: Filters) {
     return this.salesDeliveryInvoiceService.findAll(filters);

@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { TypePurchaseOrder } from "@prisma/client";
 
 export class CreateSellingDto {
     @ApiProperty()
@@ -18,11 +19,14 @@ class PurchaseOrderLine {
   quantity: number;
 }
 
+
 export class CreatePurchaseOrderDto {
   @ApiProperty()
   idClient: number;
   @ApiProperty()
   salesChannelsId: number;
+  @ApiProperty()
+  status : TypePurchaseOrder;
   @ApiProperty()
   orderDate: string;
   @ApiProperty()

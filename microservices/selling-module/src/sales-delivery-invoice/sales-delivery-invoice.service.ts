@@ -58,7 +58,7 @@ export class SalesDeliveryInvoiceService {
       };
     }
   
-    return await this.prisma.salesDeliveryNote.findMany({
+    return await this.prisma.salesDeliveryInvoice.findMany({
       where,
       take,
       skip,
