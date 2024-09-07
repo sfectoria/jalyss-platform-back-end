@@ -88,6 +88,7 @@ model Article {
   articleByCategory        ArticleByCategory[]
   articleByPublishingHouse ArticleByPublishingHouse[]
   priceByChannel           PriceByChannel[] // Relation avec le modèle PriceByChannel
+  stockArticle             StockArticle[] // Relation avec le modèle
 }
 
 model PublishingHouse {
@@ -457,6 +458,8 @@ model Stock {
   salesChannels    SalesChannels[]
   receiptNote      ReceiptNote[]
   exitNote         ExitNote[]
+  stockArticle     StockArticle[] 
+
 }
 
 // bon de sortie
@@ -524,3 +527,15 @@ model Media {
   client          Client[]
   author          Author[]
 }
+
+model StockArticle {
+  id        Int     @id @default(autoincrement())
+  stock     Stock   @relation(fields: [stockId], references: [id])
+  stockId   Int
+  article   Article @relation(fields: [articleId], references: [id])
+  articleId Int
+  quantity  Int     @default(0)
+  
+  @@unique([stockId, articleId])  // pour éviter les doublons
+}
+

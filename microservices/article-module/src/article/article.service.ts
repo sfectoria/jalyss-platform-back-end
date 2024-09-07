@@ -106,6 +106,7 @@ export class ArticlesService {
         articleByPublishingHouse: { include: { publishingHouse: true } },
         priceByChannel: { include: { salesChannel: true } },
         cover: true,
+        stockArticle: true,
       },
     });
 
