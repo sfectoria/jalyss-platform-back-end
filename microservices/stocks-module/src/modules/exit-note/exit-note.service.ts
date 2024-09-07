@@ -8,7 +8,9 @@ import { FiltersExit } from './entities/exit-note.entity';
 export class ExitNoteService {
   constructor(private readonly prisma: PrismaService) {}
   async create(createExitNoteDto: CreateExitNoteDto) {
-    let { lines, numExitNote, ...rest } = createExitNoteDto
+    let { lines, numExitNote, ...rest } = createExitNoteDto;
+    
+    // Récupération du dernier Exit Note pour ce stock
     const lastExitNoteOfStock = await this.prisma.exitNote.findMany({
       where: { stockId: createExitNoteDto.stockId },
       take: 1,
@@ -16,23 +18,59 @@ export class ExitNoteService {
         numExitNote: 'desc',
       },     
     });
-    console.log(numExitNote,'numExitNote');
-    if (lastExitNoteOfStock.length == 0){
-      numExitNote = 1
+  
+    console.log(numExitNote, 'numExitNote');
+    
+    // Gestion du numéro du bon de sortie
+    if (lastExitNoteOfStock.length == 0) {
+      numExitNote = 1;
+    } else {
+      numExitNote = lastExitNoteOfStock[0].numExitNote + 1;
     }
-    else numExitNote=lastExitNoteOfStock[0].numExitNote+1
-    return await this.prisma.exitNote.create({
-      data : 
-      {
+  
+    // Création de l'Exit Note avec les lignes correspondantes
+    const exitNote = await this.prisma.exitNote.create({
+      data: {
         ...rest,
         numExitNote,
-        exitNoteLine :  
-        {
-          createMany : { data : lines }
-        }
-      }
+        exitNoteLine: {
+          createMany: { data: lines },
+        },
+      },
     });
+  
+    // Parcours de chaque ligne pour mettre à jour les quantités dans le stock
+    for (const line of lines) {
+      const stockArticle = await this.prisma.stockArticle.findFirst({
+        where: {
+          stockId: createExitNoteDto.stockId,
+          articleId: line.articleId, // Correspond à l'ID de l'article dans cette ligne
+        },
+      });
+  
+      if (stockArticle) {
+        // Vérification si la quantité est suffisante
+        if (stockArticle.quantity >= line.quantity) {
+          // Mise à jour de la quantité dans le stock
+          await this.prisma.stockArticle.update({
+            where: {
+              id: stockArticle.id, // ID de l'entrée stockArticle
+            },
+            data: {
+              quantity: stockArticle.quantity - line.quantity, // Réduction de la quantité
+            },
+          });
+        } else {
+          throw new Error(`La quantité de l'article ${line.articleId} dans le stock est insuffisante pour la sortie.`);
+        }
+      } else {
+        throw new Error(`L'article ${line.articleId} n'existe pas dans le stock ${createExitNoteDto.stockId}.`);
+      }
+    }
+  
+    return exitNote;
   }
+  
 
   async findAll(filters:FiltersExit) {
     let {take,skip,stocksIds}=filters
