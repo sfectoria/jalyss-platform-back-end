@@ -27,7 +27,7 @@ export class TransferNoteService {
           }
         )
         idReceiptNote=newReceiptNote.id
-        console.log(idReceiptNote,'test',newReceiptNote);
+        console.log(idReceiptNote,'new receipt note',newReceiptNote);
         
        }
 
