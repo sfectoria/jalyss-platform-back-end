@@ -13,7 +13,7 @@ export class SalesDeliveryNoteService {
   ) {}
   async create(createSalesDeliveryNoteDto: CreateSalesDeliveryNoteDto) {
     return await this.prisma.$transaction(async (prisma) => {
-      let { exitNoteId, idPurchaseOrder, salesDeliveryNoteLine, ...rest } =
+      let { exitNoteId,  salesDeliveryNoteLine, ...rest } =
         createSalesDeliveryNoteDto;
 
       if (!exitNoteId) {
