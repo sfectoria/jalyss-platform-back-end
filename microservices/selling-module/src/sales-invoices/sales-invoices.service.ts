@@ -44,6 +44,7 @@ export class SalesInvoicesService {
           data: {
             ...rest,
             status,
+            idPurchaseOrder,
             date: new Date(rest.date).toISOString(),
             salesInvoiceLine: {
               createMany: { data: salesInvoiceLine },
