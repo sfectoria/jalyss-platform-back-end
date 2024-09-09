@@ -28,7 +28,7 @@ export class CreatePurchaseOrderDto {
   @ApiProperty()
   status : TypePurchaseOrder;
   @ApiProperty()
-  orderDate: string;
+  orderDate: Date;
   @ApiProperty()
   date: Date;
   @ApiProperty({type:[PurchaseOrderLine]})

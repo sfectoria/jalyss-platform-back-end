@@ -7,21 +7,6 @@ import { FiltersReceipt } from './entities/receipt-note.entity';
 @Injectable()
 export class ReceiptNoteService {
   constructor(private readonly prisma: PrismaService) {}
-  // async create(createReceiptNoteDto: CreateReceiptNoteDto) {
-  //   const { lines, ...rest } = createReceiptNoteDto
-  //   return await this.prisma.receiptNote.create(
-  //     {
-  //       data:
-  //       {
-  //         ...rest,
-  //         receiptNoteLine:
-  //         {
-  //           createMany: { data: lines}
-  //         }
-  //       }
-  //     }
-  //   );
-  // }
   async create(createReceiptNoteDto: CreateReceiptNoteDto) {
     let { lines, numReceiptNote, idStock, ...rest } = createReceiptNoteDto;
 

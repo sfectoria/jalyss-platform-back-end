@@ -23,10 +23,10 @@ export class StocksService {
     );
   }
 
-  findOne(id: number) {
+  findOne(id: number,filters?:FiltersStock) {
     return this.stocksClient.send(
       { cmd: 'getOne_stock' },
-      {id}
+      {id,filters}
     );
   }
 
