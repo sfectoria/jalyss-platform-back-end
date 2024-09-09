@@ -22,6 +22,7 @@ export class FiltersExit {
   take:number
   skip:number
   stocksIds:number[]
+  salesChannelsIds:number[]
 }
 
 export class ReturnNote {}
