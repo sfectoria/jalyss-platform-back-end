@@ -15,8 +15,7 @@ export class StocksService {
 
   async findAll(filters?: FiltersStock) {
     let { take, skip, text } = filters;
-    take = !take ? 10 : +take;
-    skip = !skip ? 0 : +skip;
+  
     let where = {};
     return await this.prisma.stock.findMany({ where, take, skip });
   }
