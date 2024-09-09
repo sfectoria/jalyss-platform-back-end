@@ -21,8 +21,8 @@ export class StocksController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.stocksService.findOne(+id);
+  findOne(@Param('id') id: number,@Query() filters:FiltersStock) {
+    return this.stocksService.findOne(+id,filters);
   }
 
   @Patch(':id')

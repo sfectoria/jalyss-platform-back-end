@@ -19,8 +19,8 @@ export class PriceByChannelService {
     let { take, skip, articleIds, salesChannelIds } = filters;
     console.log('THIS', take, skip);
 
-    take = !take ? 10 : +take;
-    skip = !skip ? 0 : +skip;
+    // take = !take ? 10 : +take;
+    // skip = !skip ? 0 : +skip;
 
     let where = {};
 
