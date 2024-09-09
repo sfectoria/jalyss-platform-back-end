@@ -27,6 +27,8 @@ export class SalesDeliveryNoteService {
           date: createSalesDeliveryNoteDto.deliveryDate,
           totalAmount:createSalesDeliveryNoteDto?.totalAmount
         });
+        console.log('test now ',createSalesDeliveryNoteDto);
+        
         return await prisma.salesDeliveryNote.create({
           data: {
             ...rest,

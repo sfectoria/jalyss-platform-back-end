@@ -4,6 +4,7 @@ import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { FiltersStock } from './entities/stock.entity';
+import { filter } from 'rxjs';
 
 @Controller('stocks')
 export class StocksController {
@@ -20,9 +21,9 @@ export class StocksController {
   }
 
 @MessagePattern({ cmd: 'getOne_stock' })
-  async findOne(@Payload() data: { id: number }) {
+  async findOne(@Payload() data: { id: number,filters:FiltersStock }) {
     console.log('findOne payload:', data);
-    return await this.stocksService.findOne(data.id);
+    return await this.stocksService.findOne(data.id,data.filters);
   }
 
   @MessagePattern({ cmd: 'update_stock' })
