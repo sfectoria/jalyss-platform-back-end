@@ -14,7 +14,7 @@ export class SalesDeliveryInvoiceService {
   ) { }
   async create(createSalesDeliveryInvoiceDto: CreateSalesDeliveryInvoiceDto) {
     return await this.prisma.$transaction(async (prisma) => {
-      let { exitNoteId, purchaseOrderId, salesDeliveryInvoicelines, ...rest } =
+      let { exitNoteId, salesDeliveryInvoicelines, ...rest } =
         createSalesDeliveryInvoiceDto;
 
       if (!exitNoteId) {
