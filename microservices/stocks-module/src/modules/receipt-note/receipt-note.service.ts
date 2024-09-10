@@ -89,7 +89,10 @@ export class ReceiptNoteService {
         in: stocksIds.map((e) => +e),
       };
     }
-    return await this.prisma.receiptNote.findMany({
+    let data= await this.prisma.receiptNote.findMany({
+      orderBy:{
+        receiptDate:'desc'
+      },
       where,
       include: {
         receiptNoteLine: { include: { Article: { include: { cover: true } } } },
@@ -101,6 +104,8 @@ export class ReceiptNoteService {
         purchaseInvoice: true,
       },
     });
+    let count =await this.prisma.receiptNote.count({where})
+    return {data,count}
   }
 
   async findOne(id: number) {
