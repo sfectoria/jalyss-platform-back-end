@@ -63,6 +63,7 @@ export class SalesDeliveryNoteService {
       take,
       skip,
       include: {
+        salesDeliveryNoteLine: true,
         client: true,
       },
     });

@@ -20,7 +20,7 @@ export class PurchaseOrderController {
   }
 
   @MessagePattern({ cmd: 'getOne_purchaseOrder' })
-  async findOne(@Payload() id: number) {
+  async findOne(@Payload('id') id: number) {
     return await this.purchaseOredrService.findOne(+id);
   }
 
