@@ -4,7 +4,7 @@ import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { FiltersStock } from './entities/stock.entity';
-import { filter } from 'rxjs';
+
 
 @Controller('stocks')
 export class StocksController {

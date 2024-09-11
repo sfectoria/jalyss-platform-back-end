@@ -73,18 +73,26 @@ export class ExitNoteService {
   
 
   async findAll(filters:FiltersExit) {
-    let {take,skip,stocksIds}=filters
+    let {take,skip,stocksIds,salesChannelsIds}=filters
+    take = !take ? 10 : +take;
+    skip = !skip ? 0 : +skip;
     let where = {};
     if(stocksIds){
-      console.log('stocksIds',stocksIds);
-      
-      
     where["stockId"]={
       in:stocksIds.map((e)=> +e)
     }
   }
-    return await this.prisma.exitNote.findMany({
+    if(salesChannelsIds) {
+      where["OR"]=[
+        {salesInvoice:{some:{saleChannelId:{in: salesChannelsIds.map((elem) => +elem)}}}},
+        {salesDeliveryInvoice:{some:{salesChannelsId:{in: salesChannelsIds.map((elem) => +elem)}}}},
+        {salesDeliveryNote:{some:{saleChannelId:{in: salesChannelsIds.map((elem) => +elem)}}}}
+      ]
+    }
+    let data= await this.prisma.exitNote.findMany({
       where,
+      take,
+      skip,
       include: {
         exitNoteLine: { include: { Article: {include:{cover:true}} } },
         stock: true,
@@ -94,6 +102,9 @@ export class ExitNoteService {
         salesInvoice: true,
       },
     });
+
+    let count = await this.prisma.exitNote.count({where})
+    return {data,count}
   }
 
   async findOne(id: number) {
