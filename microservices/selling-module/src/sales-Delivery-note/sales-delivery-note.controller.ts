@@ -34,8 +34,8 @@ export class SalesDeliveryNoteController {
     return await this.salesDeliveryNoteService.findAll(filters);
   }
 
-  @MessagePattern({ cmd: 'gteOne_salesDeliveryNote' })
-  async findOne(@Payload() id: number) {
+  @MessagePattern({ cmd: 'getOne_salesDeliveryNote' })
+  async findOne(@Payload('id') id: number) {
     return await this.salesDeliveryNoteService.findOne(+id);
   }
 
