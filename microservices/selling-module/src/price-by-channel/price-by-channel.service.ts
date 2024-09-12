@@ -23,7 +23,8 @@ export class PriceByChannelService {
     // skip = !skip ? 0 : +skip;
 
     let where = {};
-
+    console.log(articleIds,'test');
+    
     if (articleIds) {
       where['idArticle'] = { //nom dans le DTO
         in: articleIds.map((elem) => +elem),

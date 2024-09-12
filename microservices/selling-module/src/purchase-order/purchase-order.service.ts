@@ -18,7 +18,7 @@ export class PurchaseOrderService {
   }
 
   async findAll(filters: Filters) {
-    let { take, skip, clientIds } = filters;
+    let { take, skip, clientIds,salesChannelsIds } = filters;
     console.log('THIS', take, skip);
 
     take = !take ? 10 : +take;
@@ -31,22 +31,38 @@ export class PurchaseOrderService {
         in: clientIds.map((elem) => +elem), // Convertir chaque élément en nombre
       };
     }
+    if(salesChannelsIds){
+      where['salesChannelsId'] = {
+        in: salesChannelsIds.map((elem) => +elem),
+      };
+    }
 
-    return await this.prisma.purchaseOrder.findMany({
+    let data= await this.prisma.purchaseOrder.findMany({
+      orderBy:{
+        date:'desc'
+      },
       where,
       take,
       skip,
       include: {
         client: true,
-        purchaseOrderLine: true,
+        purchaseOrderLine: {include:{article:{include: {
+          articleByAuthor: { include: { author: true } },
+          articleByPublishingHouse: { include: { publishingHouse: true } },
+          priceByChannel: { include: { salesChannel: true } },
+          cover: true,
+          stockArticle: true,
+        },}}},
       },
     });
+    let count = await this.prisma.purchaseOrder.count({where})
+    return {data,count}
   }
 
   async findOne(id: number) {
     return await this.prisma.purchaseOrder.findUnique({
       where: { id },
-      include: { purchaseOrderLine: true },
+      include: { purchaseOrderLine: {include:{article:true}} },
     });
   }
 

@@ -14,6 +14,7 @@ export class Filters {
   take: number;
   skip: number;
   clientIds: number[];
+  salesChannelsIds:number[]
 }
 
 export class SalesInvioce {}

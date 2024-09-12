@@ -121,7 +121,7 @@ export class ExitNoteService {
         exitNoteLine: { include: { Article: { include: { cover: true } } } },
         stock: true,
         transferNote: true,
-        salesDeliveryInvoice: { include: { client: true } },
+        salesDeliveryInvoice: { include: { client: true  } },
         salesDeliveryNote: { include: { client: true } },
         salesInvoice: { include: { client: true } },
       },
@@ -135,12 +135,22 @@ export class ExitNoteService {
     return await this.prisma.exitNote.findUnique({
       where: { id },
       include: {
-        exitNoteLine: { include: { Article: { include: { cover: true } } } },
+         exitNoteLine: {
+          include: {
+            Article: {
+              include: {
+                cover: true,
+                articleByAuthor: { include: { author: true } },
+                articleByPublishingHouse:{include:{publishingHouse:true}},
+              },
+            },
+          },
+        },
         stock: true,
         transferNote: true,
-        salesDeliveryInvoice: { include: { client: true } },
-        salesDeliveryNote: { include: { client: true } },
-        salesInvoice: { include: { client: true } },
+        salesDeliveryInvoice: { include: { client: true ,salesChannels:true }},
+        salesDeliveryNote: { include: { client: true ,salesChannels:true } },
+        salesInvoice: { include: { client: true ,salesChannels:true } },
       },
     });
   }

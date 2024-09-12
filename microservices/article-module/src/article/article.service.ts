@@ -50,7 +50,7 @@ export class ArticlesService {
   async findAll(filters: Filters) {
     let { take, skip, publishingHousesIds, authorsIds, text } = filters;
     console.log('THIS',take,skip);
-    take = !take ? 10 : +take;
+    take = !take ? 20 : +take;
     skip = !skip ? 0 : +skip;
     let where = {};
     if (publishingHousesIds) {
