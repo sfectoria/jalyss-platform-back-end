@@ -89,9 +89,9 @@ export class ReceiptNoteService {
         in: stocksIds.map((e) => +e),
       };
     }
-    let data= await this.prisma.receiptNote.findMany({
-      orderBy:{
-        receiptDate:'desc'
+    let data = await this.prisma.receiptNote.findMany({
+      orderBy: {
+        receiptDate: 'desc',
       },
       where,
       include: {
@@ -104,14 +104,33 @@ export class ReceiptNoteService {
         purchaseInvoice: true,
       },
     });
-    let count =await this.prisma.receiptNote.count({where})
-    return {data,count}
+    let count = await this.prisma.receiptNote.count({ where });
+    return { data, count };
   }
 
   async findOne(id: number) {
     return await this.prisma.receiptNote.findUnique({
       where: { id },
-      include: { receiptNoteLine: { include: { Article: true } }, stock: true },
+      include: {
+        receiptNoteLine: {
+          include: {
+            Article: {
+              include: {
+                cover: true,
+                articleByAuthor: { include: { author: true } },
+                articleByPublishingHouse: {
+                  include: { publishingHouse: true },
+                },
+              },
+            },
+          },
+        },
+        stock: true,
+        transferNote: {include:{stockTo:true,stockFrom:true}},
+        purchaseDeliveryInvoice:true,
+        purchaseDeliveryNote:true,
+        purchaseInvoice:true,
+      },
     });
   }
 
