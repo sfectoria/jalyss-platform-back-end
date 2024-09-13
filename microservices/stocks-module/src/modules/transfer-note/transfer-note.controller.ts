@@ -19,8 +19,8 @@ export class TransferNoteController {
   }
 
   @MessagePattern({ cmd: 'one_transferNote' }) 
-  async findOne(@Payload() id: number) {
-    return await this.transferNoteService.findOne(+id);
+  async findOne(@Payload() data:{id: number}) {
+    return await this.transferNoteService.findOne(data.id);
   }
 
   @MessagePattern({ cmd: 'update_transferNote' })

@@ -63,7 +63,9 @@ export class TransferNoteService {
   }
 
   async findOne(id: number) {
-    return await this.prisma.transferNote.findUnique({ where: { id } });
+    console.log('id',id);
+    
+    return await this.prisma.transferNote.findUnique({ where: { id }, include:{stockTo:true,stockFrom:true} });
   }
 
   async update(id: number, updateTransferNoteDto: UpdateTransferNoteDto) {
