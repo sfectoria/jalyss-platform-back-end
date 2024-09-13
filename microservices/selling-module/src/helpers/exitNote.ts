@@ -1,6 +1,7 @@
 import { Global, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
+import { SalesChannel } from 'src/sales-channels/entities/sales-channel.entity';
 
 @Global()
 @Injectable()
@@ -35,7 +36,7 @@ export class ExitNote {
     const stock = await prisma.stock.findMany({
       where: { salesChannels: { some: { id: saleChannelId } } },
     });
-    console.log('Stock', stock);
+    console.log('Stock', stock,saleChannelId);
 
     if (stock.length) {
       const lastExitNoteOfStock = await prisma.exitNote.findMany({
@@ -50,7 +51,7 @@ export class ExitNote {
         lastExitNoteOfStock.length == 0
           ? 1
           : lastExitNoteOfStock[0].numExitNote + 1;
-      console.log(stock[0], 'numero ');
+      console.log(stock[0].id,exitNoteLines, 'numero ');
 
       // Créer le bon de sortie
       const exitNote = await prisma.exitNote.create({
@@ -64,7 +65,8 @@ export class ExitNote {
           },
         },
       });
-
+     console.log(exitNote,'test');
+     
       // Mettre à jour la quantité dans la table stockArticle
       for (const line of exitNoteLines) {
         // Trouver l'article dans le stock

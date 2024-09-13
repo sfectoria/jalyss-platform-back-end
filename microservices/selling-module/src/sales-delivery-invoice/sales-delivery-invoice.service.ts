@@ -16,6 +16,7 @@ export class SalesDeliveryInvoiceService {
     return await this.prisma.$transaction(async (prisma) => {
       let { exitNoteId, salesDeliveryInvoicelines, ...rest } =
         createSalesDeliveryInvoiceDto;
+console.log('me',createSalesDeliveryInvoiceDto);
 
       if (!exitNoteId) {
         // kif nji nasna3 bon de sorti lazemni naaref stockId 3lech
@@ -28,7 +29,8 @@ export class SalesDeliveryInvoiceService {
           date : createSalesDeliveryInvoiceDto.deliveryDate,
           totalAmount:createSalesDeliveryInvoiceDto?.totalAmount
         });
-
+        console.log(newExitNote,'test');
+        
       return await prisma.salesDeliveryInvoice.create({
         data: {
           ...rest,

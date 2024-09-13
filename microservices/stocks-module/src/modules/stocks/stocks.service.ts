@@ -14,14 +14,14 @@ export class StocksService {
   }
 
   async findAll(filters?: FiltersStock) {
-    let { take, skip, text } = filters;
-  
-    let where = {};
-    return await this.prisma.stock.findMany({ where, take, skip });
+     
+    return await this.prisma.stock.findMany({});
   }
 
   async findOne(id: number,filters?: FiltersStock) {
     let { take, skip, text } = filters;
+    console.log(take,skip);
+    
     take = !take ? 10 : +take;
     skip = !skip ? 0 : +skip;
     let data= await this.prisma.stock.findUnique({
