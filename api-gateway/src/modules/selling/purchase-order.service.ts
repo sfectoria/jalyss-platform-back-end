@@ -32,8 +32,8 @@ export class PurchaseOrderService {
   update(id: number, updatepurchaseOrderDto: UpdatePurchaseOrderDto) {
     return this.sellingClient.send(
       {cmd :'update_purchaseOrder'},
-      {id, updatepurchaseOrderDto}
-    )
+      {id, updatepurchaseOrderDto},
+    );
   }
 
   remove(id: number) {
