@@ -13,7 +13,7 @@ export class SalesDeliveryNoteService {
   ) {}
   async create(createSalesDeliveryNoteDto: CreateSalesDeliveryNoteDto) {
     return await this.prisma.$transaction(async (prisma) => {
-      let { exitNoteId,  salesDeliveryNoteLine, ...rest } =
+      let { exitNoteId, salesDeliveryNoteLine, ...rest } =
         createSalesDeliveryNoteDto;
 
       if (!exitNoteId) {
@@ -25,16 +25,18 @@ export class SalesDeliveryNoteService {
           saleChannelId: createSalesDeliveryNoteDto.saleChannelId,
           exitNoteLines: createSalesDeliveryNoteDto.salesDeliveryNoteLine,
           date: createSalesDeliveryNoteDto.deliveryDate,
-          totalAmount:createSalesDeliveryNoteDto?.totalAmount
+          totalAmount: createSalesDeliveryNoteDto?.totalAmount,
         });
-        console.log('test now ',createSalesDeliveryNoteDto);
-        
+        console.log('test now ', createSalesDeliveryNoteDto);
+
         return await prisma.salesDeliveryNote.create({
           data: {
             ...rest,
             deliveryDate: new Date(rest.deliveryDate).toISOString(),
             salesDeliveryNoteLine: {
-              createMany: { data: createSalesDeliveryNoteDto.salesDeliveryNoteLine },
+              createMany: {
+                data: createSalesDeliveryNoteDto.salesDeliveryNoteLine,
+              },
             },
             exitNoteId: newExitNote.id,
           },
@@ -46,18 +48,18 @@ export class SalesDeliveryNoteService {
   async findAll(filters: Filters) {
     let { take, skip, clientIds } = filters;
     console.log('THIS', take, skip);
-  
+
     take = !take ? 10 : +take;
     skip = !skip ? 0 : +skip;
-    
+
     let where = {};
-    
+
     if (Array.isArray(clientIds) && clientIds.length > 0) {
       where['idClient'] = {
         in: clientIds.map((elem) => +elem), // Convertir chaque élément en nombre
       };
     }
-  
+
     return await this.prisma.salesDeliveryNote.findMany({
       where,
       take,
@@ -68,32 +70,31 @@ export class SalesDeliveryNoteService {
       },
     });
   }
-  
 
   async findOne(id: number) {
     return await this.prisma.salesDeliveryNote.findUnique({ where: { id } });
   }
 
-  async update(id: number, updateSalesDeliveryNoteDto: UpdateSalesDeliveryNoteDto) {
-    const { salesDeliveryNoteLine, ...rest } = updateSalesDeliveryNoteDto
-    return await this.prisma.receiptNote.update({
+  async update(
+    id: number,
+    updateSalesDeliveryNoteDto: UpdateSalesDeliveryNoteDto,
+  ) {
+    const { salesDeliveryNoteLine, ...rest } = updateSalesDeliveryNoteDto;
+    return await this.prisma.salesDeliveryNote.update({
       where: { id },
-      data:
-      {
+      data: {
         ...rest,
-        receiptNoteLine:
-        {
-          updateMany: salesDeliveryNoteLine.map(line => ({
+        salesDeliveryNoteLine: {
+          updateMany: salesDeliveryNoteLine?.map((line) => ({
             where: {
-              idArticle: line.articleId,
-              receiptNoteId: id,
+              articleId: line.articleId,
             },
             data: {
               quantity: line.quantity,
             },
-          }))
+          })),
         },
-      }
+      },
     });
   }
 

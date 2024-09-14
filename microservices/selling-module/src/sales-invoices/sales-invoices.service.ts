@@ -77,12 +77,13 @@ export class SalesInvoicesService {
       skip,
       include: {
         client: true,
+        salesInvoiceLine: true,
       },
     });
   }
 
   async findOne(id: number) {
-    return await this.prisma.salesInvoice.findUnique({ where: { id } });
+    return await this.prisma.salesInvoice.findUnique({ where: { id }, include:{salesInvoiceLine:true} });
   }
 
   async update(id: number, updateSalesInvoiceDto: UpdateSalesInvoiceDto) {
@@ -94,7 +95,7 @@ export class SalesInvoicesService {
         ...rest,
         salesInvoiceLine:
         {
-          updateMany: salesInvoiceLine.map(line => ({
+          updateMany: salesInvoiceLine?.map((line) => ({
             where: {
               articleId: line.articleId,
               salesInvoiceId: id
