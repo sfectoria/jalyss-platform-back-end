@@ -29,10 +29,10 @@ export class PurchaseOrderService {
     )
   }
 
-  update(id: number, updatepurchaseOrderDto: UpdatePurchaseOrderDto) {
+  update(id: number, updatePurchaseOrderDto: UpdatePurchaseOrderDto) {
     return this.sellingClient.send(
       {cmd :'update_purchaseOrder'},
-      {id, updatepurchaseOrderDto},
+      {id, updatePurchaseOrderDto},
     );
   }
 

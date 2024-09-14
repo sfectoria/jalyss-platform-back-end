@@ -25,7 +25,7 @@ export class PurchaseOrderController {
   }
 
   @MessagePattern({ cmd: 'update_purchaseOrder' })
-  async update(@Payload() data : {id: number, updatePurchaseOrderDto: UpdatePurchaseOrderDto}) {
+  async update(@Payload() data : {id: number; updatePurchaseOrderDto: UpdatePurchaseOrderDto}) {
     return await this.purchaseOredrService.update(data.id, data.updatePurchaseOrderDto);
   }
 
