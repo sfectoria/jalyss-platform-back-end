@@ -87,7 +87,7 @@ export class PurchaseOrderService {
       data: {
         ...rest,
         purchaseOrderLine: {
-          updateMany: purchaseOrderLine.map((line) => ({
+          updateMany: purchaseOrderLine?.map((line) => ({
             where: {
               idArticle: line.idArticle,
               idPurchaseOrder: id,
