@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ArticlesModule } from './article/article.module';
 import { PublishingHousesModule } from './publishing_houses/publishing_houses.module';
 import { CategoryArticlesModule } from './category-article/category-article.module';
+import { AuthorModule } from './author/author.module';
 
 @Module({
   imports: [
@@ -19,7 +20,9 @@ import { CategoryArticlesModule } from './category-article/category-article.modu
     
     PublishingHousesModule,
     
-    CategoryArticlesModule
+    CategoryArticlesModule,
+    
+    AuthorModule
   ],
   controllers: [AppController],
   providers: [AppService],

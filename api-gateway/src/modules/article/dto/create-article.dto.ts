@@ -66,3 +66,14 @@ export class CreateCategoryArticleDto {
   @IsString()
   name: string;
 }
+
+export class CreateAuthorDto {
+  @ApiProperty()
+  nameAr: string;
+  @ApiProperty()
+  nameEn?: string;
+  @ApiProperty()
+  biographyAr?: string;
+  @ApiProperty()
+  biographyEn?: string;
+}
