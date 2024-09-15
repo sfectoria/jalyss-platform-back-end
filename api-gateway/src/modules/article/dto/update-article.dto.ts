@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/swagger';
 import {
   CreateArticleDto,
+  CreateAuthorDto,
   CreateCategoryArticleDto,
   CreatePublishingHouseDto,
 } from './create-article.dto';
@@ -12,3 +13,6 @@ export class UpdatePublishingHouses extends PartialType(
 export class UpdateCategoryArticleDto extends PartialType(
   CreateCategoryArticleDto,
 ) {}
+
+export class UpdateAuthorDto extends PartialType(CreateAuthorDto) {}
+
