@@ -23,6 +23,8 @@ export class ExitNote {
     prisma: Prisma.TransactionClient,
     createExitNoteDto: EntityExiteNote,
   ) {
+    console.log('Received DTO:', createExitNoteDto);
+
     let {
       exitNoteLines,
       numExitNote = 0,
@@ -32,11 +34,16 @@ export class ExitNote {
       ...rest
     } = createExitNoteDto;
 
+    console.log('date', date);
+    if (!date) {
+      throw new Error('Le champ "date" est requis.');
+    }
+
     // Trouver le stock associé au canal de vente
     const stock = await prisma.stock.findMany({
       where: { salesChannels: { some: { id: saleChannelId } } },
     });
-    console.log('Stock', stock,saleChannelId);
+    console.log('Stock', stock, saleChannelId);
 
     if (stock.length) {
       const lastExitNoteOfStock = await prisma.exitNote.findMany({
@@ -51,9 +58,12 @@ export class ExitNote {
         lastExitNoteOfStock.length == 0
           ? 1
           : lastExitNoteOfStock[0].numExitNote + 1;
-      console.log(stock[0].id,exitNoteLines, 'numero ');
+      console.log(stock[0].id, exitNoteLines, 'numero ');
 
-      // Créer le bon de sortie
+      let parsedDate = new Date(date);
+      if (isNaN(parsedDate.getTime())) {
+        throw new Error(`Le format de date fourni (${date}) est invalide.`);
+      }
       const exitNote = await prisma.exitNote.create({
         data: {
           exitDate: new Date(date).toISOString(),
@@ -65,8 +75,8 @@ export class ExitNote {
           },
         },
       });
-     console.log(exitNote,'test');
-     
+      console.log(exitNote, 'test');
+
       // Mettre à jour la quantité dans la table stockArticle
       for (const line of exitNoteLines) {
         // Trouver l'article dans le stock
@@ -103,7 +113,9 @@ export class ExitNote {
 
       return exitNote;
     } else {
-      throw new Error(`Aucun stock trouvé pour le canal de vente ${saleChannelId}.`);
+      throw new Error(
+        `Aucun stock trouvé pour le canal de vente ${saleChannelId}.`,
+      );
     }
   }
 }
