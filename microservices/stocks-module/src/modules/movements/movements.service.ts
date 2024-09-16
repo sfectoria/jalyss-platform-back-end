@@ -6,17 +6,24 @@ import { PrismaService } from 'nestjs-prisma';
 @Injectable()
 export class MovementsService {
   constructor(private readonly prisma: PrismaService) {}
-  async create(createMovementDto: CreateMovementDto) {
-    return 'This action adds a new movement';
-  }
 
   async findAll(filters) {
     console.log('filters', filters);
-    let { take, skip } = filters;
+    let { take, skip,stocksIds } = filters;
     take = !take ? 10 : +take;
     skip = !skip ? 0 : +skip;
-    let where = {};
+    let whereExit = {};
+    let whereReceipt = {};
+    if(stocksIds){
+      whereExit['stockId'] = {
+        in: stocksIds.map((e) => +e),
+      };
+      whereReceipt['idStock'] = {
+        in: stocksIds.map((e) => +e),
+      };
+  }
     let exitNoteData = await this.prisma.exitNote.findMany({
+      where:whereExit,
       include: {
         exitNoteLine: { include: { Article: { include: { cover: true } } } },
         stock: true,
@@ -27,6 +34,7 @@ export class MovementsService {
       },
     });
     let receiptNoteData = await this.prisma.receiptNote.findMany({
+      where:whereReceipt,
       include: {
         receiptNoteLine: { include: { Article: { include: { cover: true } } } },
         stock: true,
