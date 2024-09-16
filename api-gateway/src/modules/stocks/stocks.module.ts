@@ -9,10 +9,12 @@ import { TransferNoteController } from './transfer-note.controller';
 import { TransferNoteService } from './transfer-note.service';
 import { ReturnNoteController } from './return-note.controller';
 import { ReturnNoteService } from './return-note.service';
+import { MovementsController } from './movements.controller';
+import { MovementsService } from './movements.service';
 
 
 @Module({
-  controllers: [StocksController,ReceiptNoteController,ExitNoteController, TransferNoteController, ReturnNoteController],
-  providers: [StocksService,ReceiptNoteService,ExitNoteService, TransferNoteService, ReturnNoteService]
+  controllers: [StocksController,ReceiptNoteController,ExitNoteController, TransferNoteController, ReturnNoteController,MovementsController],
+  providers: [StocksService,ReceiptNoteService,ExitNoteService, TransferNoteService, ReturnNoteService,MovementsService]
 })
 export class StocksModule {}

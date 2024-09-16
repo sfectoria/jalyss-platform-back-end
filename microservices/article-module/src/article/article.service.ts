@@ -119,8 +119,11 @@ export class ArticlesService {
     return await this.prisma.article.findUnique({
       where: { id },
       include: {
+        articleByAuthor: { include: { author: true } },
+        articleByPublishingHouse: { include: { publishingHouse: true }},
         priceByChannel: { include: { salesChannel: true } },
-        cover: true, 
+        cover: true,
+        stockArticle: {include:{stock:true}}, 
       },
     });
   }
