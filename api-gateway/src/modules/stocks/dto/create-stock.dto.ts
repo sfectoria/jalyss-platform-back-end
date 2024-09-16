@@ -98,3 +98,17 @@ export class CreateReturnNoteDto {
     
 
 }
+export class CreateMovementsDto {
+    @ApiProperty()
+    returnDate: Date
+    @ApiProperty({ type: [ReturnNoteLine] })
+    lines: ReturnNoteLine[];
+    @ApiProperty()
+    idClient:number;
+    @ApiProperty()
+    idStock:number;
+    @ApiProperty()
+    receiptNoteId:number;
+    
+
+}
