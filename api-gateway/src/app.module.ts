@@ -13,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
 import { SellingModule } from './modules/selling/selling.module';
 import { EmployeesModule } from './modules/employees/employees.module';
 import { PurchasesModule } from './modules/purchases/purchases.module';
+import { InventoryModule } from './modules/inventory/inventory.module';
 @Module({
   imports: [
     PrismaModule.forRoot({
@@ -64,6 +65,11 @@ import { PurchasesModule } from './modules/purchases/purchases.module';
           transport: Transport.TCP,
           options: { port: 3010 },
         },
+        {
+          name: 'INVENTORY_MICROSERVICE',
+          transport: Transport.TCP,
+          options: { port: 3011 },
+        },
       ],
       isGlobal: true,
     }),
@@ -74,7 +80,8 @@ import { PurchasesModule } from './modules/purchases/purchases.module';
     StocksModule,
     SellingModule,
     EmployeesModule,
-    PurchasesModule
+    PurchasesModule,
+    InventoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
