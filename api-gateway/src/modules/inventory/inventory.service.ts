@@ -16,6 +16,8 @@ export class InventoryService {
   }
 
   findAll() {
+    console.log('test here');
+    
     return this.inventoryClient.send(
       { cmd: 'all_inventories' },
       {})
