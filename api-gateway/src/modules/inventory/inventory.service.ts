@@ -10,7 +10,7 @@ export class InventoryService {
   ) {}
   create(createInventoryDto: CreateInventoryDto) {
     return this.inventoryClient.send(
-      { cmd: 'create_stock' }, 
+      { cmd: 'create_inventory' }, 
       createInventoryDto 
     );
   }

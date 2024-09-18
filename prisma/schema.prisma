@@ -590,6 +590,7 @@ model Inventory {
   status     StatusInventory
   createur   Employee? @relation(fields: [createurId], references: [id])
   stock      Stock?    @relation(fields: [stockId], references: [id])
+  inventoryLine InventoryLine[]
 }
 
 model InventoryLine {
@@ -598,4 +599,6 @@ model InventoryLine {
   quantity    Int
   reelQuatity Int
   article     Article @relation(fields: [articleId], references: [id])
+  inventoryId String
+  inventory  Inventory @relation(fields: [inventoryId],references: [id])
 }
