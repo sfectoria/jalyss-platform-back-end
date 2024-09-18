@@ -45,7 +45,7 @@ export class ReturnNoteService {
   }
 
   async findAll() {
-    return await this.prisma.returnNote.findMany();
+    return await this.prisma.returnNote.findMany({include: {client : true}});
   }
 
   async findOne(id: number) {

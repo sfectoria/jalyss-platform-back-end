@@ -576,12 +576,18 @@ model StockArticle {
   @@unique([stockId, articleId]) // pour éviter les doublons
 }
 
+enum StatusInventory {
+  draft
+  confirmed
+}
+
 model Inventory {
   id         String    @id @default(uuid())
   name       String
   date       DateTime
   createurId Int?
   stockId    Int?
+  status     StatusInventory
   createur   Employee? @relation(fields: [createurId], references: [id])
   stock      Stock?    @relation(fields: [stockId], references: [id])
 }
