@@ -110,7 +110,7 @@ export class ArticlesService {
       },
     });
 
-    let count =await this.prisma.article.count()
+    let count =await this.prisma.article.count({where})
 
     return {data,count}
   }
