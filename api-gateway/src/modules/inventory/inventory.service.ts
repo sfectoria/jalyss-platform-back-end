@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateInventoryDto } from './dto/create-inventory.dto';
 import { UpdateInventoryDto } from './dto/update-inventory.dto';
 import { ClientProxy } from '@nestjs/microservices';
+import { InventoryFilters } from './entities/inventory.entity';
 
 @Injectable()
 export class InventoryService {
@@ -15,12 +16,12 @@ export class InventoryService {
     );
   }
 
-  findAll() {
+  findAll(filters?:InventoryFilters) {
     console.log('test here');
     
     return this.inventoryClient.send(
       { cmd: 'all_inventories' },
-      {})
+      filters)
   }
 
   findOne(id: string) {
