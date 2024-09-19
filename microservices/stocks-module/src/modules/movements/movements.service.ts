@@ -72,6 +72,73 @@ export class MovementsService {
     return { data: piginatedData, count };
   }
 
+
+
+  async findAll2(filters) {
+    console.log('filters', filters);
+    let { take, skip, stocksIds, articleId } = filters;
+    take = !take ? 10 : +take;
+    skip = !skip ? 0 : +skip;
+    let whereExit = {};
+    let whereReceipt = {};
+  
+    if (stocksIds) {
+      whereExit['stockId'] = {
+        in: stocksIds.map((e) => +e),
+      };
+      whereReceipt['idStock'] = {
+        in: stocksIds.map((e) => +e),
+      };
+    }
+  
+    if (articleId) {
+      whereExit['exitNoteLine'] = {
+        some: { articleId: +articleId },
+      };
+      whereReceipt['receiptNoteLine'] = {
+        some: { idArticle: +articleId },
+      };
+    }
+  
+    let exitNoteData = await this.prisma.exitNote.findMany({
+      where: whereExit,
+      include: {
+        exitNoteLine: true,
+      },
+    });
+  
+    let receiptNoteData = await this.prisma.receiptNote.findMany({
+      where: whereReceipt,
+      include: {
+        receiptNoteLine: true,
+      },
+    });
+  
+    const mergeAndSortByDate = (exitNotes, receiptNotes) => {
+      const combined = [
+        ...exitNotes.map((item) => ({
+          ...item,
+          type: 'exit',
+          date: new Date(item.exitDate),
+          id: `exit-${item.id}`,
+        })),
+        ...receiptNotes.map((item) => ({
+          ...item,
+          type: 'receipt',
+          date: new Date(item.receiptDate),
+          id: `receipt-${item.id}`,
+        })),
+      ];
+  
+      return combined.sort((a, b) => b.date - a.date);
+    };
+  
+    const sortedData = mergeAndSortByDate(exitNoteData, receiptNoteData);
+    const piginatedData = sortedData.slice(skip, skip + take);
+    const count = sortedData.length;
+    return { data: piginatedData, count };
+  }
+  
   async findOne(id: number) {
     return `This action returns a #${id} movement`;
   }
