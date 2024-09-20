@@ -104,6 +104,7 @@ export class MovementsService {
       where: whereExit,
       include: {
         exitNoteLine: true,
+        transferNote: true,
       },
     });
   
