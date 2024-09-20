@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { InventoryService } from './inventory.service';
-import { CreateInventoryDto } from './dto/create-inventory.dto';
-import { UpdateInventoryDto } from './dto/update-inventory.dto';
+import { CreateInventoryDto, InventoryLineDto } from './dto/create-inventory.dto';
+import { UpdateInventoryDto, UpdateInventoryLineDto } from './dto/update-inventory.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { filter } from 'rxjs';
 import { InventoryFilters } from './entities/inventory.entity';
@@ -23,14 +23,21 @@ export class InventoryController {
     return this.inventoryService.create(createInventoryDto);
   }
 
+  @MessagePattern({ cmd: 'create_inventoryLine' })
+  async createLine(@Payload() createInventoryLineDto:InventoryLineDto) {
+    return this.inventoryService.createLine(createInventoryLineDto);
+  }
+
+
+
   @MessagePattern({ cmd: 'all_inventories' })
   async findAll(@Payload() filters:InventoryFilters) {
     return this.inventoryService.findAll(filters);
   }
 
   @MessagePattern({ cmd: 'getOne_inventory' })
-  async findOne(@Payload() data: { id: string }) {
-    return this.inventoryService.findOne(data.id);
+  async findOne(@Payload() data: { id: string ,filters: InventoryFilters}) {
+    return this.inventoryService.findOne(data.id,data.filters);
   }
 
   @MessagePattern({ cmd: 'update_inventory' })
@@ -38,6 +45,12 @@ export class InventoryController {
     @Payload() data: { id: string; updateInventoryDto: UpdateInventoryDto },
   ) {
     return this.inventoryService.update(data.id, data.updateInventoryDto);
+  }
+  @MessagePattern({ cmd: 'update_inventoryLine' })
+  async updateLine(
+    @Payload() data: { id: number; updateInventoryLineDto: UpdateInventoryLineDto },
+  ) {
+    return this.inventoryService.updateLine(+data.id, data.updateInventoryLineDto);
   }
 
   @MessagePattern({ cmd: 'delete_inventory' })

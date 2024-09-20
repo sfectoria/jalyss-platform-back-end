@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateInventoryDto } from './dto/create-inventory.dto';
-import { UpdateInventoryDto } from './dto/update-inventory.dto';
+import { CreateInventoryDto, InventoryLineDto } from './dto/create-inventory.dto';
+import { UpdateInventoryDto, UpdateInventoryLineDto } from './dto/update-inventory.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { InventoryFilters } from './entities/inventory.entity';
 
@@ -15,25 +15,34 @@ export class InventoryService {
       createInventoryDto 
     );
   }
-
+  createLine(createInventoryLineDto:InventoryLineDto){
+    return this.inventoryClient.send(
+      {cmd:'create_inventoryLine'},
+      createInventoryLineDto
+    )
+  }
   findAll(filters?:InventoryFilters) {
-    console.log('test here');
-    
     return this.inventoryClient.send(
       { cmd: 'all_inventories' },
       filters)
   }
 
-  findOne(id: string) {
+  findOne(id: string,filters?:InventoryFilters) {
     return this.inventoryClient.send(
       { cmd: 'getOne_inventory' },
-      {id}) 
+      {id,filters}) 
   }
 
   update(id: string, updateInventoryDto: UpdateInventoryDto) {
     return this.inventoryClient.send(
       { cmd: 'update_inventory' },
       {id,updateInventoryDto}) 
+  }
+
+  updateLine(id: number, updateInventoryLineDto: UpdateInventoryLineDto) {
+    return this.inventoryClient.send(
+      { cmd: 'update_inventoryLine' },
+      {id,updateInventoryLineDto}) 
   }
 
   remove(id: string) {
