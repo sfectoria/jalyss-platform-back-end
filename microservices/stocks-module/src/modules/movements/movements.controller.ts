@@ -24,6 +24,10 @@ export class MovementsController {
     return this.movementsService.findOne(+id);
   }
 
+  @MessagePattern({ cmd: 'all_movements2' })
+  async findAll2(filters?:FiltersMovement) {
+    return this.movementsService.findAll2(filters);
+  }
   // @MessagePattern({ cmd: 'create_exitNote' })
   // update(@Param('id') id: string, @Body() updateMovementDto: UpdateMovementDto) {
   //   return this.movementsService.update(+id, updateMovementDto);
