@@ -25,7 +25,7 @@ export class MovementsService {
     let exitNoteData = await this.prisma.exitNote.findMany({
       where:whereExit,
       include: {
-        exitNoteLine: { include: { Article: { include: { cover: true } } } },
+        // exitNoteLine: { include: { Article: { include: { cover: true } } } },
         stock: true,
         transferNote: true,
         salesDeliveryInvoice: { include: { client: true } },
@@ -36,7 +36,7 @@ export class MovementsService {
     let receiptNoteData = await this.prisma.receiptNote.findMany({
       where:whereReceipt,
       include: {
-        receiptNoteLine: { include: { Article: { include: { cover: true } } } },
+        // receiptNoteLine: { include: { Article: { include: { cover: true } } } },
         stock: true,
         provider: true,
         transferNote: true,

@@ -24,3 +24,14 @@ export class CreateInventoryDto {
   @ApiProperty({ type: [InventoryLine] })
   inventoryLine: InventoryLine[];
 }
+
+export class InventoryLineDto {
+  @ApiProperty()
+  articleId: number;
+  @ApiProperty()
+  inventoryId: string;
+  @ApiProperty()
+  quantity: number;
+  @ApiProperty()
+  reelQuatity: number;
+}
