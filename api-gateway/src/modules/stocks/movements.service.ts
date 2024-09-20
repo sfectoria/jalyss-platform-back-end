@@ -17,6 +17,13 @@ export class MovementsService {
     )
   }
 
+  findAll2(filters) {
+    console.log('find All receipt Note');
+    return this.stocksClient.send(
+      { cmd: 'all_movements2' },
+      filters
+    )
+  }
   findOne(id: number) {
     console.log("hhh",id);
     return this.stocksClient.send(

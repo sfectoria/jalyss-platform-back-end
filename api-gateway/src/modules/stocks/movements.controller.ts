@@ -28,6 +28,11 @@ import { MovementsService } from './movements.service';
     findAll(@Query() filters?:FiltersMovement) {
       return this.movements.findAll(filters);
     }
+
+    @Get('getAll2')
+    findAll2(@Query() filters?:FiltersMovement) {
+      return this.movements.findAll2(filters);
+    }
   
     @Get(':id')
     findOne(@Param('id') id: number) {
