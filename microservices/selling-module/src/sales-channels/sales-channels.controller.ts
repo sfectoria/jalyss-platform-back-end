@@ -25,8 +25,9 @@ export class SalesChannelsController {
   }
 
   @MessagePattern({ cmd: 'update_salesChannel' })
-  async update(@Payload() data : {id: number ,updateSalesChannelDto: UpdateSalesChannelDto}) {
-    return await this.salesChannelsService.update(data.id, data.updateSalesChannelDto);
+  async update(@Payload() data : {id: number ,updateSellingDto: UpdateSalesChannelDto}) {
+    console.log(data)
+    return await this.salesChannelsService.update(data.id, data.updateSellingDto);
   }
 
   @MessagePattern({ cmd: 'delete_salesChannel' })

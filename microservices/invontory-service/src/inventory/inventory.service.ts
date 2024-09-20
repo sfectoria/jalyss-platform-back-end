@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateInventoryDto, InventoryLineDto } from './dto/create-inventory.dto';
-import { UpdateInventoryDto, UpdateInventoryLineDto } from './dto/update-inventory.dto';
+import {
+  CreateInventoryDto,
+  InventoryLineDto,
+} from './dto/create-inventory.dto';
+import {
+  UpdateInventoryDto,
+  UpdateInventoryLineDto,
+} from './dto/update-inventory.dto';
 import { PrismaService } from 'nestjs-prisma';
 import { InventoryFilters } from './entities/inventory.entity';
 import { every } from 'rxjs';
@@ -19,11 +25,10 @@ export class InventoryService {
       },
     });
   }
-  async createLine(createInventoryLineDto:InventoryLineDto) {
+  async createLine(createInventoryLineDto: InventoryLineDto) {
     return await this.prisma.inventoryLine.create({
-      data:createInventoryLineDto
-    }
-    )
+      data: createInventoryLineDto,
+    });
   }
   async findAll(filters?: InventoryFilters) {
     let { take, skip, stocksIds, createursIds } = filters;
@@ -40,8 +45,8 @@ export class InventoryService {
     }
 
     const data = await this.prisma.inventory.findMany({
-      orderBy:{
-        date:'desc'
+      orderBy: {
+        date: 'desc',
       },
       where,
       include: { inventoryLine: true, createur: true, stock: true },
@@ -52,19 +57,47 @@ export class InventoryService {
     return { data, count };
   }
   async findOne(id: string, filters: InventoryFilters) {
-    let { articlesIds } = filters;
+    let { take, skip, articlesIds } = filters;
+    console.log('THIS', take, skip);
+    take = !take ? 10 : +take;
+    skip = !skip ? 0 : +skip;
     let whereinvLine = {};
+    let whereCount = {inventoryId:id};
     if (articlesIds) {
       whereinvLine['articleId'] = { in: articlesIds.map((e) => +e) };
+      whereCount['articleId'] = { in: articlesIds.map((e) => +e) };
+
+      
     }
-    return await this.prisma.inventory.findUnique({
+    let data= await this.prisma.inventory.findUnique({
       where: { id },
       include: {
-        inventoryLine: { where: whereinvLine },
+        inventoryLine: {
+          where: whereinvLine,
+          include: {
+            article: {
+              include: {
+                articleByAuthor: { include: { author: true } },
+                articleByPublishingHouse: {
+                  include: { publishingHouse: true },
+                },
+                priceByChannel: { include: { salesChannel: true } },
+                cover: true,
+                stockArticle: true,
+              },
+            },
+          },
+          take,
+          skip,
+        },
         createur: true,
         stock: true,
       },
     });
+
+    let count = await this.prisma.inventoryLine.count({where:whereCount})
+
+    return {data,count}
   }
 
   async update(id: string, updateInventoryDto: UpdateInventoryDto) {
@@ -87,16 +120,14 @@ export class InventoryService {
       },
     });
   }
-async updateLine (id:number,updateInventoryLine:UpdateInventoryLineDto){
-  console.log(typeof id);
-  
-  return await this.prisma.inventoryLine.update({
-    where:{id},
-    data:{
-      quantity:updateInventoryLine.quantity
-    }
-  })
-}
+  async updateLine(id: number, updateInventoryLine: UpdateInventoryLineDto) {
+    return await this.prisma.inventoryLine.update({
+      where: { id },
+      data: {
+        quantity: updateInventoryLine.quantity,
+      },
+    });
+  }
   async remove(id: string) {
     return await this.prisma.inventory.delete({ where: { id } });
   }
