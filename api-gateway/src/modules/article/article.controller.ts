@@ -34,6 +34,11 @@ export class ArticlesController {
     return this.articlesService.findOne(+id);
   }
 
+  @Get('/barCode/:code')
+  findBarCode(@Param('code') code: string) {
+    return this.articlesService.findBarCode(code);
+  }
+
   @Patch(':id')
   update(@Param ('id') id: number, @Body() updateArticleDto: UpdateArticleDto) {
     return this.articlesService.update(+id, updateArticleDto);

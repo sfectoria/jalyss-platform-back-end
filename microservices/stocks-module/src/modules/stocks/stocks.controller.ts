@@ -25,6 +25,11 @@ export class StocksController {
     console.log('findOne payload:', data);
     return await this.stocksService.findOne(data.id,data.filters);
   }
+@MessagePattern({ cmd: 'getOne_BarCode' })
+  async findBarCode(@Payload() data: { code: string }) {
+    console.log('findOne payload:', data);
+    return await this.stocksService.findBarCode(data.code);
+  }
 
   @MessagePattern({ cmd: 'update_stock' })
   async update(@Payload() data: { id: number, updateStockDto: UpdateStockDto }) {

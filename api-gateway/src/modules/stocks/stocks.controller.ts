@@ -24,6 +24,10 @@ export class StocksController {
   findOne(@Param('id') id: number,@Query() filters:FiltersStock) {
     return this.stocksService.findOne(+id,filters);
   }
+  @Get('code/:code')
+  findBarCode(@Param('code') code:string) {
+    return this.stocksService.findBarCode(code);
+  }
 
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateStockDto: UpdateStockDto) {

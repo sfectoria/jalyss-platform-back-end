@@ -131,7 +131,22 @@ export class StocksService {
 
     return { data, count };
   }
-
+  async findBarCode(code: string) {
+    let barcode = await this.prisma.stockArticle.findFirst({
+      where: { article: { code } },
+      include: { article: { include: {
+        articleByAuthor: { include: { author: true } },
+        articleByPublishingHouse: { include: { publishingHouse: true }},
+        priceByChannel: { include: { salesChannel: true } },
+        cover: true,
+        stockArticle: {include:{stock:true}}, 
+      },} },
+    });
+    if (barcode) {
+      if (barcode.quantity) return barcode;
+      else return 'The article exists, but the quantity is 0';
+    } else return "No article found with this code";
+  }
   async update(id: number, updateStockDto: UpdateStockDto) {
     return await this.prisma.stock.update({
       where: { id },

@@ -128,6 +128,19 @@ export class ArticlesService {
     });
   }
 
+  async findBarCode (code:string){
+    let barcode= await this.prisma.article.findUnique({where:{code}, include: {
+      articleByAuthor: { include: { author: true } },
+      articleByPublishingHouse: { include: { publishingHouse: true }},
+      priceByChannel: { include: { salesChannel: true } },
+      cover: true,
+      stockArticle: {include:{stock:true}}, 
+    },})
+    if(barcode) return barcode
+    else return "article doesn't exit"
+   
+  }
+
   async update(id: number, updateArticleDto: UpdateArticleDto) {
     const { priceByChannel, ...articleData } = updateArticleDto;
 

@@ -29,6 +29,12 @@ export class StocksService {
       {id,filters}
     );
   }
+  findBarCode(code: string) {
+    return this.stocksClient.send(
+      { cmd: 'getOne_BarCode' },
+      {code}
+    );
+  }
 
   update(id: number, updateStockDto: UpdateStockDto) {
     return this.stocksClient.send(
