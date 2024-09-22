@@ -23,7 +23,7 @@ export class AuthService {
     }
     const VPass = await bcrypt.compare(data.password, user.password);
     if (!VPass) {
-      return 'invalid passwod';
+      return 'invalid password';
     }
     const { password, ...Urest } = user;
     const token = await this.jwtService.signAsync(Urest);
