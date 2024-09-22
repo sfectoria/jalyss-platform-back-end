@@ -26,4 +26,8 @@ export class AuthService {
     console.log('remove id:', id);
     return this.authClient.send({ cmd: 'delete_auth' }, { id });
   }
+
+  verifyPassword(id: number, dto: UpdateAuthDto) {
+    return this.authClient.send({ cmd: 'verify_password' }, { id, dto });
+  }
 }

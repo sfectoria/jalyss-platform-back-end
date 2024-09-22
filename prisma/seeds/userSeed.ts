@@ -7,6 +7,7 @@ export async function userSeed (){
     data: {
       email: 'user1@example.com',
       password: 'password123',
+      userName: 'user1',
     },
   });
 }
