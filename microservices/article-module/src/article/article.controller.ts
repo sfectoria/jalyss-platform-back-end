@@ -27,6 +27,10 @@ export class ArticlesController {
     // console.log('findOne payload:', data);
     return await this.articlesService.findOne(id);
   }
+  @MessagePattern({ cmd: 'getOne_Code' })
+  async findBarCode(@Payload('code')  code: string ) {
+    return await this.articlesService.findBarCode(code);
+  }
 
   @MessagePattern({ cmd: 'update_article' })
   async update(@Payload() data: { id: number, updateArticleDto: UpdateArticleDto }) {

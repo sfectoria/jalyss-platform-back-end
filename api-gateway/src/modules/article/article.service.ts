@@ -15,7 +15,7 @@ export class ArticlesService {
     return this.articleClient.send({ cmd: 'create_article' }, createArticleDto);
   }
 
-  findAll(filters?:Filters) {
+  findAll(filters?: Filters) {
     console.log('findAll called');
     return this.articleClient.send({ cmd: 'all_articles' }, filters);
   }
@@ -23,6 +23,10 @@ export class ArticlesService {
   findOne(id: number) {
     console.log('findOne id:', id);
     return this.articleClient.send({ cmd: 'getOne_article' }, { id });
+  }
+
+  findBarCode(code: string) {
+    return this.articleClient.send({ cmd: 'getOne_Code' }, { code });
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
