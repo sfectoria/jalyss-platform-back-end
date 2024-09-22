@@ -8,5 +8,7 @@ export class CreateAuthDto {
     @ApiProperty()
     @IsString()
     password: string;
-
+    @ApiProperty()
+    @IsString()
+    userName?: string;
 }
