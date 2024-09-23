@@ -50,4 +50,8 @@ export class AuthController {
     return this.authService.remove(+id);
   }
 
+  @Post('verify-password/:id')
+  async verifyPassword(@Param('id') id: number, @Body() dto: UpdateAuthDto) {
+    return await this.authService.verifyPassword(+id, dto);
+  }
 }

@@ -39,4 +39,9 @@ export class AuthController {
   async remove(@Payload('id') id: number ) {
     return await this.authService.remove(id);
   }
+
+  @MessagePattern({ cmd: 'verify_password' })
+  async verifyPassword(@Payload() data: {id: number, dto: UpdateAuthDto}) {
+    return await this.authService.verifyPassword(data.id, data.dto);
+  }
 }
