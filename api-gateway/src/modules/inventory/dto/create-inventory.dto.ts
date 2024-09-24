@@ -7,7 +7,7 @@ class InventoryLine {
   @ApiProperty()
   quantity: number;
   @ApiProperty()
-  reelQuatity: number;
+  reelQuantity: number;
 }
 
 export class CreateInventoryDto {
@@ -33,5 +33,5 @@ export class InventoryLineDto {
   @ApiProperty()
   quantity: number;
   @ApiProperty()
-  reelQuatity: number;
+  reelQuantity: number;
 }
