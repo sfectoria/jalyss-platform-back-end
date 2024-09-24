@@ -181,14 +181,17 @@ model PriceByChannel {
 
 //bon de reception
 model ReceiptNote {
-  id             Int         @id @default(autoincrement())
-  receiptDate    DateTime
-  numReceiptNote Int
-  typeReceipt    TypeReceipt @default(achat) // Enum with values "retour" or "achat" or "transfer"
-  totalAmount    Float?
-  discount       Float?
-  tax            Float?
-
+  id                      Int                       @id @default(autoincrement())
+  receiptDate             DateTime
+  numReceiptNote          Int
+  typeReceipt             TypeReceipt               @default(achat) // Enum with values "retour" or "achat" or "transfer"
+  totalAmount             Float?
+  discount                Float?
+  tax                     Float?
+  payedAmount             Float?
+  restedAmount            Float?
+  paymentType             PaymentType?
+  paymentStatus           PaymentStatus?
   idProvider              Int? //fournisseur
   idStock                 Int
   provider                Provider?                 @relation(fields: [idProvider], references: [id])
@@ -219,6 +222,10 @@ model PurchaseDeliveryNote {
   totalAmount              Float?
   discount                 Float?
   tax                      Float?
+  payedAmount              Float?
+  restedAmount             Float?
+  paymentType              PaymentType?
+  paymentStatus            PaymentStatus?
   deliveryDate             DateTime
   receiptNote              ReceiptNote?               @relation(fields: [idReceiptNote], references: [id])
   purchaseDeliveryNoteLine PurchaseDeliveryNoteLine[]
@@ -243,6 +250,10 @@ model PurchaseDeliveryInvoice {
   totalAmount                 Float?
   discount                    Float?
   tax                         Float?
+  payedAmount                 Float?
+  restedAmount                Float?
+  paymentType                 PaymentType?
+  paymentStatus               PaymentStatus?
   deliveryDate                DateTime
   receiptNote                 ReceiptNote?                  @relation(fields: [idReceiptNote], references: [id])
   purchaseDeliveryInvoiceLine PurchaseDeliveryInvoiceLine[]
@@ -266,6 +277,10 @@ model PurchaseInvoice {
   totalAmount         Float?
   discount            Float?
   tax                 Float?
+  payedAmount         Float?
+  restedAmount        Float?
+  paymentType         PaymentType?
+  paymentStatus       PaymentStatus?
   idReceiptNote       Int
   ReceiptNote         ReceiptNote           @relation(fields: [idReceiptNote], references: [id])
   PurchaseInvoiceLine PurchaseInvoiceLine[]
@@ -290,6 +305,10 @@ model SalesInvoice {
   totalAmount      Float?
   discount         Float?
   tax              Float?
+  payedAmount      Float?
+  restedAmount     Float?
+  paymentType      PaymentType?
+  paymentStatus    PaymentStatus?
   status           Boolean            @default(false)
   client           Client             @relation(fields: [idClient], references: [id])
   idPurchaseOrder  Int?
@@ -314,7 +333,7 @@ model SalesInvoiceLine {
 
 //vente bon de livraison 
 model SalesDeliveryNote {
-  id              Int      @id @default(autoincrement())
+  id              Int            @id @default(autoincrement())
   idClient        Int
   exitNoteId      Int
   deliveryDate    DateTime
@@ -323,7 +342,11 @@ model SalesDeliveryNote {
   totalAmount     Float?
   discount        Float?
   tax             Float?
-  status          Boolean  @default(false)
+  payedAmount     Float?
+  restedAmount    Float?
+  paymentType     PaymentType?
+  paymentStatus   PaymentStatus?
+  status          Boolean        @default(false)
 
   client                Client                  @relation(fields: [idClient], references: [id])
   exitNote              ExitNote                @relation(fields: [exitNoteId], references: [id])
@@ -348,7 +371,7 @@ model SalesDeliveryNoteLine {
 
 //vente bon de livraison facture
 model SalesDeliveryInvoice {
-  id              Int      @id @default(autoincrement())
+  id              Int            @id @default(autoincrement())
   clientId        Int
   exitNoteId      Int
   deliveryDate    DateTime
@@ -357,7 +380,11 @@ model SalesDeliveryInvoice {
   totalAmount     Float?
   discount        Float?
   tax             Float?
-  status          Boolean  @default(false)
+  payedAmount     Float?
+  restedAmount    Float?
+  paymentType     PaymentType?
+  paymentStatus   PaymentStatus?
+  status          Boolean        @default(false)
 
   client                   Client                     @relation(fields: [clientId], references: [id])
   exitNote                 ExitNote?                  @relation(fields: [exitNoteId], references: [id])
@@ -500,12 +527,16 @@ model Stock {
 model ExitNote {
   id Int @id @default(autoincrement())
 
-  numExitNote Int
-  exitDate    DateTime
-  stockId     Int
-  totalAmount Float?
-  discount    Float?
-  tax         Float?
+  numExitNote   Int
+  exitDate      DateTime
+  stockId       Int
+  totalAmount   Float?
+  discount      Float?
+  tax           Float?
+  payedAmount   Float?
+  restedAmount  Float?
+  paymentType   PaymentType?
+  paymentStatus PaymentStatus?
 
   stock                Stock                  @relation(fields: [stockId], references: [id])
   transferNote         TransferNote[]
@@ -583,23 +614,36 @@ enum StatusInventory {
 }
 
 model Inventory {
-  id         String    @id @default(uuid())
-  name       String
-  date       DateTime
-  createurId Int?
-  stockId    Int?
-  status     StatusInventory
-  createur   Employee? @relation(fields: [createurId], references: [id])
-  stock      Stock?    @relation(fields: [stockId], references: [id])
+  id            String          @id @default(uuid())
+  name          String
+  date          DateTime
+  createurId    Int?
+  stockId       Int?
+  status        StatusInventory
+  createur      Employee?       @relation(fields: [createurId], references: [id])
+  stock         Stock?          @relation(fields: [stockId], references: [id])
   inventoryLine InventoryLine[]
 }
 
 model InventoryLine {
-  id          Int     @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   articleId   Int
   quantity    Int
-  reelQuatity Int
-  article     Article @relation(fields: [articleId], references: [id])
+  reelQuantity Int
+  article     Article   @relation(fields: [articleId], references: [id])
   inventoryId String
-  inventory  Inventory @relation(fields: [inventoryId],references: [id])
+  inventory   Inventory @relation(fields: [inventoryId], references: [id])
+}
+
+enum PaymentType {
+  Cash
+  Checks
+  CreditCard
+  BankTransfers
+}
+
+enum PaymentStatus {
+  Payed
+  NotPayed
+  PartiallyPayed
 }
