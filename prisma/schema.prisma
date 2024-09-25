@@ -82,6 +82,7 @@ model Article {
   salesInvoiceLine         SalesInvoiceLine[] // vente facture line
   salesDeliveryNoteLine    SalesDeliveryNoteLine[] // vente bon de livraison line
   salesDeliveryInvoiceLine SalesDeliveryInvoiceLine[] // vente bon de livraison facture
+  salesReceiptLine         SalesReceiptLine[] // ticket de caisse line 
   transferNoteLine         TransferNoteLine[] // bon de transfere line 
   exitNoteLine             ExitNoteLine[] // bon de sortie line
 
@@ -165,6 +166,7 @@ model SalesChannels {
   salesDeliveryInvoice SalesDeliveryInvoice[] //vente bon de livraison facture
   salesDeliveryNote    SalesDeliveryNote[] // vente bon de livraison 
   priceByChannel       PriceByChannel[] // Relation avec le modèle PriceByChannel (lahne el relation m3a les articles)
+  estimate            Estimate[]
 }
 
 model PriceByChannel {
@@ -185,6 +187,7 @@ model ReceiptNote {
   receiptDate             DateTime
   numReceiptNote          Int
   typeReceipt             TypeReceipt               @default(achat) // Enum with values "retour" or "achat" or "transfer"
+  subTotalAmount          Float?
   totalAmount             Float?
   discount                Float?
   tax                     Float?
@@ -219,6 +222,7 @@ model ReceiptNoteLine {
 model PurchaseDeliveryNote {
   id                       Int                        @id @default(autoincrement())
   idReceiptNote            Int
+  subTotalAmount           Float?
   totalAmount              Float?
   discount                 Float?
   tax                      Float?
@@ -247,6 +251,7 @@ model PurchaseDeliveryNoteLine {
 model PurchaseDeliveryInvoice {
   id                          Int                           @id @default(autoincrement())
   idReceiptNote               Int
+  subTotalAmount              Float?
   totalAmount                 Float?
   discount                    Float?
   tax                         Float?
@@ -274,6 +279,7 @@ model PurchaseDeliveryInvoiceLine {
 model PurchaseInvoice {
   id                  Int                   @id @default(autoincrement())
   deliveryDate        DateTime
+  subTotalAmount      Float?
   totalAmount         Float?
   discount            Float?
   tax                 Float?
@@ -297,11 +303,40 @@ model PurchaseInvoiceLine {
   Article           Article?         @relation(fields: [idArticle], references: [id])
 }
 
+// tickets de caisse
+model SalesReceipt {
+  id               Int                @id @default(autoincrement())
+  deliveryDate     DateTime
+  subTotalAmount   Float?
+  totalAmount      Float?
+  discount         Float?
+  tax              Float?
+  payedAmount      Float?
+  restedAmount     Float?
+  paymentType      PaymentType?
+  paymentStatus    PaymentStatus?
+  idReceiptNote    Int
+  exitNote         ExitNote           @relation(fields: [idReceiptNote], references: [id])
+  salesReceiptLine SalesReceiptLine[]
+}
+
+model SalesReceiptLine {
+  id                Int           @id @default(autoincrement())
+  idPurchaseReceipt Int
+  idArticle         Int
+  quantity          Int
+  price             Float?
+  discount          Float?
+  SalesReceipt      SalesReceipt? @relation(fields: [idPurchaseReceipt], references: [id])
+  Article           Article?      @relation(fields: [idArticle], references: [id])
+}
+
 //vente facture
 model SalesInvoice {
   id               Int                @id @default(autoincrement())
   date             DateTime
   idClient         Int
+  subTotalAmount   Float?
   totalAmount      Float?
   discount         Float?
   tax              Float?
@@ -339,6 +374,7 @@ model SalesDeliveryNote {
   deliveryDate    DateTime
   saleChannelId   Int
   idPurchaseOrder Int?
+  subTotalAmount  Float?
   totalAmount     Float?
   discount        Float?
   tax             Float?
@@ -377,6 +413,7 @@ model SalesDeliveryInvoice {
   deliveryDate    DateTime
   purchaseOrderId Int? //bon de commande 
   salesChannelsId Int
+  subTotalAmount  Float?
   totalAmount     Float?
   discount        Float?
   tax             Float?
@@ -414,6 +451,7 @@ model PurchaseOrder {
   salesChannelsId Int
   orderDate       DateTime
   date            DateTime
+  subTotalAmount  Float?
   totalAmount     Float?
   discount        Float?
   tax             Float?
@@ -462,23 +500,28 @@ model ReturnNoteLine {
   discount Float?
 }
 
-// devis  :  es2lou khalil 
+// devis 
 model Estimate {
-  id           Int            @id @default(autoincrement())
-  idClient     Int
-  totalAmount  Float?
-  discount     Float?
-  tax          Float?
-  creationDate DateTime
-  // date          DateTime
-  client       Client?        @relation(fields: [idClient], references: [id])
-  EstimateLine EstimateLine[]
+  id             Int            @id @default(autoincrement())
+  idClient       Int
+  subTotalAmount Float?
+  totalAmount    Float?
+  discount       Float?
+  tax            Float?
+  date           DateTime
+  client         Client?        @relation(fields: [idClient], references: [id])
+  salesChannelId  Int? 
+  salesChannel   SalesChannels?  @relation(fields: [salesChannelId],references: [id])    
+  estimateLine   EstimateLine[]
 }
 
 model EstimateLine {
   id         Int       @id @default(autoincrement())
   idEstimate Int
   idArticle  Int
+  quantity   Int
+  price      Float?
+  discount   Float?
   Estimate   Estimate? @relation(fields: [idEstimate], references: [id])
   Article    Article?  @relation(fields: [idArticle], references: [id])
 }
@@ -527,16 +570,17 @@ model Stock {
 model ExitNote {
   id Int @id @default(autoincrement())
 
-  numExitNote   Int
-  exitDate      DateTime
-  stockId       Int
-  totalAmount   Float?
-  discount      Float?
-  tax           Float?
-  payedAmount   Float?
-  restedAmount  Float?
-  paymentType   PaymentType?
-  paymentStatus PaymentStatus?
+  numExitNote    Int
+  exitDate       DateTime
+  stockId        Int
+  subTotalAmount Float?
+  totalAmount    Float?
+  discount       Float?
+  tax            Float?
+  payedAmount    Float?
+  restedAmount   Float?
+  paymentType    PaymentType?
+  paymentStatus  PaymentStatus?
 
   stock                Stock                  @relation(fields: [stockId], references: [id])
   transferNote         TransferNote[]
@@ -544,6 +588,7 @@ model ExitNote {
   salesDeliveryInvoice SalesDeliveryInvoice[]
   exitNoteLine         ExitNoteLine[]
   salesDeliveryNote    SalesDeliveryNote[]
+  salesReceipt         SalesReceipt[]
 }
 
 model ExitNoteLine {
@@ -626,13 +671,13 @@ model Inventory {
 }
 
 model InventoryLine {
-  id          Int       @id @default(autoincrement())
-  articleId   Int
-  quantity    Int
+  id           Int       @id @default(autoincrement())
+  articleId    Int
+  quantity     Int
   reelQuantity Int
-  article     Article   @relation(fields: [articleId], references: [id])
-  inventoryId String
-  inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  article      Article   @relation(fields: [articleId], references: [id])
+  inventoryId  String
+  inventory    Inventory @relation(fields: [inventoryId], references: [id])
 }
 
 enum PaymentType {
