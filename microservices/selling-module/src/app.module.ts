@@ -10,6 +10,7 @@ import { SalesDeliveryInvoiceModule } from './sales-delivery-invoice/sales-deliv
 import { PurchaseOrderModule } from './purchase-order/purchase-order.module';
 import { ExitNote } from './helpers/exitNote';
 import { PriceByChannelModule } from './price-by-channel/price-by-channel.module';
+import { SalesReceiptModule } from './sales-receipt/sales-receipt.module';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { PriceByChannelModule } from './price-by-channel/price-by-channel.module
       isGlobal: true,
       envFilePath: '../../.env',
     }),
-    PrismaModule.forRoot({ isGlobal: true }),SalesChannelsModule, SalesInvoicesModule, SalesDeliveryNoteModule, SalesDeliveryInvoiceModule, PurchaseOrderModule, PriceByChannelModule],
+    PrismaModule.forRoot({ isGlobal: true }),SalesChannelsModule, SalesInvoicesModule, SalesDeliveryNoteModule, SalesDeliveryInvoiceModule, PurchaseOrderModule, PriceByChannelModule, SalesReceiptModule],
   controllers: [AppController],
   providers: [AppService,ExitNote],
 })
