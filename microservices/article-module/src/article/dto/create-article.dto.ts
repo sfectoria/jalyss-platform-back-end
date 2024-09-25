@@ -31,6 +31,22 @@ class MediaDto {
   @IsString()
   description?: string;
 }
+
+class ArticleByAuthorDto {
+  @ApiProperty()
+  nameAr: string;
+  @ApiProperty()
+  nameEn?: string;
+  @ApiProperty()
+  authorID: string; 
+}
+
+class ArticleByPublishingHouseDto {
+  @ApiProperty()
+  nameAr: string;
+  @ApiProperty()
+  nameEn?: string;
+}
 export class CreateArticleDto {
   @ApiProperty()
   code: string;
@@ -41,9 +57,8 @@ export class CreateArticleDto {
   priceByChannel?: PriceByChannelDto[];
   @ApiProperty({ type: MediaDto, required: false })
   mediaData?: MediaDto;
-
-  // @ApiProperty()
-  // createdAt: string;
-  // @ApiProperty()
-  // updatedAt: string;
+  @ApiProperty({ type: [ArticleByAuthorDto], required: false })
+  articleByAuthor?: ArticleByAuthorDto[];
+  @ApiProperty({ type: [ArticleByPublishingHouseDto], required: false })
+  articleByPublishingHouse?: ArticleByPublishingHouseDto[];
 }

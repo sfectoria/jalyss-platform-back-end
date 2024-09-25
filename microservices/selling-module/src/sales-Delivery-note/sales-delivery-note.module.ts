@@ -6,6 +6,5 @@ import { ExitNote } from 'src/helpers/exitNote';
 @Module({
   controllers: [SalesDeliveryNoteController],
   providers: [SalesDeliveryNoteService,ExitNote],
-  
 })
 export class SalesDeliveryNoteModule {}
