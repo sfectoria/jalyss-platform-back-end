@@ -59,6 +59,8 @@ export class CreateArticleDto {
   articleByAuthor?: ArticleByAuthorDto[];
   @ApiProperty({ type: [ArticleByPublishingHouseDto], required: false })
   articleByPublishingHouse?: ArticleByPublishingHouseDto[];
+  @ApiProperty()
+  longDescriptionEn?: string;
 }
 
 export class CreatePublishingHouseDto {
