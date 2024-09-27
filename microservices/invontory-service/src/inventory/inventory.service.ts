@@ -9,7 +9,6 @@ import {
 } from './dto/update-inventory.dto';
 import { PrismaService } from 'nestjs-prisma';
 import { InventoryFilters } from './entities/inventory.entity';
-import { every } from 'rxjs';
 
 @Injectable()
 export class InventoryService {
