@@ -63,4 +63,6 @@ export class CreateArticleDto {
   articleByPublishingHouse?: ArticleByPublishingHouseDto[];
   @ApiProperty()
   longDescriptionEn?: string;
+  @ApiProperty()
+  categoryName?: string;
 }
