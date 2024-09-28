@@ -44,6 +44,7 @@ model Client {
   estimate             Estimate[] // devis
   salesDeliveryInvoice SalesDeliveryInvoice[] //vente bon de livraison facture
   salesDeliveryNote    SalesDeliveryNote[] // vente bon de livraison
+  salesReceipt         SalesReceipt[]
   media                Media?                 @relation(fields: [mediaId], references: [id])
   mediaId              String?
 }
@@ -162,11 +163,13 @@ model SalesChannels {
 
   stock                Stock                  @relation(fields: [idStock], references: [id])
   purchaseOrder        PurchaseOrder[] // bon de commande
+  salesReceipt         SalesReceipt[]
   salesInvoice         SalesInvoice[] // vente facture 
   salesDeliveryInvoice SalesDeliveryInvoice[] //vente bon de livraison facture
   salesDeliveryNote    SalesDeliveryNote[] // vente bon de livraison 
   priceByChannel       PriceByChannel[] // Relation avec le modèle PriceByChannel (lahne el relation m3a les articles)
   estimate            Estimate[]
+
 }
 
 model PriceByChannel {
@@ -193,6 +196,7 @@ model ReceiptNote {
   tax                     Float?
   payedAmount             Float?
   restedAmount            Float?
+  modified         Boolean?
   paymentType             PaymentType?
   paymentStatus           PaymentStatus?
   idProvider              Int? //fournisseur
@@ -228,6 +232,7 @@ model PurchaseDeliveryNote {
   tax                      Float?
   payedAmount              Float?
   restedAmount             Float?
+  modified         Boolean?
   paymentType              PaymentType?
   paymentStatus            PaymentStatus?
   deliveryDate             DateTime
@@ -257,6 +262,7 @@ model PurchaseDeliveryInvoice {
   tax                         Float?
   payedAmount                 Float?
   restedAmount                Float?
+  modified         Boolean?
   paymentType                 PaymentType?
   paymentStatus               PaymentStatus?
   deliveryDate                DateTime
@@ -285,6 +291,7 @@ model PurchaseInvoice {
   tax                 Float?
   payedAmount         Float?
   restedAmount        Float?
+  modified         Boolean?
   paymentType         PaymentType?
   paymentStatus       PaymentStatus?
   idReceiptNote       Int
@@ -313,10 +320,15 @@ model SalesReceipt {
   tax              Float?
   payedAmount      Float?
   restedAmount     Float?
+  modified         Boolean?
   paymentType      PaymentType?
   paymentStatus    PaymentStatus?
-  idReceiptNote    Int
-  exitNote         ExitNote           @relation(fields: [idReceiptNote], references: [id])
+  idClient        Int?
+  client          Client?   @relation(fields: [idClient],references: [id])
+  salesChannelId  Int ?
+  salesChannel   SalesChannels?  @relation(fields: [salesChannelId],references: [id])
+  exitNoteId    Int
+  exitNote         ExitNote           @relation(fields: [exitNoteId], references: [id])
   salesReceiptLine SalesReceiptLine[]
 }
 
@@ -342,6 +354,7 @@ model SalesInvoice {
   tax              Float?
   payedAmount      Float?
   restedAmount     Float?
+  modified         Boolean?
   paymentType      PaymentType?
   paymentStatus    PaymentStatus?
   status           Boolean            @default(false)
@@ -380,6 +393,7 @@ model SalesDeliveryNote {
   tax             Float?
   payedAmount     Float?
   restedAmount    Float?
+  modified         Boolean?
   paymentType     PaymentType?
   paymentStatus   PaymentStatus?
   status          Boolean        @default(false)
@@ -419,6 +433,7 @@ model SalesDeliveryInvoice {
   tax             Float?
   payedAmount     Float?
   restedAmount    Float?
+  modified         Boolean?
   paymentType     PaymentType?
   paymentStatus   PaymentStatus?
   status          Boolean        @default(false)
@@ -455,6 +470,7 @@ model PurchaseOrder {
   totalAmount     Float?
   discount        Float?
   tax             Float?
+  modified         Boolean?
   status          TypePurchaseOrder @default(Pending) //enum with values "Confirmed" & "Pending" & "Cancelled"
 
   client               Client?                @relation(fields: [idClient], references: [id])
@@ -579,6 +595,7 @@ model ExitNote {
   tax            Float?
   payedAmount    Float?
   restedAmount   Float?
+  modified         Boolean?
   paymentType    PaymentType?
   paymentStatus  PaymentStatus?
 
