@@ -6,8 +6,7 @@ import { SalesChannel } from 'src/sales-channels/entities/sales-channel.entity';
 @Global()
 @Injectable()
 class EntityExiteNoteLine {
-  articleId?: number;
-  idArticle?: number;
+  articleId: number;
   quantity: number;
 }
 
@@ -65,10 +64,6 @@ export class ExitNote {
       if (isNaN(parsedDate.getTime())) {
         throw new Error(`Le format de date fourni (${date}) est invalide.`);
       }
-      exitNoteLines = exitNoteLines.map((e)=>{
-        if (!!e.idArticle) {e.articleId=e.idArticle}
-        return e
-      })
       const exitNote = await prisma.exitNote.create({
         data: {
           exitDate: new Date(date).toISOString(),

@@ -1,15 +1,15 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { TypePurchaseOrder } from "@prisma/client";
+import { ApiProperty } from '@nestjs/swagger';
+import { TypePurchaseOrder } from '@prisma/client';
 
 export class CreateSellingDto {
-    @ApiProperty()
-    name : string;
-    @ApiProperty()
-    type : string;
-    @ApiProperty()
-    region : string;
-    @ApiProperty()
-    idStock : number;
+  @ApiProperty()
+  name: string;
+  @ApiProperty()
+  type: string;
+  @ApiProperty()
+  region: string;
+  @ApiProperty()
+  idStock: number;
 }
 
 class PurchaseOrderLine {
@@ -19,22 +19,20 @@ class PurchaseOrderLine {
   quantity: number;
 }
 
-
 export class CreatePurchaseOrderDto {
   @ApiProperty()
   idClient: number;
   @ApiProperty()
   salesChannelsId: number;
   @ApiProperty()
-  status : TypePurchaseOrder;
+  status: TypePurchaseOrder;
   @ApiProperty()
   orderDate: Date;
   @ApiProperty()
   date: Date;
-  @ApiProperty({type:[PurchaseOrderLine]})
+  @ApiProperty({ type: [PurchaseOrderLine] })
   purchaseOrderLine: PurchaseOrderLine[];
 }
-
 
 class SalesDeliveryNoteLine {
   @ApiProperty()
@@ -54,10 +52,10 @@ export class CreateSalesDeliveryNoteDto {
   saleChannelId: number;
   @ApiProperty()
   deliveryDate: Date;
-  @ApiProperty({type : [SalesDeliveryNoteLine]})
-  salesDeliveryNoteLine: SalesDeliveryNoteLine[]
+  @ApiProperty({ type: [SalesDeliveryNoteLine] })
+  salesDeliveryNoteLine: SalesDeliveryNoteLine[];
   @ApiProperty()
-  totalAmount ?: number
+  totalAmount?: number;
 }
 
 class SalesInvoiceLine {
@@ -81,7 +79,7 @@ export class CreateSalesInvoiceDto {
   @ApiProperty({ type: [SalesInvoiceLine] })
   salesInvoiceLine: SalesInvoiceLine[];
   @ApiProperty()
-  totalAmount ?: number
+  totalAmount?: number;
 }
 
 class SalesDeliveryInvoiceLine {
@@ -105,7 +103,7 @@ export class CreateSalesDeliveryInvoiceDto {
   @ApiProperty({ type: [SalesDeliveryInvoiceLine] })
   salesDeliveryInvoicelines: SalesDeliveryInvoiceLine[];
   @ApiProperty()
-  totalAmount ?: number
+  totalAmount?: number;
 }
 
 export class CreatePriceByChannelDto {
@@ -118,21 +116,24 @@ export class CreatePriceByChannelDto {
 }
 
 class SalesReceiptLine {
-  idArticle:number
-  quantity:number
-  price:number
+  @ApiProperty()
+  articleId: number;
+  @ApiProperty()
+  quantity: number;
+  @ApiProperty()
+  price: number;
 }
 export class CreateSalesReceiptDto {
   @ApiProperty()
-  deliveryDate:Date
+  deliveryDate: Date;
   @ApiProperty()
-  totalAmount:number
+  totalAmount: number;
   @ApiProperty()
-  idClient:number
+  idClient: number;
   @ApiProperty()
-  salesChannelId:number
+  salesChannelId: number;
   @ApiProperty()
-  exitNoteId:number
-  @ApiProperty({type:[SalesReceiptLine]})
-  salesReceiptLine : SalesReceiptLine[]
+  exitNoteId: number;
+  @ApiProperty({ type: [SalesReceiptLine] })
+  salesReceiptLine: SalesReceiptLine[];
 }
