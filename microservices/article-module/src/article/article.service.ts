@@ -9,105 +9,129 @@ export class ArticlesService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createArticleDto: CreateArticleDto) {
-    const { priceByChannel, mediaData, articleByAuthor, articleByPublishingHouse, categoryName, ...articleData } = createArticleDto;
-    let category;
-    if (categoryName) {
-      category = await this.prisma.categoryArticle.findFirst({
-        where: {
-          name: categoryName,
-        },
-      });
-  
-      if (!category) {
-        category = await this.prisma.categoryArticle.create({
+    const {
+      priceByChannel,
+      mediaData,
+      articleByAuthor,
+      articleByPublishingHouse,
+      articleByCategory,
+      ...articleData
+    } = createArticleDto;
+
+    // Création de l'article sans les relations
+    const article = await this.prisma.article.create({
+      data: {
+        ...articleData,
+      },
+    });
+
+    // Traitement des catégories
+    if (articleByCategory) {
+      for (const categoryData of articleByCategory) {
+        let category = await this.prisma.categoryArticle.findFirst({
+          where: { name: categoryData.name },
+        });
+        console.log(category, "catégories");
+
+        if (!category) {
+          category = await this.prisma.categoryArticle.create({
+            data: { name: categoryData.name },
+          });
+        }
+
+        const existingRelation = await this.prisma.articleByCategory.findFirst({
+          where: {
+            articleId: article.id,
+            categoryarticleId: category.id,
+          },
+        });
+
+        if (!existingRelation) {
+          console.log(`Creating relation for Article ID: ${article.id}, Category ID: ${category.id}`);
+          await this.prisma.articleByCategory.create({
+            data: {
+              articleId: article.id,
+              categoryarticleId: category.id,
+            },
+          });
+        } else {
+          console.log(`Relation already exists for Article ID: ${article.id}, Category ID: ${category.id}`);
+        }
+      }
+    }
+
+    if (articleByAuthor) {
+      for (const authorData of articleByAuthor) {
+        let author = await this.prisma.author.findFirst({
+          where: {
+            OR: [
+              { nameAr: authorData.nameAr },
+              { nameEn: authorData.nameEn },
+            ],
+          },
+        });
+
+        if (!author) {
+          author = await this.prisma.author.create({
+            data: {
+              nameAr: authorData.nameAr,
+              nameEn: authorData.nameEn,
+            },
+          });
+        }
+
+        await this.prisma.articleByAuthor.create({
           data: {
-            name: categoryName,
+            articleId: article.id,
+            authorId: author.id,
           },
         });
       }
     }
-  
-    const createdAuthors = articleByAuthor
-      ? await Promise.all(
-          articleByAuthor.map(async (authorName) => {
-            let author = await this.prisma.author.findFirst({
-              where: {
-                OR: [{ nameAr: authorName.nameAr }, { nameEn: authorName.nameEn }],
-              },
-            });
-  
-            if (!author) {
-              author = await this.prisma.author.create({
-                data: {
-                  nameAr: authorName.nameAr,
-                  nameEn: authorName.nameEn,
-                },
-              });
-            }
-  
-            return {
-              author: {
-                connect: { id: author.id },
-              },
-            };
-          })
-        )
-      : [];
-  
-    const createdPublishers = articleByPublishingHouse
-      ? await Promise.all(
-          articleByPublishingHouse.map(async (publishingHouseName) => {
-            let publishingHouse = await this.prisma.publishingHouse.findFirst({
-              where: {
-                OR: [{ nameAr: publishingHouseName.nameAr }, { nameEn: publishingHouseName.nameEn }],
-              },
-            });
-  
-            if (!publishingHouse) {
-              publishingHouse = await this.prisma.publishingHouse.create({
-                data: {
-                  nameAr: publishingHouseName.nameAr,
-                  nameEn: publishingHouseName.nameEn,
-                },
-              });
-            }
-  
-            return {
-              publishingHouse: {
-                connect: { id: publishingHouse.id },
-              },
-            };
-          })
-        )
-      : [];
-  
-    const article = await this.prisma.article.create({
-      data: {
-        ...articleData,
-        articleByAuthor: {
-          create: createdAuthors,
-        },
-        articleByPublishingHouse: {
-          create: createdPublishers,
-        },
-        priceByChannel: {
-          create: priceByChannel?.map((priceData) => ({
-            price: priceData.price,
-            salesChannel: {
-              connect: { id: priceData.idSalesChannel },
+
+    if (articleByPublishingHouse) {
+      for (const publishingHouseData of articleByPublishingHouse) {
+        let publishingHouse = await this.prisma.publishingHouse.findFirst({
+          where: {
+            OR: [
+              { nameAr: publishingHouseData.nameAr },
+              { nameEn: publishingHouseData.nameEn },
+            ],
+          },
+        });
+
+        if (!publishingHouse) {
+          publishingHouse = await this.prisma.publishingHouse.create({
+            data: {
+              nameAr: publishingHouseData.nameAr,
+              nameEn: publishingHouseData.nameEn,
             },
-          })),
-        },
-        articleByCategory: category
-          ? {
-              create: {
-                categoryArticle: {
-                  connect: { id: category.id },
-                },
-              },
-            }
-          : undefined,
-      },
+          });
+        }
+
+        await this.prisma.articleByPublishingHouse.create({
+          data: {
+            articleId: article.id,
+            publishingHouseId: publishingHouse.id,
+          },
+        });
+      }
+    }
+
+    if (priceByChannel) {
+      for (const priceData of priceByChannel) {
+        await this.prisma.priceByChannel.create({
+          data: {
+            idArticle: article.id,
+            price: priceData.price,
+            idSalesChannel: priceData.idSalesChannel,
+          },
+        });
+      }
+    }
+
+    const fullArticle = await this.prisma.article.findUnique({
+      where: { id: article.id },
       include: {
         priceByChannel: true,
         articleByAuthor: { include: { author: true } },
@@ -115,14 +139,13 @@ export class ArticlesService {
         articleByCategory: { include: { categoryArticle: true } },
       },
     });
-  
-    return article;
+
+    return fullArticle;
   }
-  
 
   async findAll(filters: Filters) {
     let { take, skip, publishingHousesIds, authorsIds, text } = filters;
-    console.log('THIS',take,skip);
+    console.log('THIS', take, skip);
     take = !take ? 20 : +take;
     skip = !skip ? 0 : +skip;
     let where = {};
@@ -181,6 +204,7 @@ export class ArticlesService {
         priceByChannel: { include: { salesChannel: true } },
         cover: true,
         stockArticle: true,
+        articleByCategory: { include: { categoryArticle: true } },
       },
     });
 
@@ -217,114 +241,134 @@ export class ArticlesService {
   }
 
   async update(id: number, updateArticleDto: UpdateArticleDto) {
-    const { priceByChannel, articleByAuthor, articleByPublishingHouse, ...articleData } = updateArticleDto;
-  
+    const {
+      priceByChannel,
+      articleByAuthor,
+      articleByPublishingHouse,
+      articleByCategory,
+      ...articleData
+    } = updateArticleDto;
+
     if (articleByAuthor) {
       // Supprimer les relations existantes
       await this.prisma.articleByAuthor.deleteMany({
         where: { articleId: id },
       });
-  
-      await Promise.all(
-        articleByAuthor.map(async (authorData) => {
-          let author = await this.prisma.author.findFirst({
-            where: {
-              OR: [
-                { nameAr: authorData.nameAr },
-                { nameEn: authorData.nameEn },
-              ],
-            },
-          });
-  
-          if (!author) {
-            author = await this.prisma.author.create({
-              data: {
-                nameAr: authorData.nameAr,
-                nameEn: authorData.nameEn,
-              },
-            });
-          }
-  
-          await this.prisma.articleByAuthor.create({
+
+      for (const authorData of articleByAuthor) {
+        let author = await this.prisma.author.findFirst({
+          where: {
+            OR: [
+              { nameAr: authorData.nameAr },
+              { nameEn: authorData.nameEn },
+            ],
+          },
+        });
+
+        if (!author) {
+          author = await this.prisma.author.create({
             data: {
-              articleId: id,
-              authorId: author.id,
+              nameAr: authorData.nameAr,
+              nameEn: authorData.nameEn,
             },
           });
-        })
-      );
+        }
+
+        await this.prisma.articleByAuthor.create({
+          data: {
+            articleId: id,
+            authorId: author.id,
+          },
+        });
+      }
     }
-  
+
     if (articleByPublishingHouse) {
       await this.prisma.articleByPublishingHouse.deleteMany({
         where: { articleId: id },
       });
-  
-      await Promise.all(
-        articleByPublishingHouse.map(async (publishingHouseData) => {
-          let publishingHouse = await this.prisma.publishingHouse.findFirst({
-            where: {
-              OR: [
-                { nameAr: publishingHouseData.nameAr },
-                { nameEn: publishingHouseData.nameEn },
-              ],
-            },
-          });
-  
-          if (!publishingHouse) {
-            publishingHouse = await this.prisma.publishingHouse.create({
-              data: {
-                nameAr: publishingHouseData.nameAr,
-                nameEn: publishingHouseData.nameEn,
-              },
-            });
-          }
-  
-          await this.prisma.articleByPublishingHouse.create({
+
+      for (const publishingHouseData of articleByPublishingHouse) {
+        let publishingHouse = await this.prisma.publishingHouse.findFirst({
+          where: {
+            OR: [
+              { nameAr: publishingHouseData.nameAr },
+              { nameEn: publishingHouseData.nameEn },
+            ],
+          },
+        });
+
+        if (!publishingHouse) {
+          publishingHouse = await this.prisma.publishingHouse.create({
             data: {
-              articleId: id,
-              publishingHouseId: publishingHouse.id,
+              nameAr: publishingHouseData.nameAr,
+              nameEn: publishingHouseData.nameEn,
             },
           });
-        })
-      );
+        }
+
+        await this.prisma.articleByPublishingHouse.create({
+          data: {
+            articleId: id,
+            publishingHouseId: publishingHouse.id,
+          },
+        });
+      }
     }
-  
+
+    if (articleByCategory) {
+      await this.prisma.articleByCategory.deleteMany({
+        where: { articleId: id },
+      });
+
+      for (const categoryData of articleByCategory) {
+        let category = await this.prisma.categoryArticle.findFirst({
+          where: { name: categoryData.name },
+        });
+
+        if (!category) {
+          category = await this.prisma.categoryArticle.create({
+            data: { name: categoryData.name },
+          });
+        }
+
+        await this.prisma.articleByCategory.create({
+          data: {
+            articleId: id,
+            categoryarticleId: category.id,
+          },
+        });
+      }
+    }
+
     if (priceByChannel) {
       await this.prisma.priceByChannel.deleteMany({
         where: { idArticle: id },
       });
-  
-      await Promise.all(
-        priceByChannel.map(async (priceData) => {
-          await this.prisma.priceByChannel.create({
-            data: {
-              idArticle: id,
-              price: priceData.price,
-              idSalesChannel: priceData.idSalesChannel,
-            },
-          });
-        })
-      );
+
+      for (const priceData of priceByChannel) {
+        await this.prisma.priceByChannel.create({
+          data: {
+            idArticle: id,
+            price: priceData.price,
+            idSalesChannel: priceData.idSalesChannel,
+          },
+        });
+      }
     }
-  
-    const article = await this.prisma.article.update({
+
+    const updatedArticle = await this.prisma.article.update({
       where: { id },
-      data: {
-        ...articleData,
-      },
-      include: {
-        articleByAuthor: { include: { author: true } },
-        articleByPublishingHouse: { include: { publishingHouse: true } },
-        priceByChannel: true,
-      },
+      data: { ...articleData },
     });
-  
-    return article;
+
+    return updatedArticle;
   }
-  
 
   async remove(id: number) {
-    return await this.prisma.article.delete({ where: { id } });
+    const article = await this.prisma.article.delete({
+      where: { id },
+    });
+    return article;
   }
 }

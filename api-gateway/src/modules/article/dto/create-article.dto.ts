@@ -45,6 +45,10 @@ class ArticleByPublishingHouseDto {
   @ApiProperty()
   nameEn?: string;
 }
+class ArticleByCategoryDto {
+  @ApiProperty()
+  name: string;
+}
 export class CreateArticleDto {
   @ApiProperty()
   code: string;
@@ -61,8 +65,8 @@ export class CreateArticleDto {
   articleByPublishingHouse?: ArticleByPublishingHouseDto[];
   @ApiProperty()
   longDescriptionEn?: string;
-  @ApiProperty()
-  categoryName?: string;
+  @ApiProperty({ type: [ArticleByCategoryDto], required: false })
+  articleByCategory?: ArticleByCategoryDto[];
 }
 
 export class CreatePublishingHouseDto {
