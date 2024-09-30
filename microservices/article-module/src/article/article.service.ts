@@ -25,7 +25,6 @@ export class ArticlesService {
       },
     });
 
-    // Traitement des catégories
     if (articleByCategory) {
       for (const categoryData of articleByCategory) {
         let category = await this.prisma.categoryArticle.findFirst({
@@ -250,7 +249,6 @@ export class ArticlesService {
     } = updateArticleDto;
 
     if (articleByAuthor) {
-      // Supprimer les relations existantes
       await this.prisma.articleByAuthor.deleteMany({
         where: { articleId: id },
       });
