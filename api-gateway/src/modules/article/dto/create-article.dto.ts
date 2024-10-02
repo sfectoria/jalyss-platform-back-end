@@ -9,6 +9,15 @@ class PriceByChannelDto {
   idSalesChannel: number;
 }
 
+class ArticleByAuthorDto {
+  @ApiProperty()
+  nameAr: string;
+  @ApiProperty()
+  nameEn?: string;
+  @ApiProperty()
+  authorID: string; 
+}
+
 class MediaDto {
   @ApiProperty()
   @IsString()
@@ -30,6 +39,16 @@ class MediaDto {
   @IsString()
   description?: string;
 }
+class ArticleByPublishingHouseDto {
+  @ApiProperty()
+  nameAr: string;
+  @ApiProperty()
+  nameEn?: string;
+}
+class ArticleByCategoryDto {
+  @ApiProperty()
+  name: string;
+}
 export class CreateArticleDto {
   @ApiProperty()
   code: string;
@@ -40,9 +59,15 @@ export class CreateArticleDto {
   priceByChannel?: PriceByChannelDto[];
   @ApiProperty({ type: MediaDto, required: false })
   mediaData?: MediaDto;
+  @ApiProperty({ type: [ArticleByAuthorDto], required: false })
+  articleByAuthor?: ArticleByAuthorDto[];
+  @ApiProperty({ type: [ArticleByPublishingHouseDto], required: false })
+  articleByPublishingHouse?: ArticleByPublishingHouseDto[];
+  @ApiProperty()
+  longDescriptionEn?: string;
+  @ApiProperty({ type: [ArticleByCategoryDto], required: false })
+  articleByCategory?: ArticleByCategoryDto[];
 }
-
-
 
 export class CreatePublishingHouseDto {
   @ApiProperty()
