@@ -1,5 +1,5 @@
 import { Global, Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { PaymentStatus, PaymentType, Prisma } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 import { SalesChannel } from 'src/sales-channels/entities/sales-channel.entity';
 
@@ -15,7 +15,15 @@ class EntityExiteNote {
   numExitNote?: number;
   saleChannelId: number;
   exitNoteLines: EntityExiteNoteLine[];
+  subTotalAmount?:number;
   totalAmount?: number;
+  tax?: number;
+  discount?: number;
+  payedAmount?:number
+  restedAmount?:number
+  modified?:boolean
+  paymentType?:PaymentType
+  paymentStatus?:PaymentStatus
 }
 
 export class ExitNote {
@@ -31,6 +39,15 @@ export class ExitNote {
       saleChannelId,
       date,
       totalAmount,
+      tax,
+      discount,
+      subTotalAmount,
+      paymentStatus,
+      paymentType,
+      payedAmount,
+      restedAmount,
+      modified,
+
       ...rest
     } = createExitNoteDto;
 
@@ -70,6 +87,14 @@ export class ExitNote {
           numExitNote,
           stockId: stock[0].id,
           totalAmount,
+          tax,
+          discount,
+          subTotalAmount,
+          paymentStatus,
+          payedAmount,
+          restedAmount,
+          modified,
+          paymentType,
           exitNoteLine: {
             createMany: { data: exitNoteLines },
           },

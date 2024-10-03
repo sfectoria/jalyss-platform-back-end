@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { PaymentStatus, PaymentType } from '@prisma/client';
 
 class SalesReceiptLine {
   @ApiProperty()
@@ -21,4 +22,12 @@ export class CreateSalesReceiptDto {
   exitNoteId: number;
   @ApiProperty({ type: [SalesReceiptLine] })
   salesReceiptLine: SalesReceiptLine[];
+  paymentType?: PaymentType;
+  paymentStatus?: PaymentStatus;
+  discount?: number;
+  tax?: number;
+  payedAmount?: number;
+  restedAmount?: number;
+  subTotalAmount?: number;
+  modified?:boolean
 }

@@ -62,6 +62,8 @@ export class AppController {
     }),
   )
   async upload(@UploadedFile() file: Express.Multer.File, @Body() dto: any) {
+     console.log('File received:', file); // Log file to see if it's captured
+  console.log('Request body:', dto); 
     const originalExtension = extname(file.originalname); // Get original extension
     const detectedExtension =
       originalExtension || `.${file.mimetype.split('/')[1]}` || '.dat'; // Try to detect extension from mimetype
@@ -78,6 +80,8 @@ export class AppController {
       path:
         process.env.SERVER_UPLOAD_CONFIG + 'upload/' + filenameWithExtension,
     };
+ 
+    
 
     // return this.mediaService.create(data);
   }

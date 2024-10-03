@@ -108,6 +108,13 @@ export class ExitNoteService {
             },
           },
         },
+        {
+          salesReceipt: {
+            some: {
+              salesChannelId: { in: salesChannelsIds.map((elem) => +elem) },
+            },
+          },
+        },
       ];
     }
     let data = await this.prisma.exitNote.findMany({
@@ -121,9 +128,10 @@ export class ExitNoteService {
         exitNoteLine: { include: { Article: { include: { cover: true } } } },
         stock: true,
         transferNote: true,
-        salesDeliveryInvoice: { include: { client: true  } },
+        salesDeliveryInvoice: { include: { client: true } },
         salesDeliveryNote: { include: { client: true } },
         salesInvoice: { include: { client: true } },
+        salesReceipt: { include: { client: true } },
       },
     });
 
@@ -135,22 +143,27 @@ export class ExitNoteService {
     return await this.prisma.exitNote.findUnique({
       where: { id },
       include: {
-         exitNoteLine: {
+        exitNoteLine: {
           include: {
             Article: {
               include: {
                 cover: true,
                 articleByAuthor: { include: { author: true } },
-                articleByPublishingHouse:{include:{publishingHouse:true}},
+                articleByPublishingHouse: {
+                  include: { publishingHouse: true },
+                },
               },
             },
           },
         },
         stock: true,
-        transferNote: {include:{stockTo:true,stockFrom:true}},
-        salesDeliveryInvoice: { include: { client: true ,salesChannels:true }},
-        salesDeliveryNote: { include: { client: true ,salesChannels:true } },
-        salesInvoice: { include: { client: true ,salesChannels:true } },
+        transferNote: { include: { stockTo: true, stockFrom: true } },
+        salesDeliveryInvoice: {
+          include: { client: true, salesChannels: true },
+        },
+        salesDeliveryNote: { include: { client: true, salesChannels: true } },
+        salesInvoice: { include: { client: true, salesChannels: true } },
+        salesReceipt: { include: { client: true, salesChannel: true } },
       },
     });
   }

@@ -3,6 +3,7 @@ import { CreateSalesReceiptDto } from './dto/create-selling.dto';
 import { UpdateSalesReceiptDto } from './dto/update-selling.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { SalesReceiptService } from './salesReceipt.service';
+import { Filters } from './entities/selling.entity';
 
 @Controller('sales-receipt')
 @ApiTags('sales-receipt')
@@ -15,8 +16,8 @@ export class SalesReceiptController {
   }
 
   @Get('getAll')
-  findAll() {
-    return this.salesReceiptService.findAll();
+  findAll(filters:Filters) {
+    return this.salesReceiptService.findAll(filters);
   }
 
   @Get(':id')
