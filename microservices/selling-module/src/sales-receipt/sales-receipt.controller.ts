@@ -3,6 +3,7 @@ import { SalesReceiptService } from './sales-receipt.service';
 import { CreateSalesReceiptDto } from './dto/create-sales-receipt.dto';
 import { UpdateSalesReceiptDto } from './dto/update-sales-receipt.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Filters } from './entities/sales-receipt.entity';
 
 @Controller('sales-receipt')
 export class SalesReceiptController {
@@ -14,9 +15,9 @@ export class SalesReceiptController {
   }
 
   @MessagePattern({cmd:'all_salesReceipt'})
-  async findAll() {
+  async findAll(@Payload() filters:Filters) {
     console.log('test');
-    return await this.salesReceiptService.findAll();
+    return await this.salesReceiptService.findAll(filters);
   }
 
   @MessagePattern({cmd:'one_salesReceipt'})

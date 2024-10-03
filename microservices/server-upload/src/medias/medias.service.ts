@@ -8,7 +8,7 @@ import { PrismaService } from 'nestjs-prisma';
 export class MediasService {
   constructor(private readonly prisma:PrismaService){}
   create(data: CreateMediaDto) {
-    // return this.prisma.media.create({data});
+    return this.prisma.media.create({data});
   }
   async createMany(data: CreateMediaDto[]) {
     let files=[]
