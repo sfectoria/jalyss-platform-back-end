@@ -15,6 +15,7 @@ export class ArticlesService {
       articleByAuthor,
       articleByPublishingHouse,
       articleByCategory,
+      coverId,
       ...articleData
     } = createArticleDto;
 
@@ -22,6 +23,7 @@ export class ArticlesService {
     const article = await this.prisma.article.create({
       data: {
         ...articleData,
+        coverId,
       },
     });
 
@@ -136,6 +138,7 @@ export class ArticlesService {
         articleByAuthor: { include: { author: true } },
         articleByPublishingHouse: { include: { publishingHouse: true } },
         articleByCategory: { include: { categoryArticle: true } },
+        cover: true,
       },
     });
 

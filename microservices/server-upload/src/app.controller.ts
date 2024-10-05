@@ -16,6 +16,8 @@ import { extname } from 'path';
 import { existsSync, mkdirSync } from 'fs';
 import { MediasService } from './medias/medias.service';
 import { serverUploadConfig } from 'constants/config';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from 'nestjs-prisma';
 
 const multerConfig = {
   dest: 'upload',
@@ -26,6 +28,7 @@ export class AppController {
   constructor(
     private readonly appService: AppService,
     // private readonly mediaService: MediasService,
+    private readonly prisma :PrismaService,
   ) {}
 
   @Get()
@@ -174,11 +177,15 @@ export class AppController {
       alt: dto.alt,
       extension: extension.substring(1), // Remove the leading dot from the extension
       type: file.mimetype,
-      url:
+      path:
       serverUploadConfig +
         'upload/ugte-images/' +
         filenameWithExtension,
     };
-    return data;
+    const media = await this.prisma.media.create({
+      data: data,
+    });
+    console.log("media created", media);
+    return media;
   }
 }

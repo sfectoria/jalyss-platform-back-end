@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import { MediasService } from './medias/medias.service';
 
 import { MediasModule } from './medias/medias.module';
+import { PrismaModule } from 'nestjs-prisma';
 
 @Module({
-  imports: [],
+  imports: [PrismaModule],
   controllers: [AppController],
   providers: [AppService],
 })
