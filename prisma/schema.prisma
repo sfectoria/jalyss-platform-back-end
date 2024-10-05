@@ -331,16 +331,16 @@ model SalesReceipt {
   exitNote         ExitNote           @relation(fields: [exitNoteId], references: [id])
   salesReceiptLine SalesReceiptLine[]
 }
-
+// ticket de caisse 
 model SalesReceiptLine {
   id                Int           @id @default(autoincrement())
   idPurchaseReceipt Int
-  idArticle         Int
+  articleId         Int
   quantity          Int
   price             Float?
   discount          Float?
   SalesReceipt      SalesReceipt? @relation(fields: [idPurchaseReceipt], references: [id])
-  Article           Article?      @relation(fields: [idArticle], references: [id])
+  Article           Article?      @relation(fields: [articleId], references: [id])
 }
 
 //vente facture

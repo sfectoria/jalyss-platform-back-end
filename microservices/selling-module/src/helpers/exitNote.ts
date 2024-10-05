@@ -1,13 +1,12 @@
 import { Global, Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { PaymentStatus, PaymentType, Prisma } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 import { SalesChannel } from 'src/sales-channels/entities/sales-channel.entity';
 
 @Global()
 @Injectable()
 class EntityExiteNoteLine {
-  articleId?: number;
-  idArticle?: number;
+  articleId: number;
   quantity: number;
 }
 
@@ -16,7 +15,15 @@ class EntityExiteNote {
   numExitNote?: number;
   saleChannelId: number;
   exitNoteLines: EntityExiteNoteLine[];
+  subTotalAmount?:number;
   totalAmount?: number;
+  tax?: number;
+  discount?: number;
+  payedAmount?:number
+  restedAmount?:number
+  modified?:boolean
+  paymentType?:PaymentType
+  paymentStatus?:PaymentStatus
 }
 
 export class ExitNote {
@@ -32,6 +39,15 @@ export class ExitNote {
       saleChannelId,
       date,
       totalAmount,
+      tax,
+      discount,
+      subTotalAmount,
+      paymentStatus,
+      paymentType,
+      payedAmount,
+      restedAmount,
+      modified,
+
       ...rest
     } = createExitNoteDto;
 
@@ -65,16 +81,20 @@ export class ExitNote {
       if (isNaN(parsedDate.getTime())) {
         throw new Error(`Le format de date fourni (${date}) est invalide.`);
       }
-      exitNoteLines = exitNoteLines.map((e)=>{
-        if (!!e.idArticle) {e.articleId=e.idArticle}
-        return e
-      })
       const exitNote = await prisma.exitNote.create({
         data: {
           exitDate: new Date(date).toISOString(),
           numExitNote,
           stockId: stock[0].id,
           totalAmount,
+          tax,
+          discount,
+          subTotalAmount,
+          paymentStatus,
+          payedAmount,
+          restedAmount,
+          modified,
+          paymentType,
           exitNoteLine: {
             createMany: { data: exitNoteLines },
           },

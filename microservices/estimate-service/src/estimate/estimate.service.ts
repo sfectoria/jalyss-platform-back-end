@@ -31,7 +31,7 @@ export class EstimateService {
       where['salesChannelId'] = { in: salesChannelsIds.map((e) => +e) };
     }
 
-    let data= await this.prisma.estimate.findMany({where,take,skip})
+    let data= await this.prisma.estimate.findMany({where,take,skip,orderBy:{date:'desc'}})
     let count = await this.prisma.estimate.count({where})
     return {data,count}
   }
