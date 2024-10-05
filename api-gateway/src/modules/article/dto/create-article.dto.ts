@@ -67,6 +67,8 @@ export class CreateArticleDto {
   longDescriptionEn?: string;
   @ApiProperty({ type: [ArticleByCategoryDto], required: false })
   articleByCategory?: ArticleByCategoryDto[];
+  @ApiProperty()
+  coverId?: string;
 }
 
 export class CreatePublishingHouseDto {

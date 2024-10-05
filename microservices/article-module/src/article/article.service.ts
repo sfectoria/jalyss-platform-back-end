@@ -15,6 +15,7 @@ export class ArticlesService {
       articleByAuthor,
       articleByPublishingHouse,
       articleByCategory,
+      coverId,
       ...articleData
     } = createArticleDto;
 
@@ -22,10 +23,10 @@ export class ArticlesService {
     const article = await this.prisma.article.create({
       data: {
         ...articleData,
+        coverId,
       },
     });
 
-    // Traitement des catégories
     if (articleByCategory) {
       for (const categoryData of articleByCategory) {
         let category = await this.prisma.categoryArticle.findFirst({
@@ -137,6 +138,7 @@ export class ArticlesService {
         articleByAuthor: { include: { author: true } },
         articleByPublishingHouse: { include: { publishingHouse: true } },
         articleByCategory: { include: { categoryArticle: true } },
+        cover: true,
       },
     });
 
@@ -250,7 +252,6 @@ export class ArticlesService {
     } = updateArticleDto;
 
     if (articleByAuthor) {
-      // Supprimer les relations existantes
       await this.prisma.articleByAuthor.deleteMany({
         where: { articleId: id },
       });
