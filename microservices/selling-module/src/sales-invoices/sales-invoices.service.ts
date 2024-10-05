@@ -3,7 +3,7 @@ import { CreateSalesInvoiceDto } from './dto/create-sales-invoice.dto';
 import { UpdateSalesInvoiceDto } from './dto/update-sales-invoice.dto';
 import { PrismaService } from 'nestjs-prisma';
 import { ExitNote } from 'src/helpers/exitNote';
-import {  Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { Filters } from './entities/sales-invoice.entity';
 
 @Injectable()
@@ -11,17 +11,17 @@ export class SalesInvoicesService {
   constructor(
     private readonly prisma: PrismaService,
     private helperExitNote: ExitNote,
-  ) {} 
+  ) {}
   //creation dune facture de vente
   async create(createSalesInvoiceDto: CreateSalesInvoiceDto) {
     return await this.prisma.$transaction(
       async (prisma: Prisma.TransactionClient) => {
         let { exitNoteId, idPurchaseOrder, salesInvoiceLine, status, ...rest } =
           createSalesInvoiceDto;
-          if (!idPurchaseOrder) {
-             status = true
-          }
-          console.log("exitNOteID", exitNoteId)
+        if (!idPurchaseOrder) {
+          status = true;
+        }
+        console.log('exitNOteID', exitNoteId);
         if (!exitNoteId) {
           // kif nji nasna3 bon de sorti lazemni naaref stockId 3lech
           // 3la khater kif nasnaa bon sorti lazem aandha num te3ha
@@ -34,10 +34,18 @@ export class SalesInvoicesService {
               saleChannelId: createSalesInvoiceDto.saleChannelId,
               date: createSalesInvoiceDto.date,
               exitNoteLines: salesInvoiceLine,
-              totalAmount:createSalesInvoiceDto?.totalAmount
+              totalAmount: createSalesInvoiceDto?.totalAmount,
+              paymentStatus: createSalesInvoiceDto?.paymentStatus,
+              paymentType: createSalesInvoiceDto?.paymentType,
+              discount: createSalesInvoiceDto?.discount,
+              tax: createSalesInvoiceDto?.tax,
+              modified: createSalesInvoiceDto?.modified,
+              subTotalAmount: createSalesInvoiceDto?.subTotalAmount,
+              payedAmount: createSalesInvoiceDto?.payedAmount,
+              restedAmount: createSalesInvoiceDto?.restedAmount,
             },
           ); //
-          console.log('newExitNote', newExitNote)
+          console.log('newExitNote', newExitNote);
           exitNoteId = newExitNote.id;
         }
         return await prisma.salesInvoice.create({
@@ -49,7 +57,7 @@ export class SalesInvoicesService {
             salesInvoiceLine: {
               createMany: { data: salesInvoiceLine },
             },
-            exitNoteId
+            exitNoteId,
           },
         });
       },
@@ -59,18 +67,18 @@ export class SalesInvoicesService {
   async findAll(filters: Filters) {
     let { take, skip, clientIds } = filters;
     console.log('THIS', take, skip);
-  
+
     take = !take ? 10 : +take;
     skip = !skip ? 0 : +skip;
-    
+
     let where = {};
-    
+
     if (Array.isArray(clientIds) && clientIds.length > 0) {
       where['idClient'] = {
         in: clientIds.map((elem) => +elem), // Convertir chaque élément en nombre
       };
     }
-  
+
     return await this.prisma.salesInvoice.findMany({
       where,
       take,
@@ -83,29 +91,30 @@ export class SalesInvoicesService {
   }
 
   async findOne(id: number) {
-    return await this.prisma.salesInvoice.findUnique({ where: { id }, include:{salesInvoiceLine:true} });
+    return await this.prisma.salesInvoice.findUnique({
+      where: { id },
+      include: { salesInvoiceLine: true },
+    });
   }
 
   async update(id: number, updateSalesInvoiceDto: UpdateSalesInvoiceDto) {
-    const { salesInvoiceLine, ...rest } = updateSalesInvoiceDto
+    const { salesInvoiceLine, ...rest } = updateSalesInvoiceDto;
     return await this.prisma.salesInvoice.update({
       where: { id },
-      data:
-      {
+      data: {
         ...rest,
-        salesInvoiceLine:
-        {
+        salesInvoiceLine: {
           updateMany: salesInvoiceLine?.map((line) => ({
             where: {
               articleId: line.articleId,
-              salesInvoiceId: id
+              salesInvoiceId: id,
             },
             data: {
               quantity: line.quantity,
             },
-          }))
+          })),
         },
-      }
+      },
     });
   }
 

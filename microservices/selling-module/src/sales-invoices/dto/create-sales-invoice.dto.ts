@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { PaymentStatus, PaymentType } from '@prisma/client';
 
 class SalesInvoiceLine {
   @ApiProperty()
@@ -23,4 +24,12 @@ export class CreateSalesInvoiceDto {
   salesInvoiceLine: SalesInvoiceLine[];
   @ApiProperty()
   totalAmount ?: number
+  paymentType?: PaymentType;
+  paymentStatus?: PaymentStatus;
+  discount?: number;
+  tax?: number;
+  payedAmount?: number;
+  restedAmount?: number;
+  subTotalAmount?: number;
+  modified?:boolean
 }
