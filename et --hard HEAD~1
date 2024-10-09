@@ -1,0 +1,498 @@
+[33mcommit fed54b7a8596a8db5b24b94d36e09787914dea6d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mrawen[m[33m)[m
+Merge: d41399d 2939f18
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Wed Oct 9 10:50:24 2024 +0200
+
+    Merge branch 'main' of https://github.com/sfectoria/jalyss-platform-back-end into rawen
+
+[33mcommit d41399d57cfa64a6e67ef929aaaa15f93abcfe06[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Wed Oct 9 10:50:10 2024 +0200
+
+    creating tyhe provider microservice and gateway CRUD
+
+[33mcommit 2939f1850c2ee8caa3ad8431f622c68bf89f8a7c[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: c012a7b 460f634
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Sat Oct 5 16:14:04 2024 +0100
+
+    Merge pull request #111 from sfectoria/oussema
+    
+    some modifications in sales operations
+
+[33mcommit 460f6343e0dbcb715b9ee9fd4adf83852724910f[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Sat Oct 5 16:13:45 2024 +0100
+
+    some modifications in sales operations
+
+[33mcommit c012a7bd7acda8fe6a8fc34e11dd6e189a869b3c[m
+Merge: f306526 2923b96
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Sat Oct 5 11:03:20 2024 +0100
+
+    Merge pull request #110 from sfectoria/rawen
+    
+    Rawen
+
+[33mcommit 2923b96f20e126c6df633c07d6ab65ce48649966[m[33m ([m[1;31morigin/rawen[m[33m)[m
+Merge: e238c41 f306526
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Sat Oct 5 02:47:15 2024 +0200
+
+    Merge branch 'main' of https://github.com/sfectoria/jalyss-platform-back-end into rawen
+
+[33mcommit e238c415915326f25bdd9c5be7502dbc391b0f47[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Sat Oct 5 02:46:53 2024 +0200
+
+    adding the creation of table media in the multer code & linking article table with media table
+
+[33mcommit f3065266ab615d2c1d47b635cbe5cd71fcc734d4[m
+Merge: a3bc227 b04af46
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Thu Oct 3 17:33:29 2024 +0100
+
+    Merge pull request #109 from sfectoria/oussema
+    
+    Oussema
+
+[33mcommit b04af46a9a1f6280a3c244c777c135b390d56c88[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Thu Oct 3 17:31:43 2024 +0100
+
+    estimate and sales receipt done and pushed
+
+[33mcommit 5e3a38ce555ecfbfd7b5ff0413ecee106b1db1b9[m
+Merge: 2f9ddc8 a3bc227
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Wed Oct 2 20:24:23 2024 +0100
+
+    Merge branch 'main' of https://github.com/sfectoria/jalyss-platform-back-end into oussema
+
+[33mcommit a3bc227766adf1d7c1a204145e4ede01c2ddec4e[m
+Merge: 7e39441 9b8826e
+Author: Rawen Soltani <rawensoltani6@gmail.com>
+Date:   Mon Sep 30 20:22:26 2024 +0200
+
+    Merge pull request #108 from sfectoria/rawen
+    
+    Rawen
+
+[33mcommit cf7364042256874f21fcc4a51a8b7cab861a243d[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Mon Sep 30 20:20:30 2024 +0200
+
+    pulling
+
+[33mcommit 9b8826e93a61d3fb9980d7f52c60e971912b57c8[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Sun Sep 29 02:19:32 2024 +0200
+
+    creating or connecting  multiple categories while creating a new article and removing all the promise.all
+
+[33mcommit caf547e1e4c7fb7f782642dd17f047343679f3d6[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Sat Sep 28 20:36:36 2024 +0200
+
+    adding the cration of a new category with the categoryName in the create article
+
+[33mcommit 12be83c97d705ebf8aed74fae3bfa9d230568339[m
+Merge: 814ff1f 7e39441
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Sat Sep 28 17:38:12 2024 +0200
+
+    Merge branch 'main' of https://github.com/sfectoria/jalyss-platform-back-end into rawen
+
+[33mcommit 814ff1f8e8cbda189f28ed72f78481f7e04fd402[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Sat Sep 28 17:37:36 2024 +0200
+
+    pulling from main
+
+[33mcommit 2f9ddc84147b47cb34207a5fec28a7c6af3ce7b6[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Sat Sep 28 10:48:11 2024 +0100
+
+    sales receipt modifications
+
+[33mcommit 7e39441ae6f986431402ca6be02d789f072c0fc3[m
+Merge: 9df8df1 3791ca7
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Sat Sep 28 09:56:25 2024 +0100
+
+    Merge pull request #107 from sfectoria/oussema
+    
+    sales receipt microservice and aip gateway done
+
+[33mcommit 3791ca7cf00cc73b8bcd6c4c6c5bda6c1708f780[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Sat Sep 28 09:55:54 2024 +0100
+
+    sales receipt microservice and aip gateway done
+
+[33mcommit 9df8df1c6b0e3c7c4b9e911fd8c77ae8425e96cc[m
+Merge: d27bfcf adbb0db
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Fri Sep 27 17:21:03 2024 +0100
+
+    Merge pull request #106 from sfectoria/oussema
+    
+    new migration + modifation modify state in operation
+
+[33mcommit adbb0dbfcbcd50824d386bee4ba4fa4eb5a5f165[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Fri Sep 27 17:20:25 2024 +0100
+
+    new migration + modifation modify state in operation
+
+[33mcommit d27bfcfc2e91e62bf28b7b6cc2f3d34f2ba29641[m
+Merge: 0231875 1c170e6
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Fri Sep 27 10:35:41 2024 +0100
+
+    Merge pull request #105 from sfectoria/oussema
+    
+    Oussema
+
+[33mcommit 1c170e67572430e35cccdb6b7682ed2da8934d6f[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Fri Sep 27 10:35:15 2024 +0100
+
+    estimate microservice and api gateway done
+
+[33mcommit 59295fce447553bf95f23b85469f45ce5974a8f2[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Thu Sep 26 09:19:31 2024 +0200
+
+    adding long descriptionEn in the createArticleDto
+
+[33mcommit e3bfdd4ca7052cd4a1f5bed9fd24980a4fed88d7[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Thu Sep 26 09:16:10 2024 +0200
+
+    adding long descriptionEn in the createArticleDto
+
+[33mcommit ae876bae18681d2b77a4548a5f448da71112da05[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Wed Sep 25 17:48:47 2024 +0200
+
+    adding articleByAuthor and articleByPublishingHouse in the create article
+
+[33mcommit f1472600d0de6c812295c9fcc2e705ab9c0c8bdf[m
+Merge: 1cd8f62 0231875
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Wed Sep 25 17:25:27 2024 +0200
+
+    Merge branch 'main' of https://github.com/sfectoria/jalyss-platform-back-end into rawen
+
+[33mcommit 1cd8f6279f63f4e45523fd1d6a67fef3ffd4ddc0[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Wed Sep 25 17:24:57 2024 +0200
+
+    adding articleByAuthor and articleByPublishingHouse in the create article
+
+[33mcommit cc2c79d9aff6100e5464162f79cad09c7f023c1d[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Wed Sep 25 13:25:03 2024 +0100
+
+    estimate set up microservice
+
+[33mcommit 0231875711ea1fddc5e374f747f13dfdd1a5182e[m
+Merge: a785882 cfb8e2a
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Wed Sep 25 13:06:31 2024 +0100
+
+    Merge pull request #103 from sfectoria/oussema
+    
+    Oussema
+
+[33mcommit cfb8e2ace958f51e1e447efb288a22c6c2c00be0[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Wed Sep 25 10:40:35 2024 +0100
+
+    sales receipt microservice set up
+
+[33mcommit 9f5b7a99616a041f7988155fd3f238d8fe5c8119[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Wed Sep 25 10:24:56 2024 +0100
+
+    sales receipt schema and new migration
+
+[33mcommit 682642b8d7c8cade836285a558aa0edf839eeab4[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Wed Sep 25 09:47:43 2024 +0100
+
+    Estimate modified and purchase receipt added in schema
+
+[33mcommit eb7a77b976fc69dc407ff2c52c23887fa24b330c[m
+Merge: 5ff4cd2 a785882
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Tue Sep 24 21:32:45 2024 +0200
+
+    Merge branch 'main' of https://github.com/sfectoria/jalyss-platform-back-end into rawen
+
+[33mcommit 5ff4cd2fd7fb0b8d63071d05e497ce3b92aded9f[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Tue Sep 24 21:32:30 2024 +0200
+
+    pulling
+
+[33mcommit a7858829fca0d854f4531328dba3c520fd3d4098[m[33m ([m[1;32mmain[m[33m)[m
+Merge: 577a1df aee14bf
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Tue Sep 24 12:28:11 2024 +0100
+
+    Merge pull request #102 from sfectoria/oussema
+    
+    payment details migration + some modifications
+
+[33mcommit aee14bfaf3262ad7c5181abc3c2fbafbd8bee182[m[33m ([m[1;31morigin/oussema[m[33m)[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Tue Sep 24 12:22:50 2024 +0100
+
+    payment details migration + some modifications
+
+[33mcommit 577a1df2ccc74c36addb43003496a065f2caf339[m
+Merge: 08aac35 7e00d2c
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Mon Sep 23 11:30:11 2024 +0100
+
+    Merge pull request #101 from sfectoria/rawen
+    
+    creating verifyPasswprd function and adding userName in schema
+
+[33mcommit 7e00d2cf320e6117efb50a9a2af07b1fc6d602da[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Mon Sep 23 00:13:33 2024 +0200
+
+    creating verifyPasswprd function and adding userName in schema
+
+[33mcommit 08aac357f2e5052028c50a022aed5cfa76b7520d[m
+Merge: f8f74ff f25bfd5
+Author: Rawen Soltani <rawensoltani6@gmail.com>
+Date:   Sun Sep 22 18:06:39 2024 +0200
+
+    Merge pull request #100 from sfectoria/rawen
+    
+    adding username and correcrting the invalid password error
+
+[33mcommit f25bfd5e5042493d3ca044d7c62b6ae7b60fbbfb[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Sun Sep 22 18:02:10 2024 +0200
+
+    correcting invalid password condition
+
+[33mcommit f8f74ffd6632ae2d7dc644f6ba094f3969941a60[m
+Merge: ff880e3 62bdd79
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Sun Sep 22 11:51:55 2024 +0100
+
+    Merge pull request #99 from sfectoria/oussema
+    
+    Oussema
+
+[33mcommit 62bdd79144b3863e05ea1c9b3eb8a56daa228465[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Sat Sep 21 14:58:07 2024 +0100
+
+    bar code functionality done
+
+[33mcommit c1fc15de903eebd723fcc74edf539f55c471ec72[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Fri Sep 20 16:44:01 2024 +0100
+
+    some modifications in inventory service and sales channels (update function)
+
+[33mcommit ff880e3f38440f3fcc39275efe63e6fc82cd28a5[m
+Merge: 7675176 ef7c10d
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Fri Sep 20 09:14:48 2024 +0100
+
+    Merge pull request #98 from sfectoria/oussema
+    
+    Oussema
+
+[33mcommit ef7c10d2f5edba68cce3237a74e65faa64a3ec9e[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Fri Sep 20 09:14:21 2024 +0100
+
+    inventory & inventory line done
+
+[33mcommit b3171e75b8bf5920cc2e2a83126b099fc2c92934[m
+Merge: d4ad895 7675176
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Fri Sep 20 09:13:31 2024 +0100
+
+    Merge branch 'main' of https://github.com/sfectoria/jalyss-platform-back-end into oussema
+
+[33mcommit 7675176bdef604d4441cbaf8889dd13d6c4dd2d0[m
+Merge: 03a9f9b e1772c9
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Fri Sep 20 09:13:12 2024 +0100
+
+    Merge pull request #97 from sfectoria/rawen
+    
+    Rawen
+
+[33mcommit d4ad8959b2885acb081f2cb3d3106e2cfb16cc7e[m
+Merge: 9b4e7e3 03a9f9b
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Fri Sep 20 09:12:31 2024 +0100
+
+    Merge branch 'main' of https://github.com/sfectoria/jalyss-platform-back-end into oussema
+
+[33mcommit 9b4e7e36854ab21db4214cba0a2d3e9d2edef866[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Fri Sep 20 09:12:11 2024 +0100
+
+    inventory line post and update done + filters of article in stockArticle
+
+[33mcommit e1772c95c3105316cc702985fabee452879f1a81[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Fri Sep 20 03:15:37 2024 +0200
+
+    including transferNote in getAll2 movements
+
+[33mcommit 2e5dffcfed74b48197434d9f48bb658859adec21[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Thu Sep 19 23:57:08 2024 +0200
+
+    adding getAll2 movements with filter by articleId
+
+[33mcommit 03a9f9bd49cfa2e54b960d2e111295afde0280d3[m
+Merge: fb68042 303ac44
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Thu Sep 19 14:14:43 2024 +0100
+
+    Merge pull request #96 from sfectoria/oussema
+    
+    Oussema
+
+[33mcommit 303ac44410ca247a273dfae413c1737adaf437e7[m
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Thu Sep 19 14:14:23 2024 +0100
+
+    Update .env
+
+[33mcommit e663d9bb323172f761852d2a51a479a1dc005163[m
+Merge: c33c05e 6796852
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Thu Sep 19 14:13:19 2024 +0100
+
+    Merge branch 'oussema' of https://github.com/sfectoria/jalyss-platform-back-end into oussema
+
+[33mcommit c33c05e9d9fd80d80143b26b6bf3ef34556273a2[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Thu Sep 19 14:12:54 2024 +0100
+
+    inventory filters
+
+[33mcommit c8b530640583f0c59cb56bbc2433efbe22ba45e6[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Thu Sep 19 14:11:08 2024 +0100
+
+    inventory filters done
+
+[33mcommit fb68042ec875d1a8fa932da029b7d24eedf16501[m
+Merge: 219fe7d 6796852
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Wed Sep 18 20:41:43 2024 +0100
+
+    Merge pull request #95 from sfectoria/oussema
+    
+    Oussema
+
+[33mcommit 679685277e377fab76dc3025f4437deb05a1be8a[m
+Merge: b50c5cf 219fe7d
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Wed Sep 18 20:41:35 2024 +0100
+
+    Merge branch 'main' into oussema
+
+[33mcommit b50c5cf915ab6cbacfcedb97b460a3bbb8e8b8be[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Wed Sep 18 20:40:04 2024 +0100
+
+    inventory microservice and api gateway done
+
+[33mcommit f6c65c57eca73c5030417ff9a5d52864b9cb9bd1[m
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Wed Sep 18 20:16:17 2024 +0100
+
+    Delete microservices directory
+
+[33mcommit a0dd02d3aa641ffa48b2d13db69c03a662e227ea[m
+Merge: e4e3dd7 24cd96f
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Wed Sep 18 20:11:12 2024 +0100
+
+    Merge branch 'oussema' of https://github.com/sfectoria/jalyss-platform-back-end into oussema
+
+[33mcommit e4e3dd7b6b2334597b52aac807977cee37b412b3[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Wed Sep 18 20:10:39 2024 +0100
+
+    test
+
+[33mcommit 24cd96fdcc9afe03f1a4f100effde918c573eab2[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Wed Sep 18 20:06:52 2024 +0100
+
+    commit reset
+
+[33mcommit 219fe7df21aa902b7356b97517b272b94cd330f8[m
+Merge: c9a8cf9 2806b3a
+Author: Oussema Cherif <144437939+oussemacherif@users.noreply.github.com>
+Date:   Tue Sep 17 12:32:18 2024 +0100
+
+    Merge pull request #94 from sfectoria/oussema
+    
+    Oussema
+
+[33mcommit 1e35463478aea597cd1db39516cb255307c1231e[m
+Merge: 2806b3a c9a8cf9
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Tue Sep 17 12:12:48 2024 +0100
+
+    Merge branch 'main' of https://github.com/sfectoria/jalyss-platform-back-end into oussema
+
+[33mcommit 2806b3a9aba299d134beae6500a588c80944f165[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Tue Sep 17 12:09:40 2024 +0100
+
+    some modification
+
+[33mcommit a07e6d74247df97e6a0e8fc2f134936bee7a0f17[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Tue Sep 17 12:06:22 2024 +0100
+
+    updates in schema(status of inventory) + inventory microservice and api gateway
+
+[33mcommit c9a8cf925ad8cb3b1c4e4df96a18f53f4820c3ff[m
+Merge: c373de2 dfd76ea
+Author: Rawen Soltani <157417154+rawen10@users.noreply.github.com>
+Date:   Mon Sep 16 22:27:26 2024 +0100
+
+    Merge pull request #93 from sfectoria/rawen
+    
+    Rawen
+
+[33mcommit dfd76eaac4739dda8e417d5f1c25681c9100d879[m
+Merge: 83fd27b c373de2
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Mon Sep 16 23:25:32 2024 +0200
+
+    Merge branch 'main' of https://github.com/sfectoria/jalyss-platform-back-end into rawen
+
+[33mcommit 83fd27b71841b60e15d612c4df7c0fc426a6e3ad[m
+Author: nodeWizard <rawensoltani6@gmail.com>
+Date:   Mon Sep 16 23:25:10 2024 +0200
+
+    including client in the return-note getAll
+
+[33mcommit 60948f66242ff45e993b05be47a2ad322389c8ec[m
+Author: Oussema Cherif <ousseemacherif@gmail.com>
+Date:   Mon Sep 16 20:42:31 2024 +0100
+
+    inventory added in schema and article seed modified
