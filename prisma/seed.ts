@@ -2,31 +2,47 @@ import { PrismaClient } from '@prisma/client';
 import { userSeed } from './seeds/userSeed';
 import { articleSeed } from './seeds/articleSeed';
 import { stockSeed } from './seeds/stockSeed';
-import { salesChannelSeed } from './seeds/salesChannelSeed';
 import { employeeSeed } from './seeds/employeeSeed';
+import { authorSeed } from './seeds/authorSeed';
+import { publishingHouseSeed } from './seeds/publishingHouseSeed';
+import { providerSeed } from './seeds/providerSeed';
+import { clientSeed } from './seeds/clientSeed';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  // if we have user in data base stop seeding
+  // Vérifier si des utilisateurs existent déjà dans la base de données
   const users = await prisma.user.findMany();
 
   if (users.length) {
-    console.log('seed has been stoped because you have users in your database');
+    console.log(
+      'Le semis a été arrêté car des utilisateurs existent déjà dans la base de données.',
+    );
     return;
-  } else {
+  }
+
+  try {
+    // Exécuter le seed pour chaque entité
     await userSeed();
+    await stockSeed(); 
     await articleSeed();
     await employeeSeed();
-    const stock1 = await stockSeed();
-    salesChannelSeed(stock1);
-    console.log('Seed data created successfully.');
+    await clientSeed();
+    await authorSeed();
+    await publishingHouseSeed();
+    await providerSeed();
+
+    // Créer les stocks et les canaux de vente
+
+    console.log('Les données de semis ont été créées avec succès.');
+  } catch (error) {
+    console.error("Erreur lors de l'exécution du semis :", error);
   }
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error("Erreur lors de l'exécution principale :", e);
     process.exit(1);
   })
   .finally(async () => {
