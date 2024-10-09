@@ -26,6 +26,7 @@ export class ProviderService {
       where: { id },
       data: updateProviderDto,
     });
+  
   }
 
   async remove(id: number) {
