@@ -27,6 +27,14 @@ export class SalesDeliveryInvoiceService {
           exitNoteLines: salesDeliveryInvoicelines,
           date: createSalesDeliveryInvoiceDto.deliveryDate,
           totalAmount: createSalesDeliveryInvoiceDto?.totalAmount,
+            paymentStatus: createSalesDeliveryInvoiceDto?.paymentStatus,
+            paymentType: createSalesDeliveryInvoiceDto?.paymentType,
+            discount: createSalesDeliveryInvoiceDto?.discount,
+            tax: createSalesDeliveryInvoiceDto?.tax,
+            modified: createSalesDeliveryInvoiceDto?.modified,
+            subTotalAmount: createSalesDeliveryInvoiceDto?.subTotalAmount,
+            payedAmount: createSalesDeliveryInvoiceDto?.payedAmount,
+            restedAmount: createSalesDeliveryInvoiceDto?.restedAmount,
         });
         console.log(newExitNote, 'test');
 

@@ -17,12 +17,19 @@ export class SalesDeliveryNoteService {
         createSalesDeliveryNoteDto;
 
       if (!exitNoteId) {
-
         const newExitNote = await this.helperExitNote.create(prisma, {
           saleChannelId: createSalesDeliveryNoteDto.saleChannelId,
           exitNoteLines: createSalesDeliveryNoteDto.salesDeliveryNoteLine,
           date: createSalesDeliveryNoteDto.deliveryDate,
           totalAmount: createSalesDeliveryNoteDto?.totalAmount,
+          paymentStatus: createSalesDeliveryNoteDto?.paymentStatus,
+          paymentType: createSalesDeliveryNoteDto?.paymentType,
+          discount: createSalesDeliveryNoteDto?.discount,
+          tax: createSalesDeliveryNoteDto?.tax,
+          modified: createSalesDeliveryNoteDto?.modified,
+          subTotalAmount: createSalesDeliveryNoteDto?.subTotalAmount,
+          payedAmount: createSalesDeliveryNoteDto?.payedAmount,
+          restedAmount: createSalesDeliveryNoteDto?.restedAmount,
         });
         console.log('test now ', createSalesDeliveryNoteDto);
 
@@ -99,4 +106,3 @@ export class SalesDeliveryNoteService {
     return await this.prisma.salesDeliveryNote.delete({ where: { id } });
   }
 }
-
