@@ -28,7 +28,7 @@ export async function salesChannelSeed(stocks: Stock[]) {
           name: channel.name,
           type: channel.type,
           region: channel.region,
-          idStock: stock.id, // Lier le canal de vente au stock correspondant
+          idStock: stock.id, 
         },
       });
       console.log(`Canal de vente ${salesChannel.name} créé pour Stock ID: ${stock.id}.`);

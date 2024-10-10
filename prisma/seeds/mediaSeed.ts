@@ -3,7 +3,6 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function mediaSeed() {
-  // Vérifier si des médias existent déjà dans la base de données
   const existingMedia = await prisma.media.findMany();
 
   if (existingMedia.length) {
@@ -11,7 +10,6 @@ export async function mediaSeed() {
     return;
   }
 
-  // Créer le média avec l'URL fournie
   const mediaData = {
     path: 'https://dzinejs.lv/wp-content/plugins/lightbox/images/No-image-found.jpg',
     type: 'image/jpeg', // Type MIME de l'image
@@ -20,7 +18,6 @@ export async function mediaSeed() {
     description: 'Cette image est utilisée lorsqu\'aucune image spécifique n\'est fournie.', // Description
   };
 
-  // Insérer le média dans la base de données
   const media = await prisma.media.create({
     data: mediaData,
   });

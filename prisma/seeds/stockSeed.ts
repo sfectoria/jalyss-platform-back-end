@@ -2,7 +2,6 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// Données pour les stocks
 const stocksData = [
   {
     name: 'Stock Sfax',
@@ -21,7 +20,6 @@ const stocksData = [
   },
 ];
 
-// Données pour les canaux de vente
 const salesChannelsData = [
   {
     name: 'Online Store',
@@ -43,7 +41,6 @@ const salesChannelsData = [
 export async function stockSeed() {
   const createdStocks = [];
   
-  // Créer les stocks
   for (const stock of stocksData) {
     const createdStock = await prisma.stock.create({
       data: stock,
@@ -52,7 +49,6 @@ export async function stockSeed() {
     console.log(`Stock ${createdStock.name} créé.`);
   }
 
-  // Créer les canaux de vente pour chaque stock
   for (const stock of createdStocks) {
     for (const channel of salesChannelsData) {
       const salesChannel = await prisma.salesChannels.create({
@@ -60,7 +56,7 @@ export async function stockSeed() {
           name: channel.name,
           type: channel.type,
           region: channel.region,
-          idStock: stock.id, // Lier le canal de vente au stock correspondant
+          idStock: stock.id, 
         },
       });
       console.log(`Canal de vente ${salesChannel.name} créé pour Stock ID: ${stock.id}.`);

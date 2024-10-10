@@ -33,7 +33,7 @@ async function createClients(categories) {
     const phoneNumber = phoneNumbers[i];
     const address = addresses[i];
     const email = emails[i];
-    const categoryIndex = i % categories.length; // Alternates between categories
+    const categoryIndex = i % categories.length; 
 
     await prisma.client.create({
       data: {
