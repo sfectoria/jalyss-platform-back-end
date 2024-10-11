@@ -6,5 +6,7 @@ export class CreateStockDto {
     @ApiProperty()
     location: string;
     @ApiProperty()
-    capacity: number; 
+    capacity: number;
+    @ApiProperty()
+    idEmployee : number; 
 }

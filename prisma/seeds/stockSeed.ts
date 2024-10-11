@@ -7,16 +7,20 @@ const stocksData = [
     name: 'Stock Sfax',
     location: 'Warehouse 1',
     capacity: 500,
+    idEmployee:1,
   },
   {
     name: 'Stock Tunis',
     location: 'Warehouse 2',
     capacity: 300,
+    idEmployee:2,
   },
   {
     name: 'Stock Sousse',
     location: 'Warehouse 3',
     capacity: 700,
+    idEmployee:3,
+
   },
 ];
 

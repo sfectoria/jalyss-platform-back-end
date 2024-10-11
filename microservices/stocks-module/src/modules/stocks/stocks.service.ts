@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { PrismaService } from 'nestjs-prisma';
@@ -9,8 +9,20 @@ import { title } from 'process';
 export class StocksService {
   constructor(private readonly prisma: PrismaService) {}
   async create(createStockDto: CreateStockDto) {
-    return await this.prisma.stock.create({
-      data: createStockDto,
+    const { idEmployee, name, location, capacity } = createStockDto;
+
+
+    if (!idEmployee) {
+      throw new BadRequestException(`Employee does not exist.`);
+    }
+
+    return this.prisma.stock.create({
+      data: {
+        name,
+        location,
+        capacity,
+        idEmployee,
+      },
     });
   }
 
