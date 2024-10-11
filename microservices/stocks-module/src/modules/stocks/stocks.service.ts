@@ -11,7 +11,6 @@ export class StocksService {
   async create(createStockDto: CreateStockDto) {
     const { idEmployee, name, location, capacity } = createStockDto;
 
-
     if (!idEmployee) {
       throw new BadRequestException(`Employee does not exist.`);
     }
@@ -27,7 +26,11 @@ export class StocksService {
   }
 
   async findAll(filters?: FiltersStock) {
-    return await this.prisma.stock.findMany({});
+    return await this.prisma.stock.findMany({
+      include: {
+        employee: true,
+      },
+    });
   }
 
   async findOne(id: number, filters?: FiltersStock) {
@@ -146,18 +149,22 @@ export class StocksService {
   async findBarCode(code: string) {
     let barcode = await this.prisma.stockArticle.findFirst({
       where: { article: { code } },
-      include: { article: { include: {
-        articleByAuthor: { include: { author: true } },
-        articleByPublishingHouse: { include: { publishingHouse: true }},
-        priceByChannel: { include: { salesChannel: true } },
-        cover: true,
-        stockArticle: {include:{stock:true}}, 
-      },} },
+      include: {
+        article: {
+          include: {
+            articleByAuthor: { include: { author: true } },
+            articleByPublishingHouse: { include: { publishingHouse: true } },
+            priceByChannel: { include: { salesChannel: true } },
+            cover: true,
+            stockArticle: { include: { stock: true } },
+          },
+        },
+      },
     });
     if (barcode) {
       if (barcode.quantity) return barcode;
       else return 'The article exists, but the quantity is 0';
-    } else return "No article found with this code";
+    } else return 'No article found with this code';
   }
   async update(id: number, updateStockDto: UpdateStockDto) {
     return await this.prisma.stock.update({
