@@ -8,6 +8,8 @@ export class CreateStockDto {
   location: string;
   @ApiProperty()
   capacity: number;
+  @ApiProperty()
+  idEmployee : number; 
 }
 
 class ReceiptNoteLine {

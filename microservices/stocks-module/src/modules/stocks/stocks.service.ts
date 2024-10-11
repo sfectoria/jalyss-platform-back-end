@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { PrismaService } from 'nestjs-prisma';
@@ -9,13 +9,28 @@ import { title } from 'process';
 export class StocksService {
   constructor(private readonly prisma: PrismaService) {}
   async create(createStockDto: CreateStockDto) {
-    return await this.prisma.stock.create({
-      data: createStockDto,
+    const { idEmployee, name, location, capacity } = createStockDto;
+
+    if (!idEmployee) {
+      throw new BadRequestException(`Employee does not exist.`);
+    }
+
+    return this.prisma.stock.create({
+      data: {
+        name,
+        location,
+        capacity,
+        idEmployee,
+      },
     });
   }
 
   async findAll(filters?: FiltersStock) {
-    return await this.prisma.stock.findMany({});
+    return await this.prisma.stock.findMany({
+      include: {
+        employee: true,
+      },
+    });
   }
 
   async findOne(id: number, filters?: FiltersStock) {
@@ -134,18 +149,22 @@ export class StocksService {
   async findBarCode(code: string) {
     let barcode = await this.prisma.stockArticle.findFirst({
       where: { article: { code } },
-      include: { article: { include: {
-        articleByAuthor: { include: { author: true } },
-        articleByPublishingHouse: { include: { publishingHouse: true }},
-        priceByChannel: { include: { salesChannel: true } },
-        cover: true,
-        stockArticle: {include:{stock:true}}, 
-      },} },
+      include: {
+        article: {
+          include: {
+            articleByAuthor: { include: { author: true } },
+            articleByPublishingHouse: { include: { publishingHouse: true } },
+            priceByChannel: { include: { salesChannel: true } },
+            cover: true,
+            stockArticle: { include: { stock: true } },
+          },
+        },
+      },
     });
     if (barcode) {
       if (barcode.quantity) return barcode;
       else return 'The article exists, but the quantity is 0';
-    } else return "No article found with this code";
+    } else return 'No article found with this code';
   }
   async update(id: number, updateStockDto: UpdateStockDto) {
     return await this.prisma.stock.update({

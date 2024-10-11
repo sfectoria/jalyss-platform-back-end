@@ -15,6 +15,7 @@ import { EmployeesModule } from './modules/employees/employees.module';
 import { PurchasesModule } from './modules/purchases/purchases.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
 import { EstimateModule } from './modules/estimate/estimate.module';
+import { ProviderModule } from './modules/provider/provider.module';
 @Module({
   imports: [
     PrismaModule.forRoot({
@@ -76,6 +77,11 @@ import { EstimateModule } from './modules/estimate/estimate.module';
           transport: Transport.TCP,
           options: { port: 3012 },
         },
+        {
+          name: 'PROVIDER_MICROSERVICE',
+          transport: Transport.TCP,
+          options: { port: 3013 },
+        },
       ],
       isGlobal: true,
     }),
@@ -88,7 +94,8 @@ import { EstimateModule } from './modules/estimate/estimate.module';
     EmployeesModule,
     PurchasesModule,
     InventoryModule,
-    EstimateModule
+    EstimateModule,
+    ProviderModule
   ],
   controllers: [AppController],
   providers: [AppService],
