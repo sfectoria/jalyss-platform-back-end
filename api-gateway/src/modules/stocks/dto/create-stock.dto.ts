@@ -9,7 +9,9 @@ export class CreateStockDto {
   @ApiProperty()
   capacity: number;
   @ApiProperty()
-  idEmployee : number; 
+  idEmployee : number;
+  @ApiProperty()
+  archived?: boolean; 
 }
 
 class ReceiptNoteLine {

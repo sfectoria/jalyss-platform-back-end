@@ -9,7 +9,7 @@ import { title } from 'process';
 export class StocksService {
   constructor(private readonly prisma: PrismaService) {}
   async create(createStockDto: CreateStockDto) {
-    const { idEmployee, name, location, capacity } = createStockDto;
+    const { idEmployee, name, location, capacity,archived } = createStockDto;
 
     if (!idEmployee) {
       throw new BadRequestException(`Employee does not exist.`);
@@ -21,6 +21,7 @@ export class StocksService {
         location,
         capacity,
         idEmployee,
+        archived: archived ?? false, 
       },
     });
   }

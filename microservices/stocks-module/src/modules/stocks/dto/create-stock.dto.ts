@@ -9,4 +9,6 @@ export class CreateStockDto {
     capacity: number;
     @ApiProperty()
     idEmployee : number; 
+    @ApiProperty()
+    archived?: boolean;
 }
