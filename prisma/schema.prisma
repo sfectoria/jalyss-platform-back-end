@@ -574,7 +574,8 @@ model Stock {
   name     String
   location String
   capacity Int
-  idEmployee         Int        
+  idEmployee         Int   
+  archived         Boolean?         @default(false)     
   employee           Employee    @relation(fields: [idEmployee], references: [id])
   transferNoteFrom TransferNote[]  @relation("StockFrom")
   transferNoteTo   TransferNote[]  @relation("StockTo")
