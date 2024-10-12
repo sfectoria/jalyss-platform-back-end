@@ -18,5 +18,7 @@ export class CreateExitNoteDto {
     stockId : number
     @ApiProperty({ type: [ExitNoteLine] })
     lines: ExitNoteLine[]
+    @ApiProperty()
+    idClient? :number;
 }
 
