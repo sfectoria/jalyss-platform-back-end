@@ -31,6 +31,7 @@ export class MovementsService {
         salesDeliveryInvoice: { include: { client: true } },
         salesDeliveryNote: { include: { client: true } },
         salesInvoice: { include: { client: true } },
+        client:true,
       },
     });
     let receiptNoteData = await this.prisma.receiptNote.findMany({
