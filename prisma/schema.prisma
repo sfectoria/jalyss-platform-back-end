@@ -27,6 +27,7 @@ model Employee {
   media       Media?      @relation(fields: [mediaId], references: [id])
   mediaId     String?
   inventory   Inventory[]
+  stocks      Stock[]
 }
 
 model Client {
@@ -47,6 +48,7 @@ model Client {
   salesReceipt         SalesReceipt[]
   media                Media?                 @relation(fields: [mediaId], references: [id])
   mediaId              String?
+  exitNotes  ExitNote[] //
 }
 
 model CategoryClient {
@@ -572,7 +574,8 @@ model Stock {
   name     String
   location String
   capacity Int
-
+  idEmployee         Int        
+  employee           Employee    @relation(fields: [idEmployee], references: [id])
   transferNoteFrom TransferNote[]  @relation("StockFrom")
   transferNoteTo   TransferNote[]  @relation("StockTo")
   salesChannels    SalesChannels[]
@@ -598,7 +601,9 @@ model ExitNote {
   modified         Boolean?
   paymentType    PaymentType?
   paymentStatus  PaymentStatus?
+  idClient        Int?
 
+  client         Client?                    @relation(fields: [idClient], references: [id])
   stock                Stock                  @relation(fields: [stockId], references: [id])
   transferNote         TransferNote[]
   salesInvoice         SalesInvoice[]
