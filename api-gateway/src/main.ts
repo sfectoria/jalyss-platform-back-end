@@ -6,7 +6,7 @@ import { Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors()
+  app.enableCors({origin:"*"})
   const config = new DocumentBuilder()
     .setTitle('JALYSS API')
     .setDescription('The JALYSS API description')
