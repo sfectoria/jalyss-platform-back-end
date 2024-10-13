@@ -22,4 +22,6 @@ export class CreateReceiptNoteDto {
   numReceiptNote: number;
   @ApiProperty()
   totalAmount?: number;
+  @ApiProperty()
+  idProvider?: number;
 }

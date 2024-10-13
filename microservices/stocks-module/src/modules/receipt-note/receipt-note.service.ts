@@ -130,6 +130,7 @@ export class ReceiptNoteService {
         purchaseDeliveryInvoice:true,
         purchaseDeliveryNote:true,
         purchaseInvoice:true,
+        provider:true,
       },
     });
   }
