@@ -35,6 +35,8 @@ class ReceiptNoteLine {
     lines: ReceiptNoteLine[];
     @ApiProperty()
     numReceiptNote: number;
+    @ApiProperty()
+    idProvider?: number;
   }
 
 class ExitNoteLine {
