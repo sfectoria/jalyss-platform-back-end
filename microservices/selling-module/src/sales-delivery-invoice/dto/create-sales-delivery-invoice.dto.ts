@@ -10,7 +10,7 @@ class SalesDeliveryInvoiceLine {
 //vente bon de livraison facture
 export class CreateSalesDeliveryInvoiceDto {
   @ApiProperty()
-  purchaseOrderId?: number; //bon de commande
+  idPurchaseOrder?: number; //bon de commande
   @ApiProperty()
   exitNoteId: number;
   @ApiProperty()

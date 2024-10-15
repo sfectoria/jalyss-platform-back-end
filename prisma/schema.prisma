@@ -330,6 +330,8 @@ model SalesReceipt {
   modified         Boolean?
   paymentType      PaymentType?
   paymentStatus    PaymentStatus?
+  idPurchaseOrder  Int?
+  purchaseOrder    PurchaseOrder?  @relation(fields: [idPurchaseOrder],references: [id])
   idClient         Int?
   client           Client?            @relation(fields: [idClient], references: [id])
   salesChannelId   Int?
@@ -433,7 +435,7 @@ model SalesDeliveryInvoice {
   clientId        Int
   exitNoteId      Int
   deliveryDate    DateTime
-  purchaseOrderId Int? //bon de commande 
+  idPurchaseOrder  Int? //bon de commande 
   salesChannelsId Int
   subTotalAmount  Float?
   totalAmount     Float?
@@ -448,7 +450,7 @@ model SalesDeliveryInvoice {
 
   client                   Client                     @relation(fields: [clientId], references: [id])
   exitNote                 ExitNote?                  @relation(fields: [exitNoteId], references: [id])
-  purchaseOrder            PurchaseOrder?             @relation(fields: [purchaseOrderId], references: [id])
+  purchaseOrder            PurchaseOrder?             @relation(fields: [idPurchaseOrder], references: [id])
   salesChannels            SalesChannels?             @relation(fields: [salesChannelsId], references: [id])
   salesDeliveryInvoiceLine SalesDeliveryInvoiceLine[]
 }
@@ -487,6 +489,7 @@ model PurchaseOrder {
   salesDeliveryInvoice SalesDeliveryInvoice[]
   purchaseOrderLine    PurchaseOrderLine[]
   salesDeliveryNote    SalesDeliveryNote[]
+  salesReceipt         SalesReceipt[]
 }
 
 model PurchaseOrderLine {
