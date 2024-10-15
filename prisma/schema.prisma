@@ -240,6 +240,8 @@ model PurchaseDeliveryNote {
   deliveryDate             DateTime
   receiptNote              ReceiptNote?               @relation(fields: [idReceiptNote], references: [id])
   purchaseDeliveryNoteLine PurchaseDeliveryNoteLine[]
+  idProvider      Int? 
+  provider Provider? @relation(fields: [idProvider], references: [id])
 }
 
 //achat bon de livraison line
@@ -270,6 +272,8 @@ model PurchaseDeliveryInvoice {
   deliveryDate                DateTime
   receiptNote                 ReceiptNote?                  @relation(fields: [idReceiptNote], references: [id])
   purchaseDeliveryInvoiceLine PurchaseDeliveryInvoiceLine[]
+   idProvider      Int? 
+  provider Provider? @relation(fields: [idProvider], references: [id])
 }
 
 model PurchaseDeliveryInvoiceLine {
@@ -299,6 +303,8 @@ model PurchaseInvoice {
   idReceiptNote       Int
   ReceiptNote         ReceiptNote           @relation(fields: [idReceiptNote], references: [id])
   PurchaseInvoiceLine PurchaseInvoiceLine[]
+   idProvider      Int? 
+  provider Provider? @relation(fields: [idProvider], references: [id])
 }
 
 model PurchaseInvoiceLine {
@@ -574,7 +580,8 @@ model Stock {
   name     String
   location String
   capacity Int
-  idEmployee         Int        
+  idEmployee         Int   
+  archived         Boolean?         @default(false)     
   employee           Employee    @relation(fields: [idEmployee], references: [id])
   transferNoteFrom TransferNote[]  @relation("StockFrom")
   transferNoteTo   TransferNote[]  @relation("StockTo")
@@ -634,7 +641,10 @@ model Provider {
   adresse            String
   registrationNumber String
   receiptNote        ReceiptNote[]
-}
+  purchaseDeliveryNote PurchaseDeliveryNote[]
+  purchaseDeliveryInvoice PurchaseDeliveryInvoice[]
+  purchaseInvoice  PurchaseInvoice[]
+  }
 
 enum TypeReceipt {
   achat
