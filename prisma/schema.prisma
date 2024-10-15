@@ -48,7 +48,7 @@ model Client {
   salesReceipt         SalesReceipt[]
   media                Media?                 @relation(fields: [mediaId], references: [id])
   mediaId              String?
-  exitNotes  ExitNote[] //
+  exitNotes            ExitNote[] //
 }
 
 model CategoryClient {
@@ -170,8 +170,7 @@ model SalesChannels {
   salesDeliveryInvoice SalesDeliveryInvoice[] //vente bon de livraison facture
   salesDeliveryNote    SalesDeliveryNote[] // vente bon de livraison 
   priceByChannel       PriceByChannel[] // Relation avec le modèle PriceByChannel (lahne el relation m3a les articles)
-  estimate            Estimate[]
-
+  estimate             Estimate[]
 }
 
 model PriceByChannel {
@@ -198,7 +197,7 @@ model ReceiptNote {
   tax                     Float?
   payedAmount             Float?
   restedAmount            Float?
-  modified         Boolean?
+  modified                Boolean?
   paymentType             PaymentType?
   paymentStatus           PaymentStatus?
   idProvider              Int? //fournisseur
@@ -234,14 +233,14 @@ model PurchaseDeliveryNote {
   tax                      Float?
   payedAmount              Float?
   restedAmount             Float?
-  modified         Boolean?
+  modified                 Boolean?
   paymentType              PaymentType?
   paymentStatus            PaymentStatus?
   deliveryDate             DateTime
   receiptNote              ReceiptNote?               @relation(fields: [idReceiptNote], references: [id])
   purchaseDeliveryNoteLine PurchaseDeliveryNoteLine[]
-  idProvider      Int? 
-  provider Provider? @relation(fields: [idProvider], references: [id])
+  idProvider               Int?
+  provider                 Provider?                  @relation(fields: [idProvider], references: [id])
 }
 
 //achat bon de livraison line
@@ -266,14 +265,14 @@ model PurchaseDeliveryInvoice {
   tax                         Float?
   payedAmount                 Float?
   restedAmount                Float?
-  modified         Boolean?
+  modified                    Boolean?
   paymentType                 PaymentType?
   paymentStatus               PaymentStatus?
   deliveryDate                DateTime
   receiptNote                 ReceiptNote?                  @relation(fields: [idReceiptNote], references: [id])
   purchaseDeliveryInvoiceLine PurchaseDeliveryInvoiceLine[]
-   idProvider      Int? 
-  provider Provider? @relation(fields: [idProvider], references: [id])
+  idProvider                  Int?
+  provider                    Provider?                     @relation(fields: [idProvider], references: [id])
 }
 
 model PurchaseDeliveryInvoiceLine {
@@ -297,14 +296,14 @@ model PurchaseInvoice {
   tax                 Float?
   payedAmount         Float?
   restedAmount        Float?
-  modified         Boolean?
+  modified            Boolean?
   paymentType         PaymentType?
   paymentStatus       PaymentStatus?
   idReceiptNote       Int
   ReceiptNote         ReceiptNote           @relation(fields: [idReceiptNote], references: [id])
   PurchaseInvoiceLine PurchaseInvoiceLine[]
-   idProvider      Int? 
-  provider Provider? @relation(fields: [idProvider], references: [id])
+  idProvider          Int?
+  provider            Provider?             @relation(fields: [idProvider], references: [id])
 }
 
 model PurchaseInvoiceLine {
@@ -331,14 +330,15 @@ model SalesReceipt {
   modified         Boolean?
   paymentType      PaymentType?
   paymentStatus    PaymentStatus?
-  idClient        Int?
-  client          Client?   @relation(fields: [idClient],references: [id])
-  salesChannelId  Int ?
-  salesChannel   SalesChannels?  @relation(fields: [salesChannelId],references: [id])
-  exitNoteId    Int
+  idClient         Int?
+  client           Client?            @relation(fields: [idClient], references: [id])
+  salesChannelId   Int?
+  salesChannel     SalesChannels?     @relation(fields: [salesChannelId], references: [id])
+  exitNoteId       Int
   exitNote         ExitNote           @relation(fields: [exitNoteId], references: [id])
   salesReceiptLine SalesReceiptLine[]
 }
+
 // ticket de caisse 
 model SalesReceiptLine {
   id                Int           @id @default(autoincrement())
@@ -401,7 +401,7 @@ model SalesDeliveryNote {
   tax             Float?
   payedAmount     Float?
   restedAmount    Float?
-  modified         Boolean?
+  modified        Boolean?
   paymentType     PaymentType?
   paymentStatus   PaymentStatus?
   status          Boolean        @default(false)
@@ -441,7 +441,7 @@ model SalesDeliveryInvoice {
   tax             Float?
   payedAmount     Float?
   restedAmount    Float?
-  modified         Boolean?
+  modified        Boolean?
   paymentType     PaymentType?
   paymentStatus   PaymentStatus?
   status          Boolean        @default(false)
@@ -478,7 +478,7 @@ model PurchaseOrder {
   totalAmount     Float?
   discount        Float?
   tax             Float?
-  modified         Boolean?
+  modified        Boolean?
   status          TypePurchaseOrder @default(Pending) //enum with values "Confirmed" & "Pending" & "Cancelled"
 
   client               Client?                @relation(fields: [idClient], references: [id])
@@ -534,8 +534,8 @@ model Estimate {
   tax            Float?
   date           DateTime
   client         Client?        @relation(fields: [idClient], references: [id])
-  salesChannelId  Int? 
-  salesChannel   SalesChannels?  @relation(fields: [salesChannelId],references: [id])    
+  salesChannelId Int?
+  salesChannel   SalesChannels? @relation(fields: [salesChannelId], references: [id])
   estimateLine   EstimateLine[]
 }
 
@@ -576,13 +576,13 @@ model TransferNoteLine {
 }
 
 model Stock {
-  id       Int    @id @default(autoincrement())
-  name     String
-  location String
-  capacity Int
-  idEmployee         Int   
-  archived         Boolean?         @default(false)     
-  employee           Employee    @relation(fields: [idEmployee], references: [id])
+  id               Int             @id @default(autoincrement())
+  name             String
+  location         String
+  capacity         Int
+  idEmployee       Int
+  archived         Boolean?        @default(false)
+  employee         Employee        @relation(fields: [idEmployee], references: [id])
   transferNoteFrom TransferNote[]  @relation("StockFrom")
   transferNoteTo   TransferNote[]  @relation("StockTo")
   salesChannels    SalesChannels[]
@@ -594,8 +594,7 @@ model Stock {
 
 // bon de sortie
 model ExitNote {
-  id Int @id @default(autoincrement())
-
+  id             Int            @id @default(autoincrement())
   numExitNote    Int
   exitDate       DateTime
   stockId        Int
@@ -605,12 +604,12 @@ model ExitNote {
   tax            Float?
   payedAmount    Float?
   restedAmount   Float?
-  modified         Boolean?
+  modified       Boolean?
   paymentType    PaymentType?
   paymentStatus  PaymentStatus?
-  idClient        Int?
+  idClient       Int?
 
-  client         Client?                    @relation(fields: [idClient], references: [id])
+  client               Client?                @relation(fields: [idClient], references: [id])
   stock                Stock                  @relation(fields: [stockId], references: [id])
   transferNote         TransferNote[]
   salesInvoice         SalesInvoice[]
@@ -634,17 +633,17 @@ model ExitNoteLine {
 }
 
 model Provider {
-  id                 Int           @id @default(autoincrement())
-  nameProvider       String
-  phoneNumber        String
-  email              String
-  adresse            String
-  registrationNumber String
-  receiptNote        ReceiptNote[]
-  purchaseDeliveryNote PurchaseDeliveryNote[]
+  id                      Int                       @id @default(autoincrement())
+  nameProvider            String
+  phoneNumber             String
+  email                   String
+  adresse                 String
+  registrationNumber      String
+  receiptNote             ReceiptNote[]
+  purchaseDeliveryNote    PurchaseDeliveryNote[]
   purchaseDeliveryInvoice PurchaseDeliveryInvoice[]
-  purchaseInvoice  PurchaseInvoice[]
-  }
+  purchaseInvoice         PurchaseInvoice[]
+}
 
 enum TypeReceipt {
   achat

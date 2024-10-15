@@ -28,7 +28,7 @@ export class PurchaseOrderService {
 
     if (Array.isArray(clientIds) && clientIds.length > 0) {
       where['idClient'] = {
-        in: clientIds.map((elem) => +elem), // Convertir chaque élément en nombre
+        in: clientIds.map((elem) => +elem), 
       };
     }
     if (salesChannelsIds) {
@@ -70,7 +70,23 @@ export class PurchaseOrderService {
   async findOne(id: number) {
     return await this.prisma.purchaseOrder.findUnique({
       where: { id },
-      include: { purchaseOrderLine:  true }  ,
+      include: {
+        purchaseOrderLine: {
+          include: {
+            article: {
+              include: {
+                articleByAuthor: { include: { author: true } },
+                articleByPublishingHouse: {
+                  include: { publishingHouse: true },
+                },
+                priceByChannel: { include: { salesChannel: true } },
+                cover: true,
+                stockArticle: true,
+              },
+            },
+          },
+        },
+      },
     });
   }
 
