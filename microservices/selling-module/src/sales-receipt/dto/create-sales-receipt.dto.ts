@@ -11,6 +11,8 @@ class SalesReceiptLine {
 }
 export class CreateSalesReceiptDto {
   @ApiProperty()
+  idPurchaseOrder?:number
+  @ApiProperty()
   deliveryDate: Date;
   @ApiProperty()
   totalAmount: number;
