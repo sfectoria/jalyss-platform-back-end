@@ -157,6 +157,7 @@ export class ExitNoteService {
           },
         },
         stock: true,
+        client: true,
         transferNote: { include: { stockTo: true, stockFrom: true } },
         salesDeliveryInvoice: {
           include: { client: true, salesChannels: true },

@@ -35,6 +35,8 @@ class ReceiptNoteLine {
     lines: ReceiptNoteLine[];
     @ApiProperty()
     numReceiptNote: number;
+    @ApiProperty()
+    idProvider?: number;
   }
 
 class ExitNoteLine {
@@ -55,6 +57,8 @@ export class CreateExitNoteDto {
   stockId : number
   @ApiProperty({ type: [ExitNoteLine] })
   lines: ExitNoteLine[]
+  @ApiProperty()
+  idClient?:number;
 }
 
 class TransferNoteLine {
