@@ -86,6 +86,7 @@ export class InventoryService {
                 stockArticle: true,
               },
             },
+            
           },
           take,
           skip,
@@ -110,7 +111,6 @@ export class InventoryService {
       let stockInfo = await this.prisma.inventory.findUnique({where:{id}})
       let responseStockArticle = await this.prisma.stockArticle.findMany({where:{stockId:stockInfo.stockId}})
       let articleInventory = await this.prisma.inventoryLine.findMany({where:{inventoryId:id}})
-      console.log(responseStockArticle,articleInventory,'hello');
       let updates = responseStockArticle.map((e)=>{
       let verifyArticle = articleInventory?.find(q => q.articleId === e.articleId)
       if (!verifyArticle){
@@ -120,13 +120,8 @@ export class InventoryService {
           reelQuantity:e.quantity
         })
       }
-      else {console.log('im here',verifyArticle);
-      }
-      
       })
     }
-    console.log('hh',lines);
-    
     return await prisma.inventory.update({
       where: { id },
       data: {

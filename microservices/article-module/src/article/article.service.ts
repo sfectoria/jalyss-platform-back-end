@@ -169,7 +169,8 @@ export class ArticlesService {
     if (text) {
       where['OR'] = [
         { title: { contains: text } },
-        {
+        { code: { contains: text } },
+        { 
           articleByAuthor: {
             some: {
               author: {

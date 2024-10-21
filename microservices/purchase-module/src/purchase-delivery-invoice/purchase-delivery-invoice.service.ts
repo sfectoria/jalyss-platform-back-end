@@ -27,7 +27,15 @@ export class PurchaseDeliveryInvoiceService {
               typeReceipt:"achat",
               date: createPurchaseDeliveryInvoiceDto.deliveryDate,
               receiptNoteLines: lines,
-              totalAmount:createPurchaseDeliveryInvoiceDto?.totalAmount
+              totalAmount:createPurchaseDeliveryInvoiceDto?.totalAmount,
+              paymentStatus: createPurchaseDeliveryInvoiceDto?.paymentStatus,
+              paymentType: createPurchaseDeliveryInvoiceDto?.paymentType,
+              discount: createPurchaseDeliveryInvoiceDto?.discount,
+              tax: createPurchaseDeliveryInvoiceDto?.tax,
+              modified: createPurchaseDeliveryInvoiceDto?.modified,
+              subTotalAmount: createPurchaseDeliveryInvoiceDto?.subTotalAmount,
+              payedAmount: createPurchaseDeliveryInvoiceDto?.payedAmount,
+              restedAmount: createPurchaseDeliveryInvoiceDto?.restedAmount,  
             },
           );
           idReceiptNote=newReceiptNote.id
