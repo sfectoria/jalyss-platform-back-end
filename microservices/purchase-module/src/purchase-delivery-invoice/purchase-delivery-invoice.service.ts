@@ -18,12 +18,13 @@ export class PurchaseDeliveryInvoiceService {
   ) {
     return await this.prisma.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        let {idReceiptNote,lines,idStock, ...rest } = createPurchaseDeliveryInvoiceDto;
+        let {idReceiptNote,lines,idStock,idProvider, ...rest } = createPurchaseDeliveryInvoiceDto;
         if(!idReceiptNote){
           const newReceiptNote = await this.helperReceiptNote.create(
             prisma,
             {
               idStock: idStock,
+              idProvider:idProvider,
               typeReceipt:"achat",
               date: createPurchaseDeliveryInvoiceDto.deliveryDate,
               receiptNoteLines: lines,
@@ -43,6 +44,7 @@ export class PurchaseDeliveryInvoiceService {
          return await prisma.purchaseDeliveryInvoice.create({
       data: {
         ...rest,
+        idProvider,
         deliveryDate:new Date(rest.deliveryDate).toISOString(),
         purchaseDeliveryInvoiceLine: {
           createMany: { data: lines },
@@ -50,7 +52,6 @@ export class PurchaseDeliveryInvoiceService {
         idReceiptNote
       },
     });
-        
       })
   }
 
@@ -66,7 +67,7 @@ export class PurchaseDeliveryInvoiceService {
     
     if (Array.isArray(receipNotesIds) && receipNotesIds.length > 0) {
       where['idReceiptNote'] = {
-        in: receipNotesIds.map((elem) => +elem), // Convertir chaque élément en nombre
+        in: receipNotesIds.map((elem) => +elem), 
       };
     }
 

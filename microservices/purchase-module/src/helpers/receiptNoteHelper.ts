@@ -14,6 +14,7 @@ class EntityReceiptNote {
   typeReceipt: TypeReceipt;
   numReceiptNote?: number;
   idStock: number;
+  idProvider?: number;
   receiptNoteLines: EntityReceiptNoteLine[];
   subTotalAmount?:number;
   totalAmount?: number;
@@ -35,6 +36,7 @@ export class ReceiptNoteHelper {
       receiptNoteLines,
       numReceiptNote = 0,
       idStock,
+      idProvider,
       date,
       typeReceipt,
       totalAmount,
@@ -80,6 +82,7 @@ export class ReceiptNoteHelper {
           typeReceipt,
           numReceiptNote,
           idStock: idStock,
+          idProvider,
           totalAmount,
           tax,
           discount,

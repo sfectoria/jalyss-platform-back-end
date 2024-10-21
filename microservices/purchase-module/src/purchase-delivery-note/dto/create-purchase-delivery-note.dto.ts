@@ -21,6 +21,7 @@ export class CreatePurchaseDeliveryNoteDto {
     lines: PurchaseDeliveryNoteLine[]
     @ApiProperty()
     totalAmount ?: number
+    idProvider?:number;
     paymentType?: PaymentType;
     paymentStatus?: PaymentStatus;
     discount?: number;
