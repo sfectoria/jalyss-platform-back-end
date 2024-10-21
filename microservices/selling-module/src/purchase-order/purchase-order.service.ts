@@ -46,6 +46,7 @@ export class PurchaseOrderService {
       skip,
       include: {
         client: true,
+        salesChannels:true,
         purchaseOrderLine: {
           include: {
             article: {
@@ -86,6 +87,8 @@ export class PurchaseOrderService {
             },
           },
         },
+        client:true,
+        salesChannels:true,
       },
     });
   }
