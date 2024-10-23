@@ -37,14 +37,14 @@ export class AuthController {
 
 
   @ApiSecurity('apiKey')
-  //@UseGuard(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: number, @Body() dto: UpdateAuthDto) {
     return this.authService.update(+id, dto);
   }
 
   @ApiSecurity('apiKey')
-  //@UseGuard(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.authService.remove(+id);
