@@ -25,28 +25,28 @@ export class UsersController {
     return this.usersService.register(createUserDto);
   }
   @ApiSecurity('apiKey') //logo cadna
-  @UseGuards(JwtAuthGuard)
+  //@UseGuard(JwtAuthGuard)
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
   @ApiSecurity('apiKey') //logo cadna
-  @UseGuards(JwtAuthGuard)
+  //@UseGuard(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.usersService.findOne(+id);
   }
 
   @ApiSecurity('apiKey') //logo cadna
-  @UseGuards(JwtAuthGuard)
+  //@UseGuard(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
   @ApiSecurity('apiKey') //logo cadna
-  @UseGuards(JwtAuthGuard)
+  //@UseGuard(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.usersService.remove(+id);

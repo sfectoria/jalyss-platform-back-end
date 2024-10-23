@@ -9,4 +9,6 @@ export class CreateSalesChannelDto {
   region: string;
   @ApiProperty()
   idStock: number;
+  @ApiProperty()
+  employeeId : number;
 }
