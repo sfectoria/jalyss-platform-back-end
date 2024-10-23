@@ -16,18 +16,25 @@ export class PurchaseInvoiceService {
   async create(createPurchaseInvoiceDto: CreatePurchaseInvoiceDto) {
     return await this.prisma.$transaction(
       async (prisma: Prisma.TransactionClient) => {
-        let {idReceiptNote,lines,idStock, ...rest } = createPurchaseInvoiceDto;
-
-         
+        let {idReceiptNote,lines,idStock,idProvider, ...rest } = createPurchaseInvoiceDto;
         if(!idReceiptNote){
           const newReceiptNote = await this.helperReceiptNote.create(
             prisma,
             {
               idStock: idStock,
+              idProvider:idProvider,
               typeReceipt:"achat",
               date: createPurchaseInvoiceDto.deliveryDate,
               receiptNoteLines: lines,
-              totalAmount:createPurchaseInvoiceDto?.totalAmount
+              totalAmount:createPurchaseInvoiceDto?.totalAmount,       
+              paymentStatus: createPurchaseInvoiceDto?.paymentStatus,
+              paymentType: createPurchaseInvoiceDto?.paymentType,
+              discount: createPurchaseInvoiceDto?.discount,
+              tax: createPurchaseInvoiceDto?.tax,
+              modified: createPurchaseInvoiceDto?.modified,
+              subTotalAmount: createPurchaseInvoiceDto?.subTotalAmount,
+              payedAmount: createPurchaseInvoiceDto?.payedAmount,
+              restedAmount: createPurchaseInvoiceDto?.restedAmount,  
             },
           );
           idReceiptNote=newReceiptNote.id
@@ -35,6 +42,7 @@ export class PurchaseInvoiceService {
          return await prisma.purchaseInvoice.create({
       data: {
         ...rest,
+        idProvider,
         deliveryDate:new Date(rest.deliveryDate).toISOString(),
         PurchaseInvoiceLine: {
           createMany: { data: lines },

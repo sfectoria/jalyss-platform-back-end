@@ -52,7 +52,6 @@ export class ReceiptNoteService {
       });
 
       if (stockArticle) {
-        // Si l'article existe déjà dans ce stock, on met à jour la quantité
         await this.prisma.stockArticle.update({
           where: {
             stockId_articleId: {
@@ -61,16 +60,15 @@ export class ReceiptNoteService {
             },
           },
           data: {
-            quantity: { increment: quantity }, // On ajoute la quantité à celle existante
+            quantity: { increment: quantity },
           },
         });
       } else {
-        // Si l'article n'existe pas encore dans ce stock, on crée une nouvelle entrée
         await this.prisma.stockArticle.create({
           data: {
             stockId: idStock,
             articleId: idArticle,
-            quantity, // Quantité à ajouter
+            quantity,
           },
         });
       }
@@ -99,9 +97,9 @@ export class ReceiptNoteService {
         stock: true,
         provider: true,
         transferNote: true,
-        purchaseDeliveryInvoice: true,
-        purchaseDeliveryNote: true,
-        purchaseInvoice: true,
+        purchaseDeliveryInvoice: {include:{provider:true}},
+        purchaseDeliveryNote: {include:{provider:true}},
+        purchaseInvoice: {include:{provider:true}},
       },
     });
     let count = await this.prisma.receiptNote.count({ where });

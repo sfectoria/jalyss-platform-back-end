@@ -1,5 +1,5 @@
 import { Global, Injectable } from '@nestjs/common';
-import { Prisma, TypeReceipt } from '@prisma/client';
+import { PaymentStatus, PaymentType, Prisma, TypeReceipt } from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
 
 @Global()
@@ -14,8 +14,17 @@ class EntityReceiptNote {
   typeReceipt: TypeReceipt;
   numReceiptNote?: number;
   idStock: number;
+  idProvider?: number;
   receiptNoteLines: EntityReceiptNoteLine[];
+  subTotalAmount?:number;
   totalAmount?: number;
+  tax?: number;
+  discount?: number;
+  payedAmount?:number
+  restedAmount?:number
+  modified?:boolean
+  paymentType?:PaymentType
+  paymentStatus?:PaymentStatus
 }
 
 export class ReceiptNoteHelper {
@@ -27,9 +36,19 @@ export class ReceiptNoteHelper {
       receiptNoteLines,
       numReceiptNote = 0,
       idStock,
+      idProvider,
       date,
       typeReceipt,
       totalAmount,
+      tax,
+      discount,
+      subTotalAmount,
+      paymentStatus,
+      paymentType,
+      payedAmount,
+      restedAmount,
+      modified,
+      ...rest
     } = createReceiptNote;
 
     console.log('give me an id of ', idStock);
@@ -63,7 +82,16 @@ export class ReceiptNoteHelper {
           typeReceipt,
           numReceiptNote,
           idStock: idStock,
+          idProvider,
           totalAmount,
+          tax,
+          discount,
+          subTotalAmount,
+          paymentStatus,
+          payedAmount,
+          restedAmount,
+          modified,
+          paymentType,
           receiptNoteLine: {
             createMany: { data: receiptNoteLines },
           },

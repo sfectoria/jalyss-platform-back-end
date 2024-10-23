@@ -18,7 +18,7 @@ export class ClientsService {
   }
 
   async findOne(id: number) {
-    return await this.prisma.client.findUnique({ where: { id } });
+    return await this.prisma.client.findUnique({ where: { id }, include:{categoryClient:true} });
   }
 
   async update(id: number, updateClientDto: UpdateClientDto) {

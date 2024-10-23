@@ -9,6 +9,7 @@ import {
 } from './dto/update-inventory.dto';
 import { PrismaService } from 'nestjs-prisma';
 import { InventoryFilters } from './entities/inventory.entity';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class InventoryService {
@@ -85,6 +86,7 @@ export class InventoryService {
                 stockArticle: true,
               },
             },
+            
           },
           take,
           skip,
@@ -100,24 +102,36 @@ export class InventoryService {
   }
 
   async update(id: string, updateInventoryDto: UpdateInventoryDto) {
-    let { inventoryLine, ...rest } = updateInventoryDto;
-    return await this.prisma.inventory.update({
+    return await this.prisma.$transaction(
+      async (prisma: Prisma.TransactionClient) => {
+    let { inventoryLine,status, ...rest } = updateInventoryDto;
+    let lines = []
+    if (status==='confirmed'){
+      console.log('confirmed',updateInventoryDto,status,{...rest},inventoryLine);
+      let stockInfo = await this.prisma.inventory.findUnique({where:{id}})
+      let responseStockArticle = await this.prisma.stockArticle.findMany({where:{stockId:stockInfo.stockId}})
+      let articleInventory = await this.prisma.inventoryLine.findMany({where:{inventoryId:id}})
+      let updates = responseStockArticle.map((e)=>{
+      let verifyArticle = articleInventory?.find(q => q.articleId === e.articleId)
+      if (!verifyArticle){
+        lines.push({
+          articleId:e.articleId,
+          quantity:0,
+          reelQuantity:e.quantity
+        })
+      }
+      })
+    }
+    return await prisma.inventory.update({
       where: { id },
       data: {
+        status,
         ...rest,
         inventoryLine: {
-          updateMany: inventoryLine?.map((line) => ({
-            where: {
-              articleId: line.articleId,
-              inventoryId: id,
-            },
-            data: {
-              quantity: line.quantity,
-            },
-          })),
+          createMany: {data:lines}
         },
       },
-    });
+    });})
   }
   async updateLine(id: number, updateInventoryLine: UpdateInventoryLineDto) {
     return await this.prisma.inventoryLine.update({
