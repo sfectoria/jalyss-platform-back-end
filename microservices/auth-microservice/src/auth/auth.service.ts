@@ -27,20 +27,16 @@ export class AuthService {
     }
     const { password, ...Urest } = user;
     const token = await this.jwtService.signAsync(Urest);
-    console.log("token", Urest)
-    console.log(     this.jwtService.decode(token));
+    console.log(this.jwtService.decode(token));
     return token;
   }
-  
 
   async findMe(token: string) {
-    console.log("token", token)
+    console.log('token', token);
     return await this.jwtService.decode(token);
   }
 
-
   async update(id: number, dto: UpdateAuthDto) {
-
     if (!dto) {
       throw new Error('DTO is undefined');
     }
@@ -55,40 +51,41 @@ export class AuthService {
     }
 
     return this.prisma.user.update({
-      where: { id:id },
+      where: { id: id },
       data: updateData,
     });
   }
-
 
   async remove(id: number) {
     return await this.prisma.user.delete({ where: { id } });
   }
 
   async verifyPassword(id: number, dto: UpdateAuthDto): Promise<string> {
-    console.log("hhhhhhhhhhh")
+    console.log('hhhhhhhhhhh');
     const user = await this.prisma.user.findUnique({
       where: { id },
     });
-  
+
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
-  console.log("user",user)
-  const { password, ...rest } = dto;
+    console.log('user', user);
+    const { password, ...rest } = dto;
 
-  console.log(typeof(password))
-  console.log(password)
+    console.log(typeof password);
+    console.log(password);
     if (typeof password !== 'string' || typeof user.password !== 'string') {
-      throw new HttpException('Invalid password or user data', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Invalid password or user data',
+        HttpStatus.BAD_REQUEST,
+      );
     }
-  console.log("password", password);
+    console.log('password', password);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return 'invalid password';
     }
-  
+
     return 'valid password';
   }
-  
 }
