@@ -25,23 +25,24 @@ export class AuthController {
     return this.authService.login(data);
   }
   @MessagePattern({ cmd: 'me' })
-  findMe(@Payload() user: string) {
-    return user;  // Retourner l'utilisateur tel quel ou effectuer des traitements supplémentaires
+  findMe(@Payload() user: any) {
+    const { password, ...Urest } = user;
+    return Urest; 
   }
 
   @MessagePattern({ cmd: 'update_auth' })
-  async update(@Payload() data: { id: number, dto: UpdateAuthDto }) {
+  async update(@Payload() data: { id: number; dto: UpdateAuthDto }) {
     console.log('Received data:', data);
     return await this.authService.update(data.id, data.dto);
   }
 
   @MessagePattern({ cmd: 'delete_auth' })
-  async remove(@Payload('id') id: number ) {
+  async remove(@Payload('id') id: number) {
     return await this.authService.remove(id);
   }
 
   @MessagePattern({ cmd: 'verify_password' })
-  async verifyPassword(@Payload() data: {id: number, dto: UpdateAuthDto}) {
+  async verifyPassword(@Payload() data: { id: number; dto: UpdateAuthDto }) {
     return await this.authService.verifyPassword(data.id, data.dto);
   }
 }
