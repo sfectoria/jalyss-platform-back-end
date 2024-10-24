@@ -27,14 +27,14 @@ export class PublishingHousesService {
     return publishingHouse;
   }
 
-  async update(id: number, updatePublishingHouseDto: UpdatePublishingHouseDto) {
+  async update(id: number, updatePublishingHouses: UpdatePublishingHouseDto) {
     const publishingHouse = await this.prisma.publishingHouse.findUnique({ where: { id } });
     if (!publishingHouse) {
       throw new NotFoundException(`Publishing house with ID ${id} not found`);
     }
     return await this.prisma.publishingHouse.update({
       where: { id },
-      data: updatePublishingHouseDto,
+      data: updatePublishingHouses,
     });
   }
 
