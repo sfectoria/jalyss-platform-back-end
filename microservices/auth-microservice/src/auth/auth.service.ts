@@ -62,7 +62,7 @@ export class AuthService {
   }
 
   async verifyPassword(id: number, dto: UpdateAuthDto): Promise<string> {
-    console.log("hhhhhhhhhhh")
+
     const user = await this.prisma.user.findUnique({
       where: { id },
     });

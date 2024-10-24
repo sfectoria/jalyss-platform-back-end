@@ -49,7 +49,7 @@ export class InventoryService {
         date: 'desc',
       },
       where,
-      include: { inventoryLine: true, createur: true, stock: true },
+      include: { inventoryLine: true, createur: {include:{Employee:true}}, stock: true },
       take,
       skip,
     });
