@@ -62,13 +62,14 @@ export class AuthService {
   }
 
   async verifyPassword(id: number, dto: UpdateAuthDto): Promise<string> {
-    console.log("hhhhhhhhhhh")
+
     const user = await this.prisma.user.findUnique({
       where: { id },
     });
   
     if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      return "user not found"
+      // throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
   console.log("user",user)
   const { password, ...rest } = dto;
@@ -76,7 +77,8 @@ export class AuthService {
   console.log(typeof(password))
   console.log(password)
     if (typeof password !== 'string' || typeof user.password !== 'string') {
-      throw new HttpException('Invalid password or user data', HttpStatus.BAD_REQUEST);
+      return "Invalid password or user data"
+      // throw new HttpException('Invalid password or user data', HttpStatus.BAD_REQUEST);
     }
   console.log("password", password);
     const isMatch = await bcrypt.compare(password, user.password);

@@ -10,6 +10,8 @@ export class CreateSellingDto {
   region: string;
   @ApiProperty()
   idStock: number;
+  @ApiProperty()
+  employeeId : number;
 }
 
 class PurchaseOrderLine {
