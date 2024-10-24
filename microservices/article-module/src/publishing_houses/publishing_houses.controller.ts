@@ -27,8 +27,8 @@ export class PublishingHousesController {
   }
 
   @MessagePattern({ cmd: 'update_publishingHouse' })
-  async update(@Payload() data: { id: number, updatePublishingHouseDto: UpdatePublishingHouseDto }) {
-    return this.publishingHousesService.update(data.id, data.updatePublishingHouseDto);
+  async update(@Payload() data: { id: number, updatePublishingHouses: UpdatePublishingHouseDto }) {
+    return this.publishingHousesService.update(data.id, data.updatePublishingHouses);
   }
 
   @MessagePattern({ cmd: 'delete_publishingHouse' })
