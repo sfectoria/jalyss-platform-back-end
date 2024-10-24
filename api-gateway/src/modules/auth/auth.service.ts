@@ -15,6 +15,7 @@ export class AuthService {
   }
 
   findMe(token: any) {
+    console.log("getMe", token);
     return this.authClient.send({ cmd: 'me' }, token);
   }
 

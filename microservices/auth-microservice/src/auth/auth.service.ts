@@ -27,10 +27,14 @@ export class AuthService {
     }
     const { password, ...Urest } = user;
     const token = await this.jwtService.signAsync(Urest);
+    console.log("token", Urest)
+    console.log(     this.jwtService.decode(token));
     return token;
   }
+  
 
   async findMe(token: string) {
+    console.log("token", token)
     return await this.jwtService.decode(token);
   }
 
