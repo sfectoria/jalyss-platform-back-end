@@ -67,7 +67,8 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      return "user not found"
+      // throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
     console.log('user', user);
     const { password, ...rest } = dto;

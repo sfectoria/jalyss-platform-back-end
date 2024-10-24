@@ -8,26 +8,30 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  password String
-  media    Media?  @relation(fields: [mediaId], references: [id])
-  mediaId  String?
-  userName String
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  password   String
+  media      Media?      @relation(fields: [mediaId], references: [id])
+  mediaId    String?
+  userName   String
+  Employee   Employee?   @relation(fields: [employeeId], references: [id])
+  employeeId Int?
+  inventory  Inventory[]
 }
 
 model Employee {
-  id          Int         @id @default(autoincrement())
-  firstName   String
-  lastName    String
-  email       String
-  phoneNumber String
-  address     String
-  position    String
-  media       Media?      @relation(fields: [mediaId], references: [id])
-  mediaId     String?
-  inventory   Inventory[]
-  stocks      Stock[]
+  id            Int             @id @default(autoincrement())
+  firstName     String
+  lastName      String
+  email         String
+  phoneNumber   String
+  address       String
+  position      String
+  media         Media?          @relation(fields: [mediaId], references: [id])
+  mediaId       String?
+  stocks        Stock[]
+  SalesChannels SalesChannels[]
+  user          User[]
 }
 
 model Client {
@@ -157,13 +161,14 @@ model ArticleByCategory {
 
 //canaux de vente
 model SalesChannels {
-  id      Int    @id @default(autoincrement())
-  name    String
-  type    String
-  region  String
-  idStock Int
-
+  id                   Int                    @id @default(autoincrement())
+  name                 String
+  type                 String
+  region               String
+  idStock              Int
   stock                Stock                  @relation(fields: [idStock], references: [id])
+  Employee             Employee?              @relation(fields: [employeeId], references: [id])
+  employeeId           Int?
   purchaseOrder        PurchaseOrder[] // bon de commande
   salesReceipt         SalesReceipt[]
   salesInvoice         SalesInvoice[] // vente facture 
@@ -331,7 +336,7 @@ model SalesReceipt {
   paymentType      PaymentType?
   paymentStatus    PaymentStatus?
   idPurchaseOrder  Int?
-  purchaseOrder    PurchaseOrder?  @relation(fields: [idPurchaseOrder],references: [id])
+  purchaseOrder    PurchaseOrder?     @relation(fields: [idPurchaseOrder], references: [id])
   idClient         Int?
   client           Client?            @relation(fields: [idClient], references: [id])
   salesChannelId   Int?
@@ -435,7 +440,7 @@ model SalesDeliveryInvoice {
   clientId        Int
   exitNoteId      Int
   deliveryDate    DateTime
-  idPurchaseOrder  Int? //bon de commande 
+  idPurchaseOrder Int? //bon de commande 
   salesChannelsId Int
   subTotalAmount  Float?
   totalAmount     Float?
@@ -696,10 +701,12 @@ model Inventory {
   id            String          @id @default(uuid())
   name          String
   date          DateTime
+  // createurId    Int?
   createurId    Int?
   stockId       Int?
   status        StatusInventory
-  createur      Employee?       @relation(fields: [createurId], references: [id])
+  // createur      Employee?       @relation(fields: [createurId], references: [id])
+  createur      User?           @relation(fields: [createurId], references: [id])
   stock         Stock?          @relation(fields: [stockId], references: [id])
   inventoryLine InventoryLine[]
 }

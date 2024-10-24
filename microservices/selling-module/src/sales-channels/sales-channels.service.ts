@@ -15,15 +15,24 @@ export class SalesChannelsService {
 
   async findAll(filters?: FiltersChannels) {
     let where = {};
-    return await this.prisma.salesChannels.findMany({where});
+    return await this.prisma.salesChannels.findMany({
+      where,
+      include: { Employee: true },
+      orderBy: {
+        id: 'desc',
+      },
+    });
   }
 
   async findOne(id: number) {
-    return await this.prisma.salesChannels.findUnique({ where: { id },include:{stock:true} });
+    return await this.prisma.salesChannels.findUnique({
+      where: { id },
+      include: { stock: true },
+    });
   }
 
   async update(id: number, updateSalesChannelDto: UpdateSalesChannelDto) {
-    console.log(updateSalesChannelDto)
+    console.log(updateSalesChannelDto);
     return await this.prisma.salesChannels.update({
       where: { id },
       data: updateSalesChannelDto,
