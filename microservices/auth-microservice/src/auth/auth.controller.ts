@@ -26,7 +26,7 @@ export class AuthController {
   }
   @MessagePattern({ cmd: 'me' })
   findMe(@Payload() user: string) {
-    return user;  // Retourner l'utilisateur tel quel ou effectuer des traitements supplémentaires
+    return user; 
   }
 
   @MessagePattern({ cmd: 'update_auth' })

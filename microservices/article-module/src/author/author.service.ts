@@ -14,11 +14,11 @@ export class AuthorService {
   }
 
   async findAll() {
-    return await this.prisma.author.findMany();
+    return await this.prisma.author.findMany({include:{Media:true}});
   }
 
   async findOne(id: string) {
-    const author = await this.prisma.author.findUnique({ where: { id } });
+    const author = await this.prisma.author.findUnique({ where: { id },include:{Media:true} });
     if (!author) {
       throw new NotFoundException(`Publishing house with ID ${id} not found`);
     }
