@@ -9,4 +9,7 @@ export class CreateAuthorDto {
   biographyAr?: string;
   @ApiProperty()
   biographyEn?: string;
+  @ApiProperty()
+  mediaId:string
+
 }

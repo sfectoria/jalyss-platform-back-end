@@ -7,8 +7,19 @@
   "private": true,
   "workspaces": [
     "api-gateway",
-    "microservices/*"
- 
+    "microservices/*",
+    "microservice/auth-microservice",
+    "microservice/client-microservice",
+    "microservice/users-module",
+    "microservice/stocks-module",
+    "microservice/server-upload",
+    "microservice/selling-module",
+    "microservice/purchase-module",
+    "microservice/provider-module",
+    "microservice/invontory-service",
+    "microservice/estimate-service",
+    "microservice/employee-service",
+    "microservice/article-microservice"
   ],
   "scripts": {
     "start": "turbo run start --parallel",
