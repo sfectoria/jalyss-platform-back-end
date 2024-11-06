@@ -25,6 +25,7 @@ export class SalesDeliveryInvoiceService {
         const newExitNote = await this.helperExitNote.create(prisma, {
           saleChannelId: createSalesDeliveryInvoiceDto.salesChannelsId,
           exitNoteLines: salesDeliveryInvoicelines,
+          idClient:createSalesDeliveryInvoiceDto.idClient,
           date: createSalesDeliveryInvoiceDto.deliveryDate,
           totalAmount: createSalesDeliveryInvoiceDto?.totalAmount,
             paymentStatus: createSalesDeliveryInvoiceDto?.paymentStatus,
@@ -66,7 +67,7 @@ export class SalesDeliveryInvoiceService {
 
     if (Array.isArray(clientIds) && clientIds.length > 0) {
       console.log('clientIds', clientIds);
-      where['clientId'] = {
+      where['idClient'] = {
         in: clientIds.map((elem) => +elem), // Convertir chaque élément en nombre
       };
     }
