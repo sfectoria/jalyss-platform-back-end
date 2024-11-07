@@ -11,7 +11,12 @@ async function bootstrap() {
       port: 3004,
     },
   });
-  await app.startAllMicroservices();
+  try {
+    await app.startAllMicroservices();
+    console.log('auth Microservice started successfully on port 3004');
+  } catch (error) {
+    console.error('Error starting auth Microservice:', error);
+  }
   // await app.listen(3004);
 }
 bootstrap();

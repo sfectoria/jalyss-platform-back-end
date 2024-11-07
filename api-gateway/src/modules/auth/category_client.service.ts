@@ -5,11 +5,12 @@ import { ClientProxyFactory, Transport, ClientProxy } from '@nestjs/microservice
 import { CreateCategoryClientDto } from './dto/create-client.dto';
 import { UpdateCategoryClientDto } from './dto/update-client.dto';
 
+
 @Injectable()
 export class CategoryClientsService {
 
   constructor(
-    @Inject('CLIENT_MICROSERVICE') private readonly clientClient: ClientProxy,
+    @Inject('AUTH_MICROSERVICE') private readonly clientClient: ClientProxy,
   ) {}
   async create(createCategoryClientDto: CreateCategoryClientDto) {
     return this.clientClient.send

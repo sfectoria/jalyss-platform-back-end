@@ -6,7 +6,7 @@ import { ClientProxy } from '@nestjs/microservices';
 @Injectable()
 export class ProviderService {
   constructor(
-    @Inject('PROVIDER_MICROSERVICE') private readonly providerClient: ClientProxy,
+    @Inject('ARTICLE_MICROSERVICE') private readonly providerClient: ClientProxy,
   ) {}
 
   create(createProviderDto: CreateProviderDto) {
