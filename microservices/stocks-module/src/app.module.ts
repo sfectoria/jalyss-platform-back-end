@@ -9,6 +9,7 @@ import { ExitNoteModule } from './modules/exit-note/exit-note.module';
 import { TransferNoteModule } from './modules/transfer-note/transfer-note.module';
 import { ReturnNoteModule } from './modules/return-note/return-note.module';
 import { MovementsModule } from './modules/movements/movements.module';
+import { InventoryModule } from './modules/inventory/inventory.module';
 
 @Module({
   imports: [
@@ -16,7 +17,15 @@ import { MovementsModule } from './modules/movements/movements.module';
       isGlobal: true,
       envFilePath: '../../.env',
     }),
-    PrismaModule.forRoot({ isGlobal: true }),StocksModule, ReceiptNoteModule, ExitNoteModule, TransferNoteModule, ReturnNoteModule,MovementsModule],
+    PrismaModule.forRoot({ isGlobal: true }),
+    StocksModule,
+    ReceiptNoteModule,
+    ExitNoteModule,
+    TransferNoteModule,
+    ReturnNoteModule,
+    MovementsModule,
+    InventoryModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

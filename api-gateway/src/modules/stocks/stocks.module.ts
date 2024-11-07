@@ -11,10 +11,12 @@ import { ReturnNoteController } from './return-note.controller';
 import { ReturnNoteService } from './return-note.service';
 import { MovementsController } from './movements.controller';
 import { MovementsService } from './movements.service';
+import { InventoryService } from './inventory.service';
+import { InventoryController } from './inventory.controller';
 
 
 @Module({
-  controllers: [StocksController,ReceiptNoteController,ExitNoteController, TransferNoteController, ReturnNoteController,MovementsController],
-  providers: [StocksService,ReceiptNoteService,ExitNoteService, TransferNoteService, ReturnNoteService,MovementsService]
+  controllers: [StocksController,ReceiptNoteController,ExitNoteController, TransferNoteController, ReturnNoteController,MovementsController,InventoryController],
+  providers: [StocksService,ReceiptNoteService,ExitNoteService, TransferNoteService, ReturnNoteService,MovementsService,InventoryService]
 })
 export class StocksModule {}

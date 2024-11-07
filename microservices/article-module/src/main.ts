@@ -10,7 +10,12 @@ async function bootstrap() {
       port: 3006,
     },
   });
-  await app.startAllMicroservices();
+  try {
+    await app.startAllMicroservices();
+    console.log('Article Microservice started successfully on port 3006');
+  } catch (error) {
+    console.error('Error starting Article Microservice:', error);
+  }
   // await app.listen(3006);
 }
 bootstrap();

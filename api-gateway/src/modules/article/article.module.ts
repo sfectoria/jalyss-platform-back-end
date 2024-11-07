@@ -7,9 +7,11 @@ import { CategoryArticleController } from './category-article.controller';
 import { CategoryArticlesService } from './category-article.service';
 import { AuthorService } from './author.service';
 import { AuthorController } from './author.controller';
+import { ProviderService } from './provider.service';
+import { ProviderController } from './provider.controller';
 
 @Module({
-  controllers: [ArticlesController, PublishingHousesController, CategoryArticleController,AuthorController],
-  providers: [ArticlesService, PublishingHousesService, CategoryArticlesService,AuthorService],
+  controllers: [ArticlesController, PublishingHousesController, CategoryArticleController,AuthorController,ProviderController],
+  providers: [ArticlesService, PublishingHousesService, CategoryArticlesService,AuthorService,ProviderService],
 })
 export class ArticlesModule {}
