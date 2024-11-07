@@ -10,6 +10,11 @@ async function bootstrap() {
       port: 3005,
     },
   });
-  await app.startAllMicroservices();
+  try {
+    await app.startAllMicroservices();
+    console.log('Purchase Microservice started successfully on port 3005');
+  } catch (error) {
+    console.error('Error starting Purchase Microservice:', error);
+  }
 }
 bootstrap();
