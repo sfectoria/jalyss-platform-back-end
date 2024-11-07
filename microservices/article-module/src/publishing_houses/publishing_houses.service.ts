@@ -2,8 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { CreatePublishingHouseDto } from './dto/create-publishing_house.dto';
 import { UpdatePublishingHouseDto } from './dto/update-publishing_house.dto';
-// import { CreatePublishingHouseDto } from './dto/create-publishing-house.dto';
-// import { UpdatePublishingHouseDto } from './dto/update-publishing-house.dto';
+
 
 @Injectable()
 export class PublishingHousesService {
