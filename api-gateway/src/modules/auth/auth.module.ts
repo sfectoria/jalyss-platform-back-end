@@ -7,6 +7,12 @@ import { JwtStrategy } from './jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { UsersModule } from '../users/users.module';
+import { EmployeesController } from './employees.controller';
+import { EmployeesService } from './employees.service';
+import { ClientsController } from './clients.controller';
+import { CategoryClientsController } from './category_client.controller';
+import { ClientsService } from './clients.service';
+import { CategoryClientsService } from './category_client.service';
 
 @Module({
   imports: [
@@ -18,7 +24,7 @@ import { UsersModule } from '../users/users.module';
     }),
     UsersModule,
   ],
-  controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, UsersService],
+  controllers: [AuthController,EmployeesController,ClientsController,CategoryClientsController],
+  providers: [AuthService, JwtStrategy, UsersService,EmployeesService,ClientsService,CategoryClientsService],
 })
 export class AuthModule {}

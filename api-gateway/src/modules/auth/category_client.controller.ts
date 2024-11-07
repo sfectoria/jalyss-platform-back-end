@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { CategoryClientsService } from './category_client.service';
+
+import { ApiTags } from '@nestjs/swagger';
 import { CreateCategoryClientDto } from './dto/create-client.dto';
 import { UpdateCategoryClientDto } from './dto/update-client.dto';
-import { ApiTags } from '@nestjs/swagger';
 
 @Controller('categoryClients')
 @ApiTags('categoryClients')

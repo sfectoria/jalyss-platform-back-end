@@ -7,7 +7,7 @@ import { InventoryFilters } from './entities/inventory.entity';
 @Injectable()
 export class InventoryService {
   constructor(
-    @Inject('INVENTORY_MICROSERVICE') private readonly inventoryClient: ClientProxy
+    @Inject('STOCKS_MICROSERVICE') private readonly inventoryClient: ClientProxy
   ) {}
   create(createInventoryDto: CreateInventoryDto) {
     return this.inventoryClient.send(

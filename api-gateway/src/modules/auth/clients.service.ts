@@ -1,12 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
+
+import { ClientProxy } from '@nestjs/microservices';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
-import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class ClientsService {
   constructor(
-    @Inject('CLIENT_MICROSERVICE') private readonly clientClient: ClientProxy,
+    @Inject('AUTH_MICROSERVICE') private readonly clientClient: ClientProxy,
   ) {}
 
   create(createClientDto: CreateClientDto) {
