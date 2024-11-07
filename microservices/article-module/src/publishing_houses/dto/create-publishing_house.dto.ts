@@ -17,4 +17,6 @@ export class CreatePublishingHouseDto {
   @ApiProperty()
   @IsString()
   email: string;
+  @ApiProperty()
+  logoId: string;
 }

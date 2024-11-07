@@ -87,6 +87,7 @@ export class CreatePublishingHouseDto {
   @ApiProperty()
   @IsString()
   email: string;
+
 }
 export class CreateCategoryArticleDto {
   @ApiProperty()
