@@ -8,22 +8,22 @@ import { EstimateFilters } from './entities/estimate.entity';
 export class EstimateService {
   constructor(private readonly prisma: PrismaService) {}
   async create(createEstimateDto: CreateEstimateDto) {
-    let {estimateLine,...rest}=createEstimateDto
+    let { estimateLine, ...rest } = createEstimateDto;
     return await this.prisma.estimate.create({
       data: {
-          ...rest,
-          estimateLine: {
-            createMany: { data: estimateLine },
-          }
-      }
-  })
+        ...rest,
+        estimateLine: {
+          createMany: { data: estimateLine },
+        },
+      },
+    });
   }
 
-  async findAll(filters?:EstimateFilters) {
-    let {take,skip,clientsIds,salesChannelsIds}=filters
+  async findAll(filters?: EstimateFilters) {
+    let { take, skip, clientsIds, salesChannelsIds } = filters;
     take = !take ? 10 : +take;
     skip = !skip ? 0 : +skip;
-    let where = {}
+    let where = {};
     if (clientsIds) {
       where['idClient'] = { in: clientsIds.map((e) => +e) };
     }
@@ -31,13 +31,36 @@ export class EstimateService {
       where['salesChannelId'] = { in: salesChannelsIds.map((e) => +e) };
     }
 
-    let data= await this.prisma.estimate.findMany({where,take,skip,orderBy:{date:'desc'}})
-    let count = await this.prisma.estimate.count({where})
-    return {data,count}
+    let data = await this.prisma.estimate.findMany({
+      where,
+      take,
+      skip,
+      orderBy: { date: 'desc' },
+    });
+    let count = await this.prisma.estimate.count({ where });
+    return { data, count };
   }
 
   async findOne(id: number) {
-    return await this.prisma.estimate.findUnique({where:{id}});
+    return await this.prisma.estimate.findUnique({
+      where: { id },
+      include: {
+        client: true,
+        salesChannel: true,
+        estimateLine: {
+          include: {
+            Article: {
+              include: {
+                articleByAuthor: { include: { author: true } },
+                articleByPublishingHouse: {
+                  include: { publishingHouse: true },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
   }
 
   async update(id: number, updateEstimateDto: UpdateEstimateDto) {

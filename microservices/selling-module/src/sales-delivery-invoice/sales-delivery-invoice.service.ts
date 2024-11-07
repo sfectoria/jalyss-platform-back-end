@@ -18,13 +18,12 @@ export class SalesDeliveryInvoiceService {
       console.log('DEL', createSalesDeliveryInvoiceDto.deliveryDate);
 
       if (!exitNoteId) {
-        // kif nji nasna3 bon de sorti lazemni naaref stockId 3lech
-        // 3la khater kif nasnaa bon sorti lazem aandha num te3ha
-        //eli houwa last +1 fi stock heka mouch fil kol
-
+        console.log(createSalesDeliveryInvoiceDto.idClient,"ttttt");
+        
         const newExitNote = await this.helperExitNote.create(prisma, {
           saleChannelId: createSalesDeliveryInvoiceDto.salesChannelsId,
           exitNoteLines: salesDeliveryInvoicelines,
+          idClient:createSalesDeliveryInvoiceDto.idClient,
           date: createSalesDeliveryInvoiceDto.deliveryDate,
           totalAmount: createSalesDeliveryInvoiceDto?.totalAmount,
             paymentStatus: createSalesDeliveryInvoiceDto?.paymentStatus,
@@ -36,8 +35,6 @@ export class SalesDeliveryInvoiceService {
             payedAmount: createSalesDeliveryInvoiceDto?.payedAmount,
             restedAmount: createSalesDeliveryInvoiceDto?.restedAmount,
         });
-        console.log(newExitNote, 'test');
-
         return await prisma.salesDeliveryInvoice.create({
           data: {
             ...rest,
@@ -66,7 +63,7 @@ export class SalesDeliveryInvoiceService {
 
     if (Array.isArray(clientIds) && clientIds.length > 0) {
       console.log('clientIds', clientIds);
-      where['clientId'] = {
+      where['idClient'] = {
         in: clientIds.map((elem) => +elem), // Convertir chaque élément en nombre
       };
     }

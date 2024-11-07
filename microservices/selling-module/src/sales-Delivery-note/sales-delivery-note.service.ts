@@ -19,6 +19,7 @@ export class SalesDeliveryNoteService {
       if (!exitNoteId) {
         const newExitNote = await this.helperExitNote.create(prisma, {
           saleChannelId: createSalesDeliveryNoteDto.saleChannelId,
+          idClient:createSalesDeliveryNoteDto.idClient,
           exitNoteLines: createSalesDeliveryNoteDto.salesDeliveryNoteLine,
           date: createSalesDeliveryNoteDto.deliveryDate,
           totalAmount: createSalesDeliveryNoteDto?.totalAmount,
