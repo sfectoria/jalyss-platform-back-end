@@ -33,6 +33,7 @@ export class SalesInvoicesService {
             {
               saleChannelId: createSalesInvoiceDto.saleChannelId,
               date: createSalesInvoiceDto.date,
+              idClient:createSalesInvoiceDto.idClient,
               exitNoteLines: salesInvoiceLine,
               totalAmount: createSalesInvoiceDto?.totalAmount,
               paymentStatus: createSalesInvoiceDto?.paymentStatus,

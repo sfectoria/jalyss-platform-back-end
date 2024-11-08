@@ -12,6 +12,7 @@ class EntityExiteNoteLine {
 
 class EntityExiteNote {
   date: string;
+  idClient?: number
   numExitNote?: number;
   saleChannelId: number;
   exitNoteLines: EntityExiteNoteLine[];
@@ -36,6 +37,7 @@ export class ExitNote {
     let {
       exitNoteLines,
       numExitNote = 0,
+      idClient,
       saleChannelId,
       date,
       totalAmount,
@@ -81,10 +83,13 @@ export class ExitNote {
       if (isNaN(parsedDate.getTime())) {
         throw new Error(`Le format de date fourni (${date}) est invalide.`);
       }
+      console.log('hello from here',idClient);
+      
       const exitNote = await prisma.exitNote.create({
         data: {
           exitDate: new Date(date).toISOString(),
           numExitNote,
+          idClient:idClient || null,
           stockId: stock[0].id,
           totalAmount,
           tax,
@@ -113,9 +118,7 @@ export class ExitNote {
         });
 
         if (stockArticle) {
-          // Vérification si la quantité est suffisante
           if (stockArticle.quantity >= line.quantity) {
-            // Mise à jour de la quantité dans le stock
             await prisma.stockArticle.update({
               where: {
                 id: stockArticle.id,

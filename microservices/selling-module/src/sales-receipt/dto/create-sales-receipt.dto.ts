@@ -17,7 +17,7 @@ export class CreateSalesReceiptDto {
   @ApiProperty()
   totalAmount: number;
   @ApiProperty()
-  idClient: number;
+  idClient?: number;
   @ApiProperty()
   salesChannelId: number;
   @ApiProperty()
