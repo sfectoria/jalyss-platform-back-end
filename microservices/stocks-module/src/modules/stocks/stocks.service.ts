@@ -35,12 +35,16 @@ export class StocksService {
   }
 
   async findOne(id: number, filters?: FiltersStock) {
-    let { take, skip, text } = filters;
+    let { take, skip, text,notNullQuan } = filters;
     console.log(take, skip);
     take = !take ? 10 : +take;
     skip = !skip ? 0 : +skip;
     let whereArticles = {};
-    let whereCount = { stockId: id };
+    let whereCount = { stockId: id  };
+    if(notNullQuan) {
+      whereArticles['NOT']={quantity:0}
+      whereCount['NOT']={quantity:0}
+    }
     if (text) {
       const articlesWithTitleHello = await this.prisma.article.findMany({
         where: {

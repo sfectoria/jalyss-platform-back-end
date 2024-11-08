@@ -89,7 +89,7 @@ export class ExitNote {
         data: {
           exitDate: new Date(date).toISOString(),
           numExitNote,
-          idClient,
+          idClient:idClient || null,
           stockId: stock[0].id,
           totalAmount,
           tax,
