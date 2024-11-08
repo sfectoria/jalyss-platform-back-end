@@ -15,11 +15,11 @@ export class PublishingHousesService {
   }
 
   async findAll() {
-    return await this.prisma.publishingHouse.findMany();
+    return await this.prisma.publishingHouse.findMany({include:{logo:true}});
   }
 
   async findOne(id: number) {
-    const publishingHouse = await this.prisma.publishingHouse.findUnique({ where: { id } });
+    const publishingHouse = await this.prisma.publishingHouse.findUnique({ where: { id },include:{logo:true} });
     if (!publishingHouse) {
       throw new NotFoundException(`Publishing house with ID ${id} not found`);
     }
