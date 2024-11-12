@@ -1,21 +1,16 @@
-import { ApiProduces, ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+
 
 export class CreatePublishingHouseDto {
   @ApiProperty()
-  @IsString()
   nameAr: string;
   @ApiProperty()
-  @IsString()
   nameEn: string;
   @ApiProperty()
-  @IsString()
   address: string;
   @ApiProperty()
-  @IsString()
-  phone_number: string;
+  phone_number: number;
   @ApiProperty()
-  @IsString()
   email: string;
   @ApiProperty()
   logoId: string;

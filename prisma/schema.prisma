@@ -32,6 +32,7 @@ model Employee {
   stocks        Stock[]
   SalesChannels SalesChannels[]
   user          User[]
+  archived      Boolean?        @default(false)
 }
 
 model Client {
@@ -53,6 +54,7 @@ model Client {
   media                Media?                 @relation(fields: [mediaId], references: [id])
   mediaId              String?
   exitNotes            ExitNote[] //
+  archived             Boolean?               @default(false)
 }
 
 model CategoryClient {
@@ -101,18 +103,23 @@ model Article {
   stockArticle             StockArticle[] // Relation avec le modèle
 
   inventoryLine InventoryLine[] // relation 1 to many between Invontory Line and Article
+
+  archived Boolean? @default(false)
 }
 
 model PublishingHouse {
   id                       Int                        @id @default(autoincrement())
-  nameAr                   String
-  nameEn                   String?
+  nameAr                   String?
+  nameEn                   String
   address                  String?
+  phone_number             Int?
+  email                    String?
   logoId                   String?
   logo                     Media?                     @relation(fields: [logoId], references: [id])
   createdAt                DateTime                   @default(now())
   updatedAt                DateTime?                  @updatedAt
   articleByPublishingHouse ArticleByPublishingHouse[]
+  archived                 Boolean?                   @default(false)
 }
 
 model ArticleByPublishingHouse {
@@ -133,6 +140,7 @@ model Author {
   mediaId         String?
   ArticleByAuthor ArticleByAuthor[]
   Media           Media?            @relation(fields: [mediaId], references: [id])
+  archived        Boolean?          @default(false)
 }
 
 model ArticleByAuthor {
@@ -176,6 +184,7 @@ model SalesChannels {
   salesDeliveryNote    SalesDeliveryNote[] // vente bon de livraison 
   priceByChannel       PriceByChannel[] // Relation avec le modèle PriceByChannel (lahne el relation m3a les articles)
   estimate             Estimate[]
+  archived             Boolean?               @default(false)
 }
 
 model PriceByChannel {
@@ -437,7 +446,7 @@ model SalesDeliveryNoteLine {
 //vente bon de livraison facture
 model SalesDeliveryInvoice {
   id              Int            @id @default(autoincrement())
-  clientId        Int
+  idClient        Int
   exitNoteId      Int
   deliveryDate    DateTime
   idPurchaseOrder Int? //bon de commande 
@@ -453,7 +462,7 @@ model SalesDeliveryInvoice {
   paymentStatus   PaymentStatus?
   status          Boolean        @default(false)
 
-  client                   Client                     @relation(fields: [clientId], references: [id])
+  client                   Client                     @relation(fields: [idClient], references: [id])
   exitNote                 ExitNote?                  @relation(fields: [exitNoteId], references: [id])
   purchaseOrder            PurchaseOrder?             @relation(fields: [idPurchaseOrder], references: [id])
   salesChannels            SalesChannels?             @relation(fields: [salesChannelsId], references: [id])
@@ -651,6 +660,9 @@ model Provider {
   purchaseDeliveryNote    PurchaseDeliveryNote[]
   purchaseDeliveryInvoice PurchaseDeliveryInvoice[]
   purchaseInvoice         PurchaseInvoice[]
+  archived                Boolean?                  @default(false)
+  Media                   Media?                    @relation(fields: [mediaId], references: [id])
+  mediaId                 String?
 }
 
 enum TypeReceipt {
@@ -679,6 +691,7 @@ model Media {
   publishingHouse PublishingHouse[]
   client          Client[]
   author          Author[]
+  provider        Provider[]
 }
 
 model StockArticle {
@@ -709,6 +722,7 @@ model Inventory {
   createur      User?           @relation(fields: [createurId], references: [id])
   stock         Stock?          @relation(fields: [stockId], references: [id])
   inventoryLine InventoryLine[]
+  archived      Boolean?        @default(false)
 }
 
 model InventoryLine {

@@ -73,19 +73,14 @@ export class CreateArticleDto {
 
 export class CreatePublishingHouseDto {
   @ApiProperty()
-  @IsString()
   nameAr: string;
   @ApiProperty()
-  @IsString()
   nameEn: string;
   @ApiProperty()
-  @IsString()
   address: string;
   @ApiProperty()
-  @IsString()
-  phone_number: string;
+  phone_number: number;
   @ApiProperty()
-  @IsString()
   email: string;
 
 }

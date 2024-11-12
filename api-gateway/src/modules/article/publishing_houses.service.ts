@@ -11,7 +11,7 @@ export class PublishingHousesService {
   create(createPublishingHouseDto: CreatePublishingHouseDto) {
     return this.publishingHouseClient.send(
       { cmd: 'create_publishingHouse' }, 
-      CreatePublishingHouseDto);
+      createPublishingHouseDto);
   }
 
   findAll() {

@@ -97,7 +97,7 @@ export class CreateSalesDeliveryInvoiceDto {
   @ApiProperty()
   exitNoteId: number;
   @ApiProperty()
-  clientId: number;
+  idClient: number;
   @ApiProperty()
   salesChannelsId: number;
   @ApiProperty()
