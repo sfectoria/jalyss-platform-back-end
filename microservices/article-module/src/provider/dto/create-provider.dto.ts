@@ -1,4 +1,11 @@
-import { IsString, IsOptional, IsEmail, IsDate, IsInt, IsNumber } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsEmail,
+  IsDate,
+  IsInt,
+  IsNumber,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 class CreateReceiptNoteDto {
@@ -41,6 +48,8 @@ export class CreateProviderDto {
   @ApiProperty()
   @IsString()
   registrationNumber: string;
+  @ApiProperty()
+  mediaId :string;
 
   @ApiPropertyOptional({ type: [CreateReceiptNoteDto] })
   receiptNotes: CreateReceiptNoteDto[];
