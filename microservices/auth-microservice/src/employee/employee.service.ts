@@ -14,11 +14,11 @@ export class EmployeeService {
   }
 
   async findAll() {
-    return await this.prisma.employee.findMany();
+    return await this.prisma.employee.findMany({include:{media:true}});
   }
 
   async findOne(id: number) {
-    return await this.prisma.employee.findUnique({ where: { id } });
+    return await this.prisma.employee.findUnique({ where: { id },include:{media:true} });
   }
 
   async update(id: number,updateEmployeeDto:UpdateEmployeeDto) {
