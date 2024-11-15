@@ -14,11 +14,11 @@ export class ClientsService {
   }
 
   async findAll() {
-    return await this.prisma.client.findMany();
+    return await this.prisma.client.findMany({include:{media:true}});
   }
 
   async findOne(id: number) {
-    return await this.prisma.client.findUnique({ where: { id }, include:{categoryClient:true} });
+    return await this.prisma.client.findUnique({ where: { id }, include:{categoryClient:true,media:true} });
   }
 
   async update(id: number, updateClientDto: UpdateClientDto) {
