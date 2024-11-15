@@ -14,11 +14,11 @@ export class ProviderService {
   }
 
   async findAll() {
-    return await this.prisma.provider.findMany();
+    return await this.prisma.provider.findMany({include:{Media:true}});
   }
 
   async findOne(id: number) {
-    return await this.prisma.provider.findUnique({ where: { id } });
+    return await this.prisma.provider.findUnique({ where: { id },include:{Media:true} });
   }
 
   async update(id: number, updateProviderDto: UpdateProviderDto) {
