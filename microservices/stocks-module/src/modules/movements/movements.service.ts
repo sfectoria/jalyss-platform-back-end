@@ -106,6 +106,8 @@ export class MovementsService {
       include: {
         exitNoteLine: true,
         transferNote: true,
+        client:{ select: { id : true , fullName: true } },
+
       },
     });
   
@@ -113,6 +115,7 @@ export class MovementsService {
       where: whereReceipt,
       include: {
         receiptNoteLine: true,
+        provider:{ select: { id : true , nameProvider: true } },
       },
     });
   
