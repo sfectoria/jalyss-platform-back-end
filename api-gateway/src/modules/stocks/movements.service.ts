@@ -34,7 +34,11 @@ export class MovementsService {
             Article: true  
           }
         },
-      },
+        transferNote : { include: {
+          stockFrom: true,  
+          stockTo: true,   
+        },
+      },},
       take: filters.take,
       skip: filters.skip,
     });
