@@ -2,15 +2,14 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateReceiptNoteDto } from './dto/create-stock.dto';
 import { UpdateReceiptNoteDto } from './dto/update-stock.dto';
 import { ClientProxy } from '@nestjs/microservices';
-import { FiltersMovement, FiltersReceipt } from './entities/stock.entity';
-import { PrismaService } from 'nestjs-prisma';
+import { FiltersReceipt } from './entities/stock.entity';
 
 @Injectable()
 export class MovementsService {
-  constructor(@Inject ('STOCKS_MICROSERVICE') private readonly stocksClient: ClientProxy, private readonly prisma: PrismaService
+  constructor(@Inject ('STOCKS_MICROSERVICE') private readonly stocksClient: ClientProxy
 ) {}
  
-  findAll(filters:FiltersMovement) {
+  findAll(filters) {
     console.log('find All receipt Note');
     return this.stocksClient.send(
       { cmd: 'all_movements' },
@@ -18,30 +17,12 @@ export class MovementsService {
     )
   }
 
-  findAll2(filters:FiltersMovement) {
+  findAll2(filters) {
     console.log('find All receipt Note');
-
-    return this.prisma.receiptNote.findMany({
-      where: {
-        idStock: {  in: filters.stocksIds?.map(id => parseInt(id.toString(), 10)) }, 
-      },
-      include: {
-        client: true,    
-        provider: true, 
-        stock : true, 
-        receiptNoteLine: {
-          include: {
-            Article: true  
-          }
-        },
-        transferNote : { include: {
-          stockFrom: true,  
-          stockTo: true,   
-        },
-      },},
-      take: filters.take,
-      skip: filters.skip,
-    });
+    return this.stocksClient.send(
+      { cmd: 'all_movements2' },
+      filters
+    )
   }
   findOne(id: number) {
     console.log("hhh",id);
