@@ -133,8 +133,8 @@ export class ReceiptNoteService {
     });
   }
 
-  async update(id: number, updatereceiptNoteDto: UpdateReceiptNoteDto) {
-    const { lines, ...rest } = updatereceiptNoteDto;
+  async update(id: number, updateReceiptNoteDto: UpdateReceiptNoteDto) {
+    const { lines, ...rest } = updateReceiptNoteDto;
     return await this.prisma.receiptNote.update({
       where: { id },
       data: {
