@@ -176,7 +176,7 @@ export class ExitNoteService {
       data: {
         ...rest,
         exitNoteLine: {
-          updateMany: lines.map((line) => ({
+          updateMany: lines?.map((line) => ({
             where: {
               articleId: line.articleId,
               exitNoteId: id,
