@@ -27,7 +27,13 @@ export class StocksService {
   }
 
   async findAll(filters?: FiltersStock) {
+    let {archived}=filters
+    let where ={}
+    if (archived) {
+      where['archived']=false
+    }
     return await this.prisma.stock.findMany({
+      where,
       include: {
         employee: true,
       },
