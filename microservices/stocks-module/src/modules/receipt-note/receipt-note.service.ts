@@ -140,7 +140,7 @@ export class ReceiptNoteService {
       data: {
         ...rest,
         receiptNoteLine: {
-          updateMany: lines.map((line) => ({
+          updateMany: lines?.map((line) => ({
             where: {
               idArticle: line.idArticle,
               receiptNoteId: id,

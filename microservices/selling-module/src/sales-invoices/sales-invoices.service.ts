@@ -99,7 +99,10 @@ export class SalesInvoicesService {
   }
 
   async update(id: number, updateSalesInvoiceDto: UpdateSalesInvoiceDto) {
+    console.log("gg",updateSalesInvoiceDto);
     const { salesInvoiceLine, ...rest } = updateSalesInvoiceDto;
+   
+    
     return await this.prisma.salesInvoice.update({
       where: { id },
       data: {

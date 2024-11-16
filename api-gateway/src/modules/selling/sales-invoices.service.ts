@@ -30,10 +30,11 @@ export class SalesInvoicesService {
     )
   }
 
-  update(id: number, updateSalesInvioceDto: UpdateSalesInvioceDto) {
+  update(id: number, updateSalesInvoiceDto: UpdateSalesInvioceDto) {
+    console.log("gg",updateSalesInvoiceDto);
     return this.sellingClient.send(
       {cmd : 'update_salesInvoice'},
-      {id, updateSalesInvioceDto}
+      {id, updateSalesInvoiceDto}
     )
   }
 

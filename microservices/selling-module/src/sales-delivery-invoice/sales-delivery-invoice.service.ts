@@ -86,9 +86,22 @@ export class SalesDeliveryInvoiceService {
     id: number,
     updateSalesDeliveryInvoiceDto: UpdateSalesDeliveryInvoiceDto,
   ) {
+    const { salesDeliveryInvoicelines, ...rest } = updateSalesDeliveryInvoiceDto;
     return await this.prisma.salesDeliveryInvoice.update({
       where: { id },
-      data: updateSalesDeliveryInvoiceDto,
+      data: {
+        ...rest,
+        salesDeliveryInvoiceLine: {
+          updateMany: salesDeliveryInvoicelines?.map((line) => ({
+            where: {
+              articleId: line.articleId,
+            },
+            data: {
+              quantity: line.quantity,
+            },
+          })),
+        },
+      },
     });
   }
 
