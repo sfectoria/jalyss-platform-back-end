@@ -28,7 +28,7 @@ export class ReceiptNoteController {
 
   @MessagePattern({ cmd : 'update_receiptNote' })
   async update(@Payload()  data :{id: number, updateReceiptNoteDto: UpdateReceiptNoteDto}) {
-    return await this.receiptNoteService.update(data.id, data.updateReceiptNoteDto);
+    return await this.receiptNoteService.update(+data.id, data.updateReceiptNoteDto);
   }
 
   @MessagePattern({ cmd : 'delete_receiptNote' })

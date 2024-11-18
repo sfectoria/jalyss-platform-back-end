@@ -29,10 +29,10 @@ export class ExitNoteService {
     )
   }
 
-  update(id: number, UpdateExitNoteDto: UpdateExitNoteDto) {
+  update(id: number, updateExitNoteDto: UpdateExitNoteDto) {
     return this.stocksClient.send(
       { cmd: 'update_exitNote' },
-      {id, UpdateExitNoteDto}
+      {id, updateExitNoteDto}
     )
   }
 

@@ -222,6 +222,7 @@ export class ArticlesService {
       include: {
         articleByAuthor: { include: { author: true } },
         articleByPublishingHouse: { include: { publishingHouse: true } },
+        articleByCategory:{include:{categoryArticle:true}},
         priceByChannel: { include: { salesChannel: true } },
         cover: true,
         stockArticle: { include: { stock: true } },
