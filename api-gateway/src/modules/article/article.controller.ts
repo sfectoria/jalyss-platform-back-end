@@ -46,6 +46,8 @@ export class ArticlesController {
 
   @Delete(':id')
   remove(@Param('id') id: number) {
+    console.log("api getaway",id);
+    
     return this.articlesService.remove(+id);
   }
 }

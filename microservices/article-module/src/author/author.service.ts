@@ -19,6 +19,8 @@ export class AuthorService {
   }
 
   async findOne(id: string) {
+    console.log("from author",id);
+    
     const author = await this.prisma.author.findUnique({ where: { id },include:{Media:true,ArticleByAuthor:{include:{article:{include:{cover:true}}}}}});
     if (!author) {
       throw new NotFoundException(`Publishing house with ID ${id} not found`);
@@ -45,3 +47,4 @@ export class AuthorService {
     return await this.prisma.author.delete({ where: { id } });
   }
 }
+
