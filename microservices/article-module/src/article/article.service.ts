@@ -209,6 +209,7 @@ export class ArticlesService {
         stockArticle: true,
         articleByCategory: { include: { categoryArticle: true } },
       },
+      orderBy: [{ archived: "asc" }, { createdAt: "desc" }],
     });
 
     const count = await this.prisma.article.count({ where });
