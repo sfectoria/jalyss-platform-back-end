@@ -17,23 +17,32 @@ export class ArticlesController {
   }
 
   @MessagePattern({ cmd: 'all_articles' })
-  async findAll(@Payload() filters:Filters) {
-    console.log('findAll called',filters);
+  async findAll(@Payload() filters: Filters) {
+    console.log('findAll called', filters);
     return await this.articlesService.findAll(filters);
   }
 
   @MessagePattern({ cmd: 'getOne_article' })
-  async findOne(@Payload('id')  id: number ) {
-    // console.log('findOne payload:', data);
+  async findOne(@Payload('id') id: number) {
     return await this.articlesService.findOne(id);
   }
+  @MessagePattern({ cmd: 'getOne_article_bystock' })
+  async findOneByStockId(
+    @Payload() payload: { stockId: number; articleId: number },
+  ) {
+    const { stockId, articleId } = payload;
+    return await this.articlesService.findOneByStockId(+stockId, +articleId);
+  }
+
   @MessagePattern({ cmd: 'getOne_Code' })
-  async findBarCode(@Payload('code')  code: string ) {
+  async findBarCode(@Payload('code') code: string) {
     return await this.articlesService.findBarCode(code);
   }
 
   @MessagePattern({ cmd: 'update_article' })
-  async update(@Payload() data: { id: number, updateArticleDto: UpdateArticleDto }) {
+  async update(
+    @Payload() data: { id: number; updateArticleDto: UpdateArticleDto },
+  ) {
     console.log('update payload:', data);
     return await this.articlesService.update(data.id, data.updateArticleDto);
   }

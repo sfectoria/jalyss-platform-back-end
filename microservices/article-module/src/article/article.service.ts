@@ -229,6 +229,25 @@ export class ArticlesService {
       },
     });
   }
+  async findOneByStockId(stockId: number, articleId: number) {
+    return await this.prisma.article.findFirst({
+      where: { AND: [
+        { id: articleId },
+        { stockArticle: { some: { stockId } } },
+      ]},
+      include: {
+        articleByAuthor: { include: { author: true } },
+        articleByPublishingHouse: { include: { publishingHouse: true } },
+        articleByCategory:{include:{categoryArticle:true}},
+        priceByChannel: { include: { salesChannel: true } },
+        cover: true,
+        receiptNoteLine:true,
+        exitNoteLine:true,
+        transferNoteLine:true
+        
+      },
+    });
+  }
 
   async findBarCode(code: string) {
     const article = await this.prisma.article.findUnique({
