@@ -6,4 +6,5 @@ export class Filters {
   publishingHousesIds: number[];
   authorsIds: number[];
   text: string;
+  archived ?: boolean | string;
 }
