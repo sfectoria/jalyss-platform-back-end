@@ -221,7 +221,8 @@ export class ArticlesService {
       where: { id },
       include: {
         articleByAuthor: { include: { author: true } },
-        articleByPublishingHouse: { include: { publishingHouse: {include:{logo:true}} } },
+        articleByPublishingHouse: { include: { publishingHouse: true } },
+        articleByCategory:{include:{categoryArticle:true}},
         priceByChannel: { include: { salesChannel: true } },
         cover: true,
         stockArticle: { include: { stock: true } },
