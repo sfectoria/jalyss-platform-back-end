@@ -146,11 +146,20 @@ export class ArticlesService {
   }
 
   async findAll(filters: Filters) {
-    let { take, skip, publishingHousesIds, authorsIds, text } = filters;
-    console.log('THIS', take, skip);
+
+    let { take, skip, publishingHousesIds, authorsIds, text, archived} = filters;
+
+    console.log('THIS', take, skip,archived);
     take = !take ? 20 : +take;
     skip = !skip ? 0 : +skip;
-    let where = {};
+    let where: any = {};
+
+    if (archived !== undefined) {
+      where.archived = archived === 'true' || archived === true;
+  } else {
+      where.archived = false; 
+  }
+   
 
     if (publishingHousesIds) {
       where['articleByPublishingHouse'] = {
@@ -197,8 +206,12 @@ export class ArticlesService {
       ];
     }
 
+   
+   
+    
+
     const data = await this.prisma.article.findMany({
-      where,
+      where ,
       take,
       skip,
       include: {
@@ -208,8 +221,8 @@ export class ArticlesService {
         cover: true,
         stockArticle: true,
         articleByCategory: { include: { categoryArticle: true } },
+       
       },
-      orderBy: [{ archived: "asc" }, { createdAt: "desc" }],
     });
 
     const count = await this.prisma.article.count({ where });
@@ -375,4 +388,81 @@ export class ArticlesService {
     });
     return article;
   }
+
+  // async findAll2(filters: Filters) {
+
+  //   let { take, skip, publishingHousesIds, authorsIds, text} = filters;
+
+  //   console.log('THIS', take, skip,);
+  //   take = !take ? 20 : +take;
+  //   skip = !skip ? 0 : +skip;
+  //   let where : {};
+
+  //   if (publishingHousesIds) {
+  //     where['articleByPublishingHouse'] = {
+  //       some: {
+  //         publishingHouseId: { in: publishingHousesIds.map((elem) => +elem) },
+  //       },
+  //     };
+  //   }
+
+  //   if (authorsIds) {
+  //     where['articleByAuthor'] = {
+  //       some: { authorId: { in: authorsIds.map((elem) => +elem) } },
+  //     };
+  //   }
+
+  //   if (text) {
+  //     where['OR'] = [
+  //       { title: { contains: text } },
+  //       { code: { contains: text } },
+  //       { 
+  //         articleByAuthor: {
+  //           some: {
+  //             author: {
+  //               OR: [
+  //                 { nameAr: { contains: text } },
+  //                 { nameEn: { contains: text } },
+  //               ],
+  //             },
+  //           },
+  //         },
+  //       },
+  //       {
+  //         articleByPublishingHouse: {
+  //           some: {
+  //             publishingHouse: {
+  //               OR: [
+  //                 { nameAr: { contains: text } },
+  //                 { nameEn: { contains: text } },
+  //               ],
+  //             },
+  //           },
+  //         },
+  //       },
+  //     ];
+  //   }
+       
+
+  //   const data = await this.prisma.article.findMany({
+  //     where : {archived : true},
+  //     take,
+  //     skip,
+  //     include: {
+  //       articleByAuthor: { include: { author: true } },
+  //       articleByPublishingHouse: { include: { publishingHouse: true } },
+  //       priceByChannel: { include: { salesChannel: true } },
+  //       cover: true,
+  //       stockArticle: true,
+  //       articleByCategory: { include: { categoryArticle: true } },
+       
+  //     },
+  //    // orderBy: [{ archived: "asc" }, { createdAt: "desc" }],
+  //   });
+
+  //   const count = await this.prisma.article.count({ where });
+
+  //   return { data, count };
+  // }
+
 }
