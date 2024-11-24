@@ -150,6 +150,8 @@ export class StocksService {
           take,
           skip,
         },
+        employee:true,
+        salesChannels:{where:{archived:false}},
       },
     });
 
