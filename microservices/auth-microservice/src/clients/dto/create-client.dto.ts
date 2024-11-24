@@ -19,4 +19,7 @@ export class CreateClientDto {
   @ApiProperty()
   @IsInt()
   idCategoryClient: number;
+  @ApiProperty()
+  @IsString()
+  mediaId: string;
 }

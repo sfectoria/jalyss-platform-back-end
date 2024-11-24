@@ -146,11 +146,20 @@ export class ArticlesService {
   }
 
   async findAll(filters: Filters) {
-    let { take, skip, publishingHousesIds, authorsIds, text } = filters;
-    console.log('THIS', take, skip);
+
+    let { take, skip, publishingHousesIds, authorsIds, text, archived} = filters;
+
+    console.log('THIS', take, skip,archived);
     take = !take ? 20 : +take;
     skip = !skip ? 0 : +skip;
-    let where = {};
+    let where: any = {};
+
+    if (archived !== undefined) {
+      where.archived = archived === 'true' || archived === true;
+  } else {
+      where.archived = false; 
+  }
+   
 
     if (publishingHousesIds) {
       where['articleByPublishingHouse'] = {
@@ -198,7 +207,7 @@ export class ArticlesService {
     }
 
     const data = await this.prisma.article.findMany({
-      where,
+      where ,
       take,
       skip,
       include: {
@@ -208,6 +217,7 @@ export class ArticlesService {
         cover: true,
         stockArticle: true,
         articleByCategory: { include: { categoryArticle: true } },
+       
       },
     });
 
@@ -374,4 +384,5 @@ export class ArticlesService {
     });
     return article;
   }
+
 }
