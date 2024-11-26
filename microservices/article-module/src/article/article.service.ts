@@ -32,8 +32,6 @@ export class ArticlesService {
         let category = await this.prisma.categoryArticle.findFirst({
           where: { name: categoryData.name },
         });
-        console.log(category, "catégories");
-
         if (!category) {
           category = await this.prisma.categoryArticle.create({
             data: { name: categoryData.name },
@@ -48,7 +46,6 @@ export class ArticlesService {
         });
 
         if (!existingRelation) {
-          console.log(`Creating relation for Article ID: ${article.id}, Category ID: ${category.id}`);
           await this.prisma.articleByCategory.create({
             data: {
               articleId: article.id,
@@ -56,7 +53,9 @@ export class ArticlesService {
             },
           });
         } else {
-          console.log(`Relation already exists for Article ID: ${article.id}, Category ID: ${category.id}`);
+          console.log(
+            `Relation already exists for Article ID: ${article.id}, Category ID: ${category.id}`,
+          );
         }
       }
     }
@@ -65,10 +64,7 @@ export class ArticlesService {
       for (const authorData of articleByAuthor) {
         let author = await this.prisma.author.findFirst({
           where: {
-            OR: [
-              { nameAr: authorData.nameAr },
-              { nameEn: authorData.nameEn },
-            ],
+            OR: [{ nameAr: authorData.nameAr }, { nameEn: authorData.nameEn }],
           },
         });
 
@@ -146,20 +142,19 @@ export class ArticlesService {
   }
 
   async findAll(filters: Filters) {
+    let { take, skip, publishingHousesIds, authorsIds, text, archived } =
+      filters;
 
-    let { take, skip, publishingHousesIds, authorsIds, text, archived} = filters;
-
-    console.log('THIS', take, skip,archived);
+    console.log('THIS', take, skip, archived);
     take = !take ? 20 : +take;
     skip = !skip ? 0 : +skip;
     let where: any = {};
 
     if (archived !== undefined) {
       where.archived = archived === 'true' || archived === true;
-  } else {
-      where.archived = false; 
-  }
-   
+    } else {
+      where.archived = false;
+    }
 
     if (publishingHousesIds) {
       where['articleByPublishingHouse'] = {
@@ -179,7 +174,7 @@ export class ArticlesService {
       where['OR'] = [
         { title: { contains: text } },
         { code: { contains: text } },
-        { 
+        {
           articleByAuthor: {
             some: {
               author: {
@@ -207,7 +202,7 @@ export class ArticlesService {
     }
 
     const data = await this.prisma.article.findMany({
-      where ,
+      where,
       take,
       skip,
       include: {
@@ -217,7 +212,6 @@ export class ArticlesService {
         cover: true,
         stockArticle: true,
         articleByCategory: { include: { categoryArticle: true } },
-       
       },
     });
 
@@ -232,7 +226,7 @@ export class ArticlesService {
       include: {
         articleByAuthor: { include: { author: true } },
         articleByPublishingHouse: { include: { publishingHouse: true } },
-        articleByCategory:{include:{categoryArticle:true}},
+        articleByCategory: { include: { categoryArticle: true } },
         priceByChannel: { include: { salesChannel: true } },
         cover: true,
         stockArticle: { include: { stock: true } },
@@ -241,20 +235,19 @@ export class ArticlesService {
   }
   async findOneByStockId(stockId: number, articleId: number) {
     return await this.prisma.article.findFirst({
-      where: { AND: [
-        { id: articleId },
-        { stockArticle: { some: { stockId } } },
-      ]},
+      where: {
+        AND: [{ id: articleId }, { stockArticle: { some: { stockId } } }],
+      },
       include: {
         articleByAuthor: { include: { author: true } },
         articleByPublishingHouse: { include: { publishingHouse: true } },
-        articleByCategory:{include:{categoryArticle:true}},
+        articleByCategory: { include: { categoryArticle: true } },
         priceByChannel: { include: { salesChannel: true } },
         cover: true,
-        receiptNoteLine:true,
-        exitNoteLine:true,
-        transferNoteLine:true
-        
+        receiptNoteLine: true,
+        exitNoteLine: true,
+        transferNoteLine: true,
+        ReturnNoteLine: true,
       },
     });
   }
@@ -273,128 +266,260 @@ export class ArticlesService {
     return article || "Article doesn't exist";
   }
 
+  // async update(id: number, updateArticleDto: UpdateArticleDto) {
+  //   const {
+  //     priceByChannel,
+  //     articleByAuthor,
+  //     articleByPublishingHouse,
+  //     articleByCategory,
+  //     ...articleData
+  //   } = updateArticleDto;
+
+  //   if (articleByAuthor) {
+  //     await this.prisma.articleByAuthor.deleteMany({
+  //       where: { articleId: id },
+  //     });
+
+  //     for (const authorData of articleByAuthor) {
+  //       let author = await this.prisma.author.findFirst({
+  //         where: {
+  //           OR: [
+  //             { nameAr: authorData.nameAr },
+  //             { nameEn: authorData.nameEn },
+  //           ],
+  //         },
+  //       });
+
+  //       if (!author) {
+  //         author = await this.prisma.author.create({
+  //           data: {
+  //             nameAr: authorData.nameAr,
+  //             nameEn: authorData.nameEn,
+  //           },
+  //         });
+  //       }
+
+  //       await this.prisma.articleByAuthor.create({
+  //         data: {
+  //           articleId: id,
+  //           authorId: author.id,
+  //         },
+  //       });
+  //     }
+  //   }
+
+  //   if (articleByPublishingHouse) {
+  //     await this.prisma.articleByPublishingHouse.deleteMany({
+  //       where: { articleId: id },
+  //     });
+
+  //     for (const publishingHouseData of articleByPublishingHouse) {
+  //       let publishingHouse = await this.prisma.publishingHouse.findFirst({
+  //         where: {
+  //           OR: [
+  //             { nameAr: publishingHouseData.nameAr },
+  //             { nameEn: publishingHouseData.nameEn },
+  //           ],
+  //         },
+  //       });
+
+  //       if (!publishingHouse) {
+  //         publishingHouse = await this.prisma.publishingHouse.create({
+  //           data: {
+  //             nameAr: publishingHouseData.nameAr,
+  //             nameEn: publishingHouseData.nameEn,
+  //           },
+  //         });
+  //       }
+
+  //       await this.prisma.articleByPublishingHouse.create({
+  //         data: {
+  //           articleId: id,
+  //           publishingHouseId: publishingHouse.id,
+  //         },
+  //       });
+  //     }
+  //   }
+
+  //   if (articleByCategory) {
+  //     await this.prisma.articleByCategory.deleteMany({
+  //       where: { articleId: id },
+  //     });
+
+  //     for (const categoryData of articleByCategory) {
+  //       let category = await this.prisma.categoryArticle.findFirst({
+  //         where: { name: categoryData.name },
+  //       });
+
+  //       if (!category) {
+  //         category = await this.prisma.categoryArticle.create({
+  //           data: { name: categoryData.name },
+  //         });
+  //       }
+
+  //       await this.prisma.articleByCategory.create({
+  //         data: {
+  //           articleId: id,
+  //           categoryarticleId: category.id,
+  //         },
+  //       });
+  //     }
+  //   }
+
+  //   if (priceByChannel) {
+  //     await this.prisma.priceByChannel.deleteMany({
+  //       where: { idArticle: id },
+  //     });
+
+  //     for (const priceData of priceByChannel) {
+  //       await this.prisma.priceByChannel.create({
+  //         data: {
+  //           idArticle: id,
+  //           price: priceData.price,
+  //           idSalesChannel: priceData.idSalesChannel,
+  //         },
+  //       });
+  //     }
+  //   }
+
+  //   const updatedArticle = await this.prisma.article.update({
+  //     where: { id },
+  //     data: { ...articleData },
+  //   });
+
+  //   return updatedArticle;
+  // }
   async update(id: number, updateArticleDto: UpdateArticleDto) {
     const {
       priceByChannel,
       articleByAuthor,
       articleByPublishingHouse,
       articleByCategory,
+      coverId,
       ...articleData
     } = updateArticleDto;
 
-    if (articleByAuthor) {
-      await this.prisma.articleByAuthor.deleteMany({
-        where: { articleId: id },
-      });
+    // Update the main article
+    const updatedArticle = await this.prisma.article.update({
+      where: { id },
+      data: {
+        ...articleData,
+        coverId,
+      },
+    });
 
-      for (const authorData of articleByAuthor) {
-        let author = await this.prisma.author.findFirst({
-          where: {
-            OR: [
-              { nameAr: authorData.nameAr },
-              { nameEn: authorData.nameEn },
-            ],
-          },
-        });
-
-        if (!author) {
-          author = await this.prisma.author.create({
-            data: {
-              nameAr: authorData.nameAr,
-              nameEn: authorData.nameEn,
-            },
-          });
-        }
-
-        await this.prisma.articleByAuthor.create({
-          data: {
-            articleId: id,
-            authorId: author.id,
-          },
-        });
-      }
-    }
-
-    if (articleByPublishingHouse) {
-      await this.prisma.articleByPublishingHouse.deleteMany({
-        where: { articleId: id },
-      });
-
-      for (const publishingHouseData of articleByPublishingHouse) {
-        let publishingHouse = await this.prisma.publishingHouse.findFirst({
-          where: {
-            OR: [
-              { nameAr: publishingHouseData.nameAr },
-              { nameEn: publishingHouseData.nameEn },
-            ],
-          },
-        });
-
-        if (!publishingHouse) {
-          publishingHouse = await this.prisma.publishingHouse.create({
-            data: {
-              nameAr: publishingHouseData.nameAr,
-              nameEn: publishingHouseData.nameEn,
-            },
-          });
-        }
-
-        await this.prisma.articleByPublishingHouse.create({
-          data: {
-            articleId: id,
-            publishingHouseId: publishingHouse.id,
-          },
-        });
-      }
-    }
-
+    // Update categories
     if (articleByCategory) {
       await this.prisma.articleByCategory.deleteMany({
         where: { articleId: id },
       });
 
-      for (const categoryData of articleByCategory) {
-        let category = await this.prisma.categoryArticle.findFirst({
-          where: { name: categoryData.name },
-        });
-
-        if (!category) {
-          category = await this.prisma.categoryArticle.create({
-            data: { name: categoryData.name },
+      await Promise.all(
+        articleByCategory.map(async (categoryData) => {
+          let category = await this.prisma.categoryArticle.findFirst({
+            where: { name: categoryData.name },
           });
-        }
 
-        await this.prisma.articleByCategory.create({
-          data: {
-            articleId: id,
-            categoryarticleId: category.id,
-          },
-        });
-      }
+          if (!category) {
+            category = await this.prisma.categoryArticle.create({
+              data: { name: categoryData.name },
+            });
+          }
+
+          await this.prisma.articleByCategory.create({
+            data: {
+              articleId: id,
+              categoryarticleId: category.id,
+            },
+          });
+        }),
+      );
     }
 
+    // Update authors
+    if (articleByAuthor) {
+      await this.prisma.articleByAuthor.deleteMany({
+        where: { articleId: id },
+      });
+
+      await Promise.all(
+        articleByAuthor
+          .filter((authorData) => authorData.nameAr)
+          .map(async (authorData) => {
+            // Proceed with valid entries only
+            let author = await this.prisma.author.findFirst({
+              where: {
+                nameAr: authorData.nameAr,
+              },
+            });
+            await this.prisma.articleByAuthor.create({
+              data: {
+                articleId: id,
+                authorId: author.id,
+              },
+            });
+          }),
+      );
+    }
+
+    // Update publishing houses
+    if (articleByPublishingHouse) {
+      await this.prisma.articleByPublishingHouse.deleteMany({
+        where: { articleId: id },
+      });
+
+      await Promise.all(
+        articleByPublishingHouse
+          .filter((pbhData) => pbhData.nameAr)
+          .map(async (publishingHouseData) => {
+            let publishingHouse = await this.prisma.publishingHouse.findFirst({
+              where: {
+                nameAr: publishingHouseData.nameAr,
+              },
+            });
+
+            await this.prisma.articleByPublishingHouse.create({
+              data: {
+                articleId: id,
+                publishingHouseId: publishingHouse.id,
+              },
+            });
+          }),
+      );
+    }
+
+    // Update prices by channel
     if (priceByChannel) {
       await this.prisma.priceByChannel.deleteMany({
         where: { idArticle: id },
       });
 
-      for (const priceData of priceByChannel) {
-        await this.prisma.priceByChannel.create({
-          data: {
-            idArticle: id,
-            price: priceData.price,
-            idSalesChannel: priceData.idSalesChannel,
-          },
-        });
-      }
+      await Promise.all(
+        priceByChannel.map((priceData) =>
+          this.prisma.priceByChannel.create({
+            data: {
+              idArticle: id,
+              price: priceData.price,
+              idSalesChannel: priceData.idSalesChannel,
+            },
+          }),
+        ),
+      );
     }
 
-    const updatedArticle = await this.prisma.article.update({
+    // Retrieve the updated article with related data
+    const fullArticle = await this.prisma.article.findUnique({
       where: { id },
-      data: { ...articleData },
+      include: {
+        priceByChannel: true,
+        articleByAuthor: { include: { author: true } },
+        articleByPublishingHouse: { include: { publishingHouse: true } },
+        articleByCategory: { include: { categoryArticle: true } },
+        cover: true,
+      },
     });
 
-    return updatedArticle;
+    return fullArticle;
   }
 
   async remove(id: number) {
@@ -403,5 +528,4 @@ export class ArticlesService {
     });
     return article;
   }
-
 }
