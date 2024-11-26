@@ -5,6 +5,7 @@ export class FiltersStock {
   skip: number;
   text: string;
   notNullQuan :number;
+  archived:Boolean
 }
 
 export class ReceiptNote {}
