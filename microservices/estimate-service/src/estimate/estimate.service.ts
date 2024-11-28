@@ -36,6 +36,7 @@ export class EstimateService {
       take,
       skip,
       orderBy: { date: 'desc' },
+      include :{client : true}
     });
     let count = await this.prisma.estimate.count({ where });
     return { data, count };
