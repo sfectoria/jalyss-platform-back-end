@@ -27,7 +27,7 @@ export class SalesChannelsService {
   async findOne(id: number) {
     return await this.prisma.salesChannels.findUnique({
       where: { id },
-      include: { stock: true },
+      include: { stock: true ,Employee: true},
     });
   }
 
