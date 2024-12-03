@@ -79,7 +79,8 @@ export class CreatePublishingHouseDto {
   @ApiProperty()
   address: string;
   @ApiProperty()
-  phone_number: number;
+  @IsString()
+  phone_number: string;
   @ApiProperty()
   email: string;
   @ApiProperty()
