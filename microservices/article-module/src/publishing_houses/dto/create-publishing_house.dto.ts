@@ -9,7 +9,7 @@ export class CreatePublishingHouseDto {
   @ApiProperty()
   address: string;
   @ApiProperty()
-  phone_number: number;
+  phone_number: string | null;
   @ApiProperty()
   email: string;
   @ApiProperty()
