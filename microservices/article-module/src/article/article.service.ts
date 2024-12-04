@@ -236,7 +236,10 @@ export class ArticlesService {
   async findOneByStockId(stockId: number, articleId: number) {
     return await this.prisma.article.findFirst({
       where: {
-        AND: [{ id: articleId }, { stockArticle: { some: { stockId } } }],
+        AND: [
+          { id: articleId },
+          { stockArticle: { some: { stockId } } }, // Ensures the article belongs to the stock
+        ],
       },
       include: {
         articleByAuthor: { include: { author: true } },
@@ -244,13 +247,33 @@ export class ArticlesService {
         articleByCategory: { include: { categoryArticle: true } },
         priceByChannel: { include: { salesChannel: true } },
         cover: true,
-        receiptNoteLine: true,
-        exitNoteLine: true,
-        transferNoteLine: true,
-        ReturnNoteLine: true,
+        receiptNoteLine: {
+          include: {
+            receiptNote: {
+              where: { idStock: stockId }, // Filters receipt notes by stock ID
+            },
+          },
+        },
+        exitNoteLine: {
+          include: {
+            exitNote: {
+              where: { stockId: stockId }, // Filters exit notes by stock ID
+            },
+          },
+        },
+        transferNoteLine: {
+          include: {
+            transferNote: {
+              where: {
+                OR: [{ from: stockId }, { to: stockId }], // Filters TransferNotes by stockId
+              },
+            },
+          }},
+    
       },
     });
   }
+  
 
   async findBarCode(code: string) {
     const article = await this.prisma.article.findUnique({

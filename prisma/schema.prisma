@@ -112,7 +112,7 @@ model PublishingHouse {
   nameAr                   String
   nameEn                   String?
   address                  String?
-  phone_number             Int?
+  phone_number             String?
   email                    String?
   logoId                   String?
   logo                     Media?                     @relation(fields: [logoId], references: [id])
