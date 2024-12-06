@@ -38,79 +38,89 @@ export class ReceiptNoteHelper {
     let {
       receiptNoteLines,
       numReceiptNote = 0,
-      idStock,
+      idStock, 
       date,
       typeReceipt,
       ...rest
     } = createReceiptNote;
-    console.log('Stock ID:', idStock);
 
-    const stock = await prisma.stock.findMany({
-      where: { id: idStock },
+    console.log('Provided SalesChannel ID (idStock):', idStock);
+
+    
+    const salesChannel = await prisma.salesChannels.findUnique({
+      where: { id: idStock }, 
+      include: { stock: true },
     });
 
-    if (stock.length) {
-      const lastReceiptNoteOfStock = await prisma.receiptNote.findMany({
-        where: { idStock: stock[0].id },
-        take: 1,
-        orderBy: {
-          numReceiptNote: 'desc',
+    if (!salesChannel || !salesChannel.stock) {
+      throw new Error(
+        `No Stock found for the given SalesChannel ID (${idStock}).`
+      );
+    }
+
+    const stockId = salesChannel.stock.id;
+    console.log('Resolved Stock ID:', stockId);
+
+    
+    const lastReceiptNoteOfStock = await prisma.receiptNote.findMany({
+      where: { idStock: stockId },
+      take: 1,
+      orderBy: {
+        numReceiptNote: 'desc',
+      },
+    });
+
+    numReceiptNote =
+      lastReceiptNoteOfStock.length === 0
+        ? 1
+        : lastReceiptNoteOfStock[0].numReceiptNote + 1;
+
+    
+    const receiptNote = await prisma.receiptNote.create({
+      data: {
+        receiptDate: new Date(date).toISOString(),
+        typeReceipt,
+        numReceiptNote,
+        idStock: stockId, 
+        receiptNoteLine: {
+          createMany: { data: receiptNoteLines },
+        },
+        ...rest,
+      },
+    });
+
+    
+    for (const line of receiptNoteLines) {
+      const stockArticle = await prisma.stockArticle.findFirst({
+        where: {
+          stockId: stockId,
+          articleId: line.idArticle,
         },
       });
 
-      numReceiptNote =
-        lastReceiptNoteOfStock.length == 0
-          ? 1
-          : lastReceiptNoteOfStock[0].numReceiptNote + 1;
-
-      // Créer la ReceiptNote
-      const receiptNote = await prisma.receiptNote.create({
-        data: {
-          receiptDate: new Date(date).toISOString(),
-          typeReceipt,
-          numReceiptNote,
-          idStock: idStock,
-          receiptNoteLine: {
-            createMany: { data: receiptNoteLines },
-          },
-        },
-      });
-
-      // Augmenter la quantité du stock
-      for (const line of receiptNoteLines) {
-        const stockArticle = await prisma.stockArticle.findFirst({
-          where: {
-            stockId: idStock,
-            articleId: line.idArticle,
+      if (stockArticle) {
+        await prisma.stockArticle.update({
+          where: { id: stockArticle.id },
+          data: {
+            quantity: stockArticle.quantity + line.quantity,
           },
         });
-
-        if (stockArticle) {
-          // Mise à jour de la quantité dans le stock
-          await prisma.stockArticle.update({
-            where: {
-              id: stockArticle.id,
-            },
-            data: {
-              quantity: stockArticle.quantity + line.quantity,
-            },
-          });
-        } else {
-          // Si l'article n'existe pas, créer un nouvel enregistrement dans stockArticle
-          await prisma.stockArticle.create({
-            data: {
-              stockId: idStock,
-              articleId: line.idArticle,
-              quantity: line.quantity,
-            },
-          });
-        }
+      } else {
+        
+        await prisma.stockArticle.create({
+          data: {
+            stockId: stockId,
+            articleId: line.idArticle,
+            quantity: line.quantity,
+          },
+        });
       }
-
-      return receiptNote;
     }
+
+    return receiptNote;
   }
 }
+
 
 export class ExitNoteHelper {
   async create(

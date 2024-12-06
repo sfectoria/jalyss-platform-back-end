@@ -15,6 +15,15 @@ export class ReturnNoteService {
     return await this.prisma.$transaction(
       async (prisma: Prisma.TransactionClient) => {
         let { lines, idStock, receiptNoteId, ...rest } = createReturnNoteDto;
+  
+        if (!idStock) {
+          throw new Error('idStock is required to create a Return Note.');
+        }
+  
+        if (!lines || !lines.length) {
+          throw new Error('Lines are required to create a Return Note.');
+        }
+  
         if (!receiptNoteId) {
           const newReceiptNote = await this.helperReceiptNote.create(prisma, {
             idStock: idStock,
@@ -22,8 +31,10 @@ export class ReturnNoteService {
             date: new Date(),
             receiptNoteLines: lines,
           });
+  
           receiptNoteId = newReceiptNote.id;
         }
+  
         return await prisma.returnNote.create({
           data: {
             ...rest,
