@@ -205,6 +205,7 @@ export class ArticlesService {
       where,
       take,
       skip,
+      orderBy: { createdAt: 'desc' },
       include: {
         articleByAuthor: { include: { author: true } },
         articleByPublishingHouse: { include: { publishingHouse: true } },

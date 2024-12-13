@@ -139,6 +139,8 @@ model Author {
   biographyEn     String?
   mediaId         String?
   ArticleByAuthor ArticleByAuthor[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @default(now()) @updatedAt
   Media           Media?            @relation(fields: [mediaId], references: [id])
   archived        Boolean?          @default(false)
 }
