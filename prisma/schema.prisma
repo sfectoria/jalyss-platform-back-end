@@ -109,8 +109,8 @@ model Article {
 
 model PublishingHouse {
   id                       Int                        @id @default(autoincrement())
-  nameAr                   String?
-  nameEn                   String
+  nameAr                   String
+  nameEn                   String?
   address                  String?
   phone_number             String?
   email                    String?
@@ -139,6 +139,8 @@ model Author {
   biographyEn     String?
   mediaId         String?
   ArticleByAuthor ArticleByAuthor[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @default(now()) @updatedAt
   Media           Media?            @relation(fields: [mediaId], references: [id])
   archived        Boolean?          @default(false)
 }
@@ -235,6 +237,8 @@ model ReceiptNoteLine {
   discount      Float?
   receiptNote   ReceiptNote? @relation(fields: [idReceiptNote], references: [id])
   Article       Article?     @relation(fields: [idArticle], references: [id])
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @default(now()) @updatedAt
 }
 
 //achat bon de livraison
@@ -536,9 +540,11 @@ model ReturnNoteLine {
   article      Article?    @relation(fields: [idArticle], references: [id])
   returnNote   ReturnNote? @relation(fields: [idReturnNote], references: [id])
 
-  quantity Int
-  price    Float?
-  discount Float?
+  quantity  Int
+  price     Float?
+  discount  Float?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 // devis 
@@ -589,7 +595,9 @@ model TransferNoteLine {
   article        Article?      @relation(fields: [idArticle], references: [id])
   transferNote   TransferNote? @relation(fields: [transferNoteId], references: [id])
 
-  quantity Int
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Stock {
@@ -644,9 +652,11 @@ model ExitNoteLine {
   Article    Article?  @relation(fields: [articleId], references: [id])
   articleId  Int?
 
-  quantity Int
-  price    Float?
-  discount Float?
+  quantity  Int
+  price     Float?
+  discount  Float?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Provider {
@@ -661,8 +671,8 @@ model Provider {
   purchaseDeliveryInvoice PurchaseDeliveryInvoice[]
   purchaseInvoice         PurchaseInvoice[]
   archived                Boolean?                  @default(false)
-  Media   Media?  @relation(fields: [mediaId], references: [id])
-  mediaId String?
+  Media                   Media?                    @relation(fields: [mediaId], references: [id])
+  mediaId                 String?
 }
 
 enum TypeReceipt {

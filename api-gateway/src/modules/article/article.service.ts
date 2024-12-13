@@ -21,8 +21,11 @@ export class ArticlesService {
   }
 
   findOne(id: number) {
-    console.log('findOne id:', id);
     return this.articleClient.send({ cmd: 'getOne_article' }, { id });
+  }
+  findOneByStockIdAndArticleId(stockId: number, articleId: number) {
+    const payload = { stockId, articleId };
+    return this.articleClient.send({ cmd: 'getOne_article_bystock' },payload);
   }
 
   findBarCode(code: string) {

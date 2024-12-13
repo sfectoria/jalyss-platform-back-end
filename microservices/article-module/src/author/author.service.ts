@@ -3,7 +3,6 @@ import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { PrismaService } from 'nestjs-prisma';
 
-
 @Injectable()
 export class AuthorService {
   constructor(private readonly prisma: PrismaService) {}
@@ -15,11 +14,23 @@ export class AuthorService {
   }
 
   async findAll() {
-    return await this.prisma.author.findMany({include:{Media:true ,ArticleByAuthor:{include:{article:{include:{cover:true}}}}}});
+    return await this.prisma.author.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: {
+        Media: true,
+        ArticleByAuthor: { include: { article: { include: { cover: true } } } },
+      },
+    });
   }
 
   async findOne(id: string) {
-    const author = await this.prisma.author.findUnique({ where: { id },include:{Media:true,ArticleByAuthor:{include:{article:{include:{cover:true}}}}}});
+    const author = await this.prisma.author.findUnique({
+      where: { id },
+      include: {
+        Media: true,
+        ArticleByAuthor: { include: { article: { include: { cover: true } } } },
+      },
+    });
     if (!author) {
       throw new NotFoundException(`Author with ID ${id} not found`);
     }

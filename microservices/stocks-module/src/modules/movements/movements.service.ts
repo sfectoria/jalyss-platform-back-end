@@ -82,6 +82,7 @@ export class MovementsService {
     skip = !skip ? 0 : +skip;
     let whereExit = {};
     let whereReceipt = {};
+    let whereTransfer = {};
   
     if (stocksIds) {
       whereExit['stockId'] = {
@@ -90,6 +91,10 @@ export class MovementsService {
       whereReceipt['idStock'] = {
         in: stocksIds.map((e) => +e),
       };
+      whereTransfer['stockId'] = { 
+        in: stocksIds.map((e) => +e),
+      };
+      
     }
   
     if (articleId) {
@@ -99,13 +104,17 @@ export class MovementsService {
       whereReceipt['receiptNoteLine'] = {
         some: { idArticle: +articleId },
       };
+      whereTransfer['transferNoteLine'] = {
+        some: { articleId: +articleId },
+      };
     }
   
     let exitNoteData = await this.prisma.exitNote.findMany({
       where: whereExit,
       include: {
-        exitNoteLine: true,
+        exitNoteLine:{include:{Article:true}},
         transferNote: true,
+        
         client:{ select: { id : true , fullName: true } },
 
       },
@@ -114,10 +123,12 @@ export class MovementsService {
     let receiptNoteData = await this.prisma.receiptNote.findMany({
       where: whereReceipt,
       include: {
-        receiptNoteLine: true,
+        receiptNoteLine: {include:{Article:true}},
         provider:{ select: { id : true , nameProvider: true } },
       },
     });
+
+    
   
     const mergeAndSortByDate = (exitNotes, receiptNotes) => {
       const combined = [

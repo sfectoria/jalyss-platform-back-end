@@ -15,7 +15,7 @@ export class PublishingHousesService {
   }
 
   async findAll() {
-    return await this.prisma.publishingHouse.findMany({include:{logo:true}});
+    return await this.prisma.publishingHouse.findMany({include:{logo:true},orderBy:{createdAt:"desc"}});
   }
 
   async findOne(id: number) {

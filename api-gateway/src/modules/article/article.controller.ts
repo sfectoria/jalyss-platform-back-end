@@ -33,6 +33,10 @@ export class ArticlesController {
   findOne(@Param('id') id: number) {
     return this.articlesService.findOne(+id);
   }
+  @Get(':stockId/:articleId')
+  findOneByStockIdAndArticleId(@Param('stockId') stockId: number ,@Param('articleId') articleId: number,) {
+    return this.articlesService.findOneByStockIdAndArticleId(stockId, articleId);
+  }
 
   @Get('/barCode/:code')
   findBarCode(@Param('code') code: string) {
